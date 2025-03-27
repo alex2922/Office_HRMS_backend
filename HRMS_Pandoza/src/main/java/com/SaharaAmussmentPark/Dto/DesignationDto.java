@@ -1,4 +1,4 @@
-package com.SaharaAmussmentPark.dto;
+package com.SaharaAmussmentPark.Dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

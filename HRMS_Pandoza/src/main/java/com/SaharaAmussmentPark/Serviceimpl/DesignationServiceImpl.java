@@ -1,4 +1,4 @@
-package com.SaharaAmussmentPark.serviceimpl;
+package com.SaharaAmussmentPark.Serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,14 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.SaharaAmussmentPark.Dto.DesignationDto;
+import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Repository.DesignationRepository;
+import com.SaharaAmussmentPark.Service.DesignationService;
 import com.SaharaAmussmentPark.Util.constants;
-import com.SaharaAmussmentPark.dto.DesignationDto;
-import com.SaharaAmussmentPark.dto.Message;
 import com.SaharaAmussmentPark.mapper.DesignationMapper;
 import com.SaharaAmussmentPark.model.Designation;
-import com.SaharaAmussmentPark.repository.DesignationRepository;
-import com.SaharaAmussmentPark.service.DesignationService;
+
 
 @Service
 public class DesignationServiceImpl implements DesignationService {

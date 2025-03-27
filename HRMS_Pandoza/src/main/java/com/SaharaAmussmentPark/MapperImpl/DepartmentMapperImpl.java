@@ -1,12 +1,12 @@
-package com.SaharaAmussmentPark.mapperImpl;
+package com.SaharaAmussmentPark.MapperImpl;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.SaharaAmussmentPark.dto.DepartmentDto;
-import com.SaharaAmussmentPark.dto.DesignationDto;
+import com.SaharaAmussmentPark.Dto.DepartmentDto;
+import com.SaharaAmussmentPark.Dto.DesignationDto;
 import com.SaharaAmussmentPark.mapper.DepartmentMapper;
 import com.SaharaAmussmentPark.model.Department;
 import com.SaharaAmussmentPark.model.Designation;
@@ -41,7 +41,7 @@ public class DepartmentMapperImpl implements DepartmentMapper{
 	
 		
 		
-	}
+	
 			@Override
 			public Department departmentDtoToDepartment(DepartmentDto dto) {
 			    Department department = new Department();

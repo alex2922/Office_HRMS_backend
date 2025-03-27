@@ -1,4 +1,4 @@
-package com.SaharaAmussmentPark.controller;
+package com.SaharaAmussmentPark.Controller;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.SaharaAmussmentPark.dto.DepartmentDto;
-import com.SaharaAmussmentPark.dto.Message;
-import com.SaharaAmussmentPark.service.DepartmentService;
+import com.SaharaAmussmentPark.Dto.DepartmentDto;
+import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Service.DepartmentService;
 
 import lombok.extern.log4j.Log4j2;
 

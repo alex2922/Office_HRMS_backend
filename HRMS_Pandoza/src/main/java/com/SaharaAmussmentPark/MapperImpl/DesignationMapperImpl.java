@@ -1,8 +1,8 @@
- package com.SaharaAmussmentPark.mapperImpl;
+ package com.SaharaAmussmentPark.MapperImpl;
 
 import org.springframework.stereotype.Component;
 
-import com.SaharaAmussmentPark.dto.DesignationDto;
+import com.SaharaAmussmentPark.Dto.DesignationDto;
 import com.SaharaAmussmentPark.mapper.DesignationMapper;
 import com.SaharaAmussmentPark.model.Designation;
 

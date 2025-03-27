@@ -1,6 +1,6 @@
 package com.SaharaAmussmentPark.mapper;
 
-import com.SaharaAmussmentPark.dto.DepartmentDto;
+import com.SaharaAmussmentPark.Dto.DepartmentDto;
 import com.SaharaAmussmentPark.model.Department;
 
 public interface DepartmentMapper {

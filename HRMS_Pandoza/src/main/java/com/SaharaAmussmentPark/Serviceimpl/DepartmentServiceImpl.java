@@ -1,4 +1,4 @@
-package com.SaharaAmussmentPark.serviceimpl;
+package com.SaharaAmussmentPark.Serviceimpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,15 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.SaharaAmussmentPark.Dto.DepartmentDto;
+import com.SaharaAmussmentPark.Dto.DesignationDto;
+import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Repository.DepartmentRepository;
+import com.SaharaAmussmentPark.Service.DepartmentService;
 import com.SaharaAmussmentPark.Util.constants;
-import com.SaharaAmussmentPark.dto.DepartmentDto;
-import com.SaharaAmussmentPark.dto.DesignationDto;
-import com.SaharaAmussmentPark.dto.Message;
 import com.SaharaAmussmentPark.mapper.DepartmentMapper;
 import com.SaharaAmussmentPark.model.Department;
 import com.SaharaAmussmentPark.model.Designation;
-import com.SaharaAmussmentPark.repository.DepartmentRepository;
-import com.SaharaAmussmentPark.service.DepartmentService;
+
 
 @Service
 

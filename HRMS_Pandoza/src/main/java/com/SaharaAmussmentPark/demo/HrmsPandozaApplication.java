@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @ComponentScan("com.SaharaAmussmentPark")
 @EntityScan("com.SaharaAmussmentPark.model")
-@EnableJpaRepositories("com.SaharaAmussmentPark.repository")
+@EnableJpaRepositories("com.SaharaAmussmentPark.Repository")
 public class HrmsPandozaApplication {
 
 	public static void main(String[] args) {

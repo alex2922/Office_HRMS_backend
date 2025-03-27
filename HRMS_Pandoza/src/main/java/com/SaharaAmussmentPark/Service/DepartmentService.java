@@ -1,9 +1,11 @@
-package com.SaharaAmussmentPark.service;
+package com.SaharaAmussmentPark.Service;
 
 import java.util.List;
 
-import com.SaharaAmussmentPark.dto.DepartmentDto;
-import com.SaharaAmussmentPark.dto.Message;
+import com.SaharaAmussmentPark.Dto.DepartmentDto;
+import com.SaharaAmussmentPark.Dto.Message;
+
+
 
 public interface DepartmentService {
 	public Message<DepartmentDto> AddDepartment(DepartmentDto request);

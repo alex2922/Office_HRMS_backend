@@ -1,9 +1,11 @@
-package com.SaharaAmussmentPark.service;
+package com.SaharaAmussmentPark.Service;
 
 import java.util.List;
 
-import com.SaharaAmussmentPark.dto.DesignationDto;
-import com.SaharaAmussmentPark.dto.Message;
+import com.SaharaAmussmentPark.Dto.DesignationDto;
+import com.SaharaAmussmentPark.Dto.Message;
+
+
 
 public interface DesignationService {
 	public Message<DesignationDto> AddDesignation(DesignationDto request);
