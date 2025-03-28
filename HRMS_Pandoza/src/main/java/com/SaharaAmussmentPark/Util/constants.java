@@ -15,6 +15,12 @@ public interface constants {
 	String DESIGNATION_DELETED = "Designation Deleted";
 	String DESIGNATION_UPDATED = "Designation Updated";
 	String DESIGNATION_FOUND = "Designation found";
+	String DESIGNATION_ALREADY_EXISTS = "Designation already exist";
+	String OFFICIAL_LETTER_ADDED ="Official Letter Added";
+	String INVALID_DATA = "Invalid Data";
+	String OFFICIAL_LETTER_NOT_FOUND = "Official Letter not found";
+	String OFFICIAL_LETTER_UPDATED = "Official Letter Updated";
+	String OFFICIAL_LETTER_FOUND = "Official Letter found";
 	
 	
 	

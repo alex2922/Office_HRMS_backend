@@ -41,6 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 			return response;
 		}
 		Department department = departmentMapperimpl.departmentDtoToDepartment(request);
+		department.setDesignation(null);
 		departmentrepository.save(department);
 		DepartmentDto departmentDto=departmentMapperimpl.departmentToDepartmentDto(department);
 		

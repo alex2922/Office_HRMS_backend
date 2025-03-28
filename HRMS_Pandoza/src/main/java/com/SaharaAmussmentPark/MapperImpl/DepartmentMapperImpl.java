@@ -31,7 +31,7 @@ public class DepartmentMapperImpl implements DepartmentMapper{
 		            })
 		            .collect(Collectors.toList());
 
-		        dto.setDesignation(designationDtos); // Set designations in department DTO
+		        dto.setDesignation(designationDtos);
 		    }
 
 		    return dto;

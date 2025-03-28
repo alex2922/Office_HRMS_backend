@@ -5,10 +5,9 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain=true)
-public class DesignationDto {
-	private int did;
-	private int deptId;
-	private String name;
-	
-	}
+public class OfficialLetterDto {
+	private int oId;
+	private String oname;
+	private String template;
 
+}
