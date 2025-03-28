@@ -39,6 +39,7 @@ public class Employee {
 	private double diduction;
 	private String employeeImage;
 	private String address;
+	private int uId;
 	
 	
 	

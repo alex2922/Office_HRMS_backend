@@ -43,6 +43,7 @@ private final JwtService jwtService;
 		  userRepository.save(user);
 		  message.setResponseMessage("User registered successfully");
 		  message.setStatus(HttpStatus.OK);
+		  message.setData(userMapperImpl.userToUserDto(user));
 		  return message;
           }catch (Exception e) {
   			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);

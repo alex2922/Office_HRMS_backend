@@ -14,22 +14,22 @@ import com.SaharaAmussmentPark.Repository.DepartmentRepository;
 import com.SaharaAmussmentPark.Service.DepartmentService;
 import com.SaharaAmussmentPark.Util.constants;
 import com.SaharaAmussmentPark.mapper.DepartmentMapper;
+import com.SaharaAmussmentPark.mapper.DesignationMapper;
 import com.SaharaAmussmentPark.model.Department;
 import com.SaharaAmussmentPark.model.Designation;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Service
-
+@RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
 
 	private final DepartmentMapper departmentMapperimpl;
 	private final DepartmentRepository departmentrepository;
+	private final DesignationMapper designationMapper;
 
-	public DepartmentServiceImpl(DepartmentMapper departmentMapperimpl, DepartmentRepository departmentrepository) {
-		super();
-		this.departmentMapperimpl = departmentMapperimpl;
-		this.departmentrepository = departmentrepository;
-	}
+	
 
 	@Override
 	public Message<DepartmentDto> AddDepartment(DepartmentDto request) {
@@ -150,7 +150,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 			for (Department department : departments) {
 				DepartmentDto dto = departmentMapperimpl.departmentToDepartmentDto(department);
 				List<DesignationDto> designationDtos = department.getDesignation().stream()
-		                .map((designationMapper::designationToDesignationDto) )
+		                .map((designationMapper::designatioToDesignationDto) )
 		                .collect(Collectors.toList());
 		            
 		            dto.setDesignation(designationDtos);

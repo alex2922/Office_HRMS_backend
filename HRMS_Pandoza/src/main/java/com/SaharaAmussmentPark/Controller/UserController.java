@@ -27,13 +27,7 @@ public class UserController {
 	private final UserService userservice;
 
 	
-	@PostMapping("/RegisterUser")
-	public ResponseEntity<Message<UserDto>> registerUser(@RequestBody UserDto user) {
-		log.info("In UserController registerUser() with request: {}", user);
-		Message<UserDto> message = userservice.registerUser(user);
-		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
-		return ResponseEntity.status(httpStatus).body(message);
-	}
+	
 	@GetMapping("/Login")
 	public ResponseEntity<Message<UserDto>> loginUser(@RequestBody LoginDto request) {
 		log.info("In UserController login() with request: {}", request);
