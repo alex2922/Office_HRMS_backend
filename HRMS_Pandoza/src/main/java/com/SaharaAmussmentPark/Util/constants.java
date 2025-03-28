@@ -22,6 +22,20 @@ public interface constants {
 	String OFFICIAL_LETTER_UPDATED = "Official Letter Updated";
 	String OFFICIAL_LETTER_FOUND = "Official Letter found";
 	
+	//user
+	String EMAIL_ALREADY_EXISTS = "Email alraedy availabale";
+	String USER_REGISTERED_SUCCESSFULLY = "User Register successfully";
+	String RECORD_NOT_FOUND = "Invalid credentials";
+	String LOGIN_SUCCESSFULL = "Login successfully";
+	String USER_RECORD_NOT_FOUND = "Record Not Found ";
+	String RECORD_FOUND = "Record found";
+	String USER_UPDATED_SUCCESSFULLY = "User updated succesfully";
+	String PASSWORD_CHANGED_SUCCESSFULLY = "Password changed successfully";
+	String PASSWORD_NOT_MATCHED = "New password and confirm password not matched";
+	
+	//Employee
+	String EMPLOYEE_RECORD_NOT_FOUND = "Employee Record not Found";
+	String USER_DELETED_SUCCESSFULLY = "User Deleted successfully";
 	
 	
 

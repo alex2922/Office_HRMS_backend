@@ -1,0 +1,16 @@
+package com.SaharaAmussmentPark.Service;
+
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import com.SaharaAmussmentPark.Dto.EmployeeDto;
+import com.SaharaAmussmentPark.Dto.Message;
+
+public interface EmployeeService {
+public Message<EmployeeDto> registerUser(EmployeeDto request,MultipartFile file);
+public Message<EmployeeDto> updateEmployee(EmployeeDto request,MultipartFile file);
+public Message<EmployeeDto>getByemployeeId(String employeeId);
+public List<Message<EmployeeDto>> getAllEmployee(Integer Page ,Integer Size);
+
+}
