@@ -87,7 +87,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public Message<DepartmentDto> UpdateDepartment(DepartmentDto request) {
 		  Message<DepartmentDto> response = new Message<>();
 	        try {
-	            Department department = departmentrepository.findById(request.getDId()).orElse(null);
+	            Department department = departmentrepository.findById(request.getDeptId()).orElse(null);
 	            if (department == null) {
 	                response.setStatus(HttpStatus.BAD_REQUEST);
 	                response.setResponseMessage(constants.DEPARTMENT_NOT_FOUND);

@@ -20,7 +20,7 @@ public class Designation {
 	private String name;
 	
 	@ManyToOne
-	@JoinColumn(name = "dId", nullable = false)
+	@JoinColumn(name = "deptId", nullable = false)
 	private Department department;
 
 }

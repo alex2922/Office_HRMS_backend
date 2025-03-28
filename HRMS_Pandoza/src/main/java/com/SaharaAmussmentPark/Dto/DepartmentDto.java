@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 
 public class DepartmentDto {
-	private int dId;
+	private int deptId;
 	private String dname;
 	
 	private List<DesignationDto> designation;

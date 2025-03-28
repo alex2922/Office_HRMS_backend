@@ -18,7 +18,7 @@ import lombok.ToString;
 public class Department {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int dId;
+	private int deptId;
 	private String dname;
 	
 	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

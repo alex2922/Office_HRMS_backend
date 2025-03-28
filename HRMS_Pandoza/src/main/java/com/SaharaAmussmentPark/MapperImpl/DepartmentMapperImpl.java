@@ -18,7 +18,7 @@ public class DepartmentMapperImpl implements DepartmentMapper{
 
 			public DepartmentDto departmentToDepartmentDto(Department department) {
 		    DepartmentDto dto = new DepartmentDto();
-		    dto.setDId(department.getDId());
+		    dto.setDeptId(department.getDeptId());
 		    dto.setDname(department.getDname());
 
 		    if (department.getDesignation() != null && !department.getDesignation().isEmpty()) {

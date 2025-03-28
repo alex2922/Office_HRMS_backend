@@ -62,9 +62,9 @@ public class AdminController {
 	}
 
 	@DeleteMapping("/deleteDepartment")
-	public ResponseEntity<Message<DepartmentDto>> DeleteDepartment(@RequestParam("dId") int dId) {
-		log.info("In usercontroller login() with request:", dId);
-		Message<DepartmentDto> message = departmentservice.DeleteDepartment(dId);
+	public ResponseEntity<Message<DepartmentDto>> DeleteDepartment(@RequestParam("deptId") int deptId) {
+		log.info("In usercontroller login() with request:", deptId);
+		Message<DepartmentDto> message = departmentservice.DeleteDepartment(deptId);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
@@ -78,9 +78,9 @@ public class AdminController {
 	}
 
 	@GetMapping("/getDepartmentById")
-	public ResponseEntity<Message<DepartmentDto>> GetDepartmentById(@RequestParam("dId") int dId) {
-		log.info("In usercontroller login() with request:{}", dId);
-		Message<DepartmentDto> message = departmentservice.GetDepartmentById(dId);
+	public ResponseEntity<Message<DepartmentDto>> GetDepartmentById(@RequestParam("deptId") int deptId) {
+		log.info("In usercontroller login() with request:{}", deptId);
+		Message<DepartmentDto> message = departmentservice.GetDepartmentById(deptId);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
