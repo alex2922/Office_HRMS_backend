@@ -36,9 +36,9 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 				response.setResponseMessage(constants.INVALID_DATA);
 				return response;
 			}
-			OfficialLetter officialletter = officialLetterMapperimpl.officialLetterDtoToOfficialLetter(request);
-			officialLetterRepository.save(officialletter);
-			OfficialLetterDto officialLetterDto=officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialletter);
+			OfficialLetter officialLetter = officialLetterMapperimpl.officialLetterDtoToOfficialLetter(request);
+			officialLetterRepository.save(officialLetter);
+			OfficialLetterDto officialLetterDto=officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
 			
 			response.setStatus(HttpStatus.OK);
 			response.setResponseMessage(constants.OFFICIAL_LETTER_ADDED);
@@ -65,6 +65,7 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			}
 			officialLetter.setOname(request.getOname());
 			officialLetter.setTemplate(request.getTemplate());
+			
 			
 			officialLetterRepository.save(officialLetter);
 			OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
