@@ -37,6 +37,9 @@ public interface constants {
 	String EMPLOYEE_RECORD_NOT_FOUND = "Employee Record not Found";
 	String USER_DELETED_SUCCESSFULLY = "User Deleted successfully";
 	
+	//Salary
+	String SALARY_ADDED_SUCCESSFULLY = "Salary added suuccessfully";
+	
 	
 
 }

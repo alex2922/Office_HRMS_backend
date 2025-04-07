@@ -22,10 +22,13 @@ import com.SaharaAmussmentPark.Dto.DepartmentDto;
 import com.SaharaAmussmentPark.Dto.DesignationDto;
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Dto.SalaryDto;
+import com.SaharaAmussmentPark.Dto.SalaryResponse;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Service.DepartmentService;
 import com.SaharaAmussmentPark.Service.DesignationService;
 import com.SaharaAmussmentPark.Service.EmployeeService;
+import com.SaharaAmussmentPark.Service.SalaryService;
 import com.SaharaAmussmentPark.Service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -45,7 +48,18 @@ public class AdminController {
 	private final DepartmentService departmentservice;
 	private final DesignationService designationservice;
 	private final EmployeeService employeeService;
+	private final SalaryService salaryService;
 
+	
+	
+	 @GetMapping("/download/{employeeId}/{month}")
+	    public ResponseEntity<Message<SalaryDto>> getSalaryDetails(
+	            @PathVariable String employeeId,
+	            @PathVariable String month) {
+	        
+	        Message<SalaryDto> salaryResponse = salaryService.getSalaryDetails(employeeId, month);
+	        return ResponseEntity.ok(salaryResponse);
+	    }
 	@PostMapping("/RegisterUser")
 	public ResponseEntity<Message<UserDto>> registerUser(@RequestBody UserDto user) {
 		log.info("In UserController registerUser() with request: {}", user);
@@ -210,4 +224,11 @@ public class AdminController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	} 
+	@PostMapping("/addSalary")
+	public ResponseEntity<Message<SalaryDto>> addUser(@RequestBody SalaryDto request) {
+		log.info("In usercontroller login() with request:{}", request);
+		Message<SalaryDto> message = salaryService.AddSalary(request);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
 }
