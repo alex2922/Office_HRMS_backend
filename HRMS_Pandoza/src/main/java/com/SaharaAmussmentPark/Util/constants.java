@@ -39,6 +39,11 @@ public interface constants {
 	
 	//Salary
 	String SALARY_ADDED_SUCCESSFULLY = "Salary added suuccessfully";
+	String SALARY_UPDATED = "Salary Updated";
+	String SALARY_SLIP_NOT_FOUND = "Salary Slip not Found";
+	String SALARY_DELETED = "Salary Deleted";
+	String SALARY_FOUND = "Salary found";
+	String SALARY_NOT_FOUND = "Salary not found";
 	
 	
 

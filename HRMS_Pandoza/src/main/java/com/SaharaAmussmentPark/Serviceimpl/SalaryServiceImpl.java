@@ -1,6 +1,6 @@
 package com.SaharaAmussmentPark.Serviceimpl;
 
-import java.io.ByteArrayOutputStream;
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.SalaryDto;
-import com.SaharaAmussmentPark.Dto.SalaryResponse;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
 import com.SaharaAmussmentPark.Repository.SalaryRepository;
 import com.SaharaAmussmentPark.Service.SalaryService;
@@ -63,5 +62,103 @@ public class SalaryServiceImpl implements SalaryService {
 				return response;
 			}
 		}
+
+		@Override
+		public Message<SalaryDto> DeleteSalary(int sId) {
+			Message<SalaryDto> response = new Message<>();
+			try {
+				Salary salary = new Salary();
+				salary=salaryRepository.getById(sId);
+				if(salary == null) {
+					response.setStatus(HttpStatus.BAD_REQUEST);
+					response.setResponseMessage(constants.SALARY_SLIP_NOT_FOUND);
+					return response;
+				}
+				SalaryDto dto = salaryMapperImpl.salaryToSalaryDto(salary);
+				salaryRepository.save(salary);
+				
+				response.setStatus(HttpStatus.OK);
+				response.setResponseMessage(constants.SALARY_DELETED);
+				return response;
+			} catch (Exception e) {
+				response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+				response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+				return response;
+			}
+			
+		}
+		@Override
+		public Message<SalaryDto> getById(int sId) {
+			Message<SalaryDto> response = new Message<>();
+				try {
+					Salary salary = new Salary();
+					salary=salaryRepository.getById(sId);
+					
+					if(salary == null) {
+						response.setStatus(HttpStatus.BAD_REQUEST);
+						response.setResponseMessage(constants.SALARY_SLIP_NOT_FOUND);
+						return response;
+					}
+					SalaryDto dto = salaryMapperImpl.salaryToSalaryDto(salary);
+					response.setStatus(HttpStatus.OK);
+					response.setResponseMessage(constants.SALARY_FOUND);
+					response.setData(dto);
+					return response;
+				} catch (Exception e) {
+					System.err.println("Error fetching Salary:" +e.getMessage());
+					response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+					response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+					return response;
+				}
+			}
+		@Override
+		public Message<SalaryDto> UpdateSalary(SalaryDto request) {
+			 Message<SalaryDto> response = new Message<>();
+			    Salary salary = null;
+
+			    try {
+			        salary = salaryRepository.getById(request.getSId());
+			        
+			        if (salary == null) {
+			            response.setStatus(HttpStatus.BAD_REQUEST);
+			            response.setResponseMessage(constants.SALARY_NOT_FOUND);
+			            return response;
+			        }
+
+			        // Update fields
+			        salary.setEmployeeId(request.getEmployeeId());
+			        salary.setMonth(request.getMonth());
+			        salary.setYear(request.getYear());
+			        salary.setBasicSalary(request.getBasicSalary());
+			        salary.setHra(request.getHra());
+			        salary.setDiduction(request.getDeduction());
+			        salary.setPf(request.getPf());
+			        salary.setLop(request.getLop());
+			        salary.setAbsentDays(request.getAbsentDays());
+			        salary.setPresentDays(request.getPresentDays());
+			        salary.setWorkingDays(request.getWorkingDays());
+			        
+			        // Optional: Calculate net salary
+			        double netSalary = (request.getBasicSalary() + request.getHra()) - (request.getDeduction() + request.getPf());
+			        salary.setNetSalary(netSalary);
+
+			        salaryRepository.save(salary);
+			        SalaryDto dto = salaryMapperImpl.salaryToSalaryDto(salary);
+
+			        response.setStatus(HttpStatus.OK);
+			        response.setResponseMessage(constants.SALARY_UPDATED);
+			        response.setData(dto);
+			        return response;
+			    } catch (Exception e) {
+			        System.err.println("Error updating Salary: " + e.getMessage());
+			        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			        response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+			        return response;
+			    }
+		}
 }
+
+			
+		
+
 

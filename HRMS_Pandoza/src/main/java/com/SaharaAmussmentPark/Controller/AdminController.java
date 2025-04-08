@@ -231,4 +231,26 @@ public class AdminController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+	@PutMapping("/updateSalary")
+	public ResponseEntity<Message<SalaryDto>> updateSalary(@RequestBody SalaryDto request){
+		log.info("In usercontroller login() with request:{}",request);
+		Message<SalaryDto> message = salaryService.UpdateSalary(request);
+		HttpStatus httpStatus =HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
+	@DeleteMapping("/deleteSalary")
+	public ResponseEntity<Message<SalaryDto>> deleteSalary(@RequestParam("eId") int eId){
+		log.info("In usercontroller login() with request:{}",eId);
+		Message<SalaryDto> message=salaryService.DeleteSalary(eId);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
+	@GetMapping("/getSalaryById")
+	public ResponseEntity<Message<SalaryDto>> getSalaryById(@RequestParam("eId") int eId){
+		log.info("In usercontroller login() with request:{}",eId);
+		Message<SalaryDto> message=salaryService.getById(eId);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
+	
 }
