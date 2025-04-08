@@ -137,6 +137,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>HRMS_Pandoza</finalName>
 	</build>
 
 </project>
