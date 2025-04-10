@@ -55,14 +55,14 @@ public class AdminController {
 
 	
 	
-	 @GetMapping("/download/{employeeId}/{month}")
-	    public ResponseEntity<Message<SalaryDto>> getSalaryDetails(
-	            @PathVariable String employeeId,
-	            @PathVariable String month) {
-	        
-	        Message<SalaryDto> salaryResponse = salaryService.getSalaryDetails(employeeId, month);
-	        return ResponseEntity.ok(salaryResponse);
-	    }
+//	 @GetMapping("/download/{employeeId}/{month}")
+//	    public ResponseEntity<Message<SalaryDto>> getSalaryDetails(
+//	            @PathVariable String employeeId,
+//	            @PathVariable String month) {
+//	        
+//	        Message<SalaryDto> salaryResponse = salaryService.getSalaryDetails(employeeId, month);
+//	        return ResponseEntity.ok(salaryResponse);
+//	    }
 	@PostMapping("/RegisterUser")
 	public ResponseEntity<Message<UserDto>> registerUser(@RequestBody UserDto user) {
 		log.info("In UserController registerUser() with request: {}", user);

@@ -105,7 +105,7 @@ public class EmployeeDto {
 
     private String employeeImage;
     private String address;
-    private int uanNo;
+    private String uanNo;
 
 
 }

@@ -2,6 +2,8 @@ package com.SaharaAmussmentPark.Serviceimpl;
 
 
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -44,29 +46,6 @@ public class SalaryServiceImpl implements SalaryService {
 				 response.setResponseMessage(constants.SALARY_ADDED_SUCCESSFULLY);
 				 response.setData(salaryMapperImpl.salaryToSalaryDto(salary));
 				 return response;
-			} catch (Exception e) {
-				response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-				response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
-				return response;
-			}
-		}
-
-		@Override
-		public Message<SalaryDto> getSalaryDetails(String employeeId, String month) {
-			Message<SalaryDto> response = new Message<>();
-			try {
-				Salary salary = salaryRepository.findEmployeeByEmployeeIdAndMonth(employeeId, month)
-		                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Salary details not found"));
-				Employee employee = employeeRepository.findByemployeeId(employeeId)
-		                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
-		        EmployeeResponseDto dto = new EmployeeResponseDto();
-		        dto.setSalary(salaryMapperImpl.salaryToSalaryDto(salary));
-		        dto.setEmployee(employeeMapperImpl.employeeToEmployeeDto(employee));
-		        
-		        response.setStatus(HttpStatus.OK);
-		        response.setResponseMessage(constants.RECORD_FOUND);
-		        response.setData(salaryMapperImpl.salaryToSalaryDto(salary));
-		        return response;
 			} catch (Exception e) {
 				response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 				response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
@@ -166,6 +145,27 @@ public class SalaryServiceImpl implements SalaryService {
 			        response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
 			        return response;
 			    }
+		}
+
+		@Override
+		public Message<EmployeeResponseDto> getSalaryDetails(String employeeId, String month) {
+			Message<EmployeeResponseDto> response = new Message<>();
+			try {
+				Salary salary = salaryRepository.findEmployeeByEmployeeIdAndMonth(employeeId, month)
+		                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Salary details not found"));
+				Employee employee = employeeRepository.findByEmployeeId(employeeId);
+		        
+		        response.setStatus(HttpStatus.OK);
+		        response.setResponseMessage(constants.RECORD_FOUND);
+		        response.setData(salaryMapperImpl.salaryToEmployeeResponseDto(salary,employee));
+		        
+		        return response;
+			} catch (Exception e) {
+				response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+				response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+				return response;
+			}
+			
 		}
 }
 

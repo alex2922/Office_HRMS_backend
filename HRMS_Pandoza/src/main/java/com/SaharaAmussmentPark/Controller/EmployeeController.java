@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
+import com.SaharaAmussmentPark.Dto.EmployeeResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
-import com.SaharaAmussmentPark.Dto.SalaryDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Service.SalaryService;
@@ -35,12 +35,12 @@ public class EmployeeController {
 	
 	
 	 @GetMapping("/download/{employeeId}/{month}")
-	    public ResponseEntity<Message<SalaryDto>> getSalaryDetails(
+	    public ResponseEntity<Message<EmployeeResponseDto>> getSalaryDetails(
 	            @PathVariable String employeeId,
 	            @PathVariable String month
 	            ) {
 	        
-	        Message<SalaryDto> salaryResponse = salaryService.getSalaryDetails(employeeId, month);
+	        Message<EmployeeResponseDto> salaryResponse = salaryService.getSalaryDetails(employeeId, month);
 	        return ResponseEntity.ok(salaryResponse);
 	    }
 	 @GetMapping("/GetEmployee/{employeeId}")

@@ -42,7 +42,7 @@ public class Employee {
 	private String accNumber;
 	private String salaryMonth;
     private int uId;
-    private int uanNo;
+    private String uanNo;
 
 	
 	

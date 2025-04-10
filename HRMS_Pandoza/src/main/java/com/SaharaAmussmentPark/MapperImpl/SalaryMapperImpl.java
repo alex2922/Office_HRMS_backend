@@ -2,8 +2,10 @@ package com.SaharaAmussmentPark.MapperImpl;
 
 import org.springframework.stereotype.Component;
 
+import com.SaharaAmussmentPark.Dto.EmployeeResponseDto;
 import com.SaharaAmussmentPark.Dto.SalaryDto;
 import com.SaharaAmussmentPark.mapper.SalaryMapper;
+import com.SaharaAmussmentPark.model.Employee;
 import com.SaharaAmussmentPark.model.Salary;
 
 @Component
@@ -52,4 +54,38 @@ public class SalaryMapperImpl implements SalaryMapper {
 			
 	}
 
-}
+	@Override
+	public EmployeeResponseDto salaryToEmployeeResponseDto(Salary salary,Employee emp) {
+		return new EmployeeResponseDto()
+				.setEmployeeName(emp.getEmployeeName())
+				.setDepartment(emp.getDepartment())
+				.setDesignation(emp.getDesignation())
+				.setAccountNumber(emp.getAccountNumber())
+				.setBankName(emp.getBankName())
+				.setUanNo(emp.getUanNo())
+				.setSId(emp.getAttendanceCode())
+				.setEmployeeId(emp.getEmployeeId())
+				.setMonth(salary.getMonth())
+				.setYear(salary.getYear())
+				.setBasicSalary(salary.getBasicSalary())
+				.setHra(salary.getHra())
+				.setNetSalary(salary.getNetSalary())
+				.setDeduction(salary.getDiduction())
+				.setPf(salary.getPf())
+				.setLop(salary.getLop())
+				.setPresentDays(salary.getPresentDays())
+				.setAbsentDays(salary.getAbsentDays())
+				.setPresentDays(salary.getPresentDays())
+				.setWorkingDays(salary.getWorkingDays());
+				
+						
+				
+				
+		
+		
+	}
+
+
+	}
+
+

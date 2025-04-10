@@ -220,7 +220,7 @@ private final JwtService jwtService;
 	        User user = userOptional.get();
 
 	        // Check if Employee exists for the given uId
-	        Optional<Employee> employeeOptional = employeeRepository.findByuId(uId);
+	        Optional<Employee> employeeOptional = employeeRepository.findById(uId);
 	        employeeOptional.ifPresent(employee -> {
 	            employeeRepository.delete(employee); // Delete Employee record if found
 	        });
