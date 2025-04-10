@@ -125,6 +125,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		        employee.setAadharNumber(request.getAadharNumber());
 		        employee.setAttendanceCode(request.getAttendanceCode());
 		        employee.setCompanyName(request.getCompanyName());
+		        employee.setUanNo(request.getUanNo());
 
 		        // **Check if the user uploaded a new image**
 		        if (file != null && !file.isEmpty()) {

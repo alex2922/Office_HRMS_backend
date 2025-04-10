@@ -24,7 +24,10 @@ public class SalaryMapperImpl implements SalaryMapper {
 				.setLop(salary.getLop())
 				.setBasicSalary(salary.getBasicSalary())
 				.setPresentDays(salary.getPresentDays())
+				.setWorkingDays(salary.getWorkingDays())
 				.setWorkingDays(salary.getWorkingDays());
+				
+				
 	}
 
 	@Override
@@ -46,6 +49,7 @@ public class SalaryMapperImpl implements SalaryMapper {
 				.setLop(lop)
 				.setNetSalary(netSalary)
 				.setAbsentDays(salaryDto.getAbsentDays());
+			
 	}
 
 }

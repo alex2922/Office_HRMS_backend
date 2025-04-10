@@ -30,6 +30,7 @@ public class UserController {
 	@PostMapping("/Login")
 	public ResponseEntity<Message<UserDto>> loginUser(@RequestBody LoginDto request) {
 		log.info("In UserController login() with request: {}", request);
+		System.out.println(request);
 		Message<UserDto> message = userservice.loginUser(request);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);

@@ -30,4 +30,5 @@ public class Salary {
     private int absentDays;
     private int presentDays;
     private int workingDays;
+
 }

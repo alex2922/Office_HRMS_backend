@@ -11,7 +11,6 @@ import lombok.experimental.Accessors;
 @Data
 @ToString
 @Accessors(chain = true)
-@RequiredArgsConstructor
 public class SalaryDto {
 	private int sId;
 
@@ -44,9 +43,14 @@ public class SalaryDto {
     private int absentDays;
     private int presentDays;
     private int workingDays;
+  
+		
+	}
 
 
 
 
 
-}
+
+
+
