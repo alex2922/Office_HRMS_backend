@@ -22,12 +22,14 @@ import com.SaharaAmussmentPark.Dto.DepartmentDto;
 import com.SaharaAmussmentPark.Dto.DesignationDto;
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
 import com.SaharaAmussmentPark.Dto.SalaryDto;
 import com.SaharaAmussmentPark.Dto.SalaryResponse;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Service.DepartmentService;
 import com.SaharaAmussmentPark.Service.DesignationService;
 import com.SaharaAmussmentPark.Service.EmployeeService;
+import com.SaharaAmussmentPark.Service.OfficialLetterService;
 import com.SaharaAmussmentPark.Service.SalaryService;
 import com.SaharaAmussmentPark.Service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,6 +51,7 @@ public class AdminController {
 	private final DesignationService designationservice;
 	private final EmployeeService employeeService;
 	private final SalaryService salaryService;
+	public final OfficialLetterService officialLetterservice;
 
 	
 	
@@ -210,13 +213,7 @@ public class AdminController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
-	@PutMapping("/updatePassword")
-	public ResponseEntity<Message<UserDto>> updatePassword(@RequestBody ChangePasswordDto request) {
-		log.info("In usercontroller login() with request:{}", request);
-		Message<UserDto> message = userservice.updatePassword(request);
-		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
-		return ResponseEntity.status(httpStatus).body(message);
-	}
+	
 	@DeleteMapping("/deleteUser/{uId}")
 	public ResponseEntity<Message<UserDto>> deleteUser(@PathVariable int uId) {
 		log.info("In usercontroller login() with request:{}", uId);
@@ -252,5 +249,36 @@ public class AdminController {
 		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+	@PostMapping("/addOfficialLetter")
+	public ResponseEntity<Message<OfficialLetterDto>> AddOfficialLetter(@RequestBody OfficialLetterDto request){
+		log.info("In usercontroller login() with request:{}",request);
+		Message<OfficialLetterDto> message=officialLetterservice.AddOfficialLetter(request);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+		
+	}
+	@PutMapping("/updateOfficialLetter")
+	public ResponseEntity<Message<OfficialLetterDto>> UpdateOfficialLetter(@RequestBody OfficialLetterDto request){
+		log.info("In usercontroller login() with request:{}",request);
+		Message<OfficialLetterDto> message=officialLetterservice.UpdateOfficialLetter(request);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
+	@GetMapping("/getOfficialLetterById")
+	public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetter(@RequestParam("oId") int oId){
+		log.info("In usercontroller login() with request:{}",oId);
+		Message<OfficialLetterDto> message=officialLetterservice.GetOfficialLetterById(oId);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+		
+	}
+	@GetMapping("/getOfficialLetterByName")
+	public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetterByName(@RequestParam("oname") String oname){
+		log.info("In usercontroller login() with request:{}",oname);
+		Message<OfficialLetterDto> message=officialLetterservice.GetOfficialLetterByName(oname);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
+	
 	
 }
