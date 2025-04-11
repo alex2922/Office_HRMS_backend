@@ -46,6 +46,8 @@ public class EmployeeResponseDto {
     private int absentDays;
     private int presentDays;
     private int workingDays;
+    private double esiNumber;
+    private double panNumber;
  
 
 }
