@@ -33,17 +33,22 @@ public class SalaryDto {
 	private double hra;
 	private double netSalary;
 
-
-	@NotNull(message = "Deduction cannot be null")
-	@Min(value = 0, message = "Deduction must be greater than or equal to 0")
-	private double deduction;
 	@NotNull(message = "Pf cannot be null")
     private double pf;
     private double lop;
     private int absentDays;
     private int presentDays;
     private int workingDays;
-  
+	private double bonus;
+	private double reimbursement;
+	private double conveyance;
+	private double otheAllownce;
+	private double insuranceCorporation;
+	private double professionalTax;
+	private double tds;
+	private double salaryAdvance;
+	private double personalLoan;
+	private double otherDiductions;
 		
 	}
 

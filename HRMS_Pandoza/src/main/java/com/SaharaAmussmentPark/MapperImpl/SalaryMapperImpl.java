@@ -16,19 +16,27 @@ public class SalaryMapperImpl implements SalaryMapper {
 		return new SalaryDto()
 				
 				.setBasicSalary(salary.getBasicSalary())
-				.setDeduction(salary.getDiduction())
+				.setEmployeeId(salary.getEmployeeId())
+				.setBonus(salary.getBonus())
+				.setReimbursement(salary.getReimbursement())
+				.setConveyance(salary.getConveyance())
+				.setOtheAllownce(salary.getOtheAllownce())
+				.setInsuranceCorporation(salary.getInsuranceCorporation())
+				.setProfessionalTax(salary.getProfessionalTax())
+				.setTds(salary.getTds())
+				.setSalaryAdvance(salary.getSalaryAdvance())
+				.setPersonalLoan(salary.getPersonalLoan())
+				.setOtherDiductions(salary.getOtherDiductions())
 				.setHra(salary.getHra())
 				.setMonth(salary.getMonth())
 				.setYear(salary.getYear())
-				.setEmployeeId(salary.getEmployeeId())
-				.setSId(salary.getSId())
 				.setPf(salary.getPf())
-				.setLop(salary.getLop())
-				.setBasicSalary(salary.getBasicSalary())
 				.setPresentDays(salary.getPresentDays())
 				.setWorkingDays(salary.getWorkingDays())
-				.setWorkingDays(salary.getWorkingDays());
-				
+				.setLop(salary.getLop())
+				.setNetSalary(salary.getNetSalary())
+				.setAbsentDays(salary.getAbsentDays());
+			
 				
 	}
 
@@ -36,12 +44,23 @@ public class SalaryMapperImpl implements SalaryMapper {
 	public Salary salaryDtoToSalary(SalaryDto salaryDto) {
 		  double rawLop  = ((double) (salaryDto.getWorkingDays() - salaryDto.getPresentDays()) / salaryDto.getWorkingDays()) * salaryDto.getBasicSalary();
 		  double lop = Math.floor(rawLop); 
-		  double netSalary = salaryDto.getBasicSalary()  - salaryDto.getDeduction() - salaryDto.getPf() - lop;
+		  double earnigs=salaryDto.getBasicSalary()+salaryDto.getHra()+salaryDto.getBonus()+salaryDto.getReimbursement()+salaryDto.getConveyance()+salaryDto.getOtheAllownce();
+		  double diductions=salaryDto.getInsuranceCorporation()+salaryDto.getProfessionalTax()+salaryDto.getTds()+salaryDto.getSalaryAdvance()+salaryDto.getPersonalLoan()+salaryDto.getOtherDiductions()+salaryDto.getPf();
+		  double netSalary = earnigs-diductions - lop;
 
 		return new Salary()
 				.setBasicSalary(salaryDto.getBasicSalary())
-				.setDiduction(salaryDto.getDeduction())
 				.setEmployeeId(salaryDto.getEmployeeId())
+				.setBonus(salaryDto.getBonus())
+				.setReimbursement(salaryDto.getReimbursement())
+				.setConveyance(salaryDto.getConveyance())
+				.setOtheAllownce(salaryDto.getOtheAllownce())
+				.setInsuranceCorporation(salaryDto.getInsuranceCorporation())
+				.setProfessionalTax(salaryDto.getProfessionalTax())
+				.setTds(salaryDto.getTds())
+				.setSalaryAdvance(salaryDto.getSalaryAdvance())
+				.setPersonalLoan(salaryDto.getPersonalLoan())
+				.setOtherDiductions(salaryDto.getOtherDiductions())
 				.setHra(salaryDto.getHra())
 				.setMonth(salaryDto.getMonth())
 				.setYear(salaryDto.getYear())
@@ -70,7 +89,6 @@ public class SalaryMapperImpl implements SalaryMapper {
 				.setBasicSalary(salary.getBasicSalary())
 				.setHra(salary.getHra())
 				.setNetSalary(salary.getNetSalary())
-				.setDeduction(salary.getDiduction())
 				.setPf(salary.getPf())
 				.setLop(salary.getLop())
 				.setPresentDays(salary.getPresentDays())

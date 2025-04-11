@@ -21,8 +21,17 @@ public class Salary {
 	private String month;
 	private String year;
 	private double basicSalary;
+	private double bonus;
+	private double reimbursement;
+	private double conveyance;
+	private double otheAllownce;
 	private double hra;
-	private double diduction;
+	private double insuranceCorporation;
+	private double professionalTax;
+	private double tds;
+	private double salaryAdvance;
+	private double personalLoan;
+	private double otherDiductions;
 	private double netSalary;
     private String employeeId;
     private double pf;
