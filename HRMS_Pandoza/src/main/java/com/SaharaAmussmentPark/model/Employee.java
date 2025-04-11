@@ -43,6 +43,7 @@ public class Employee {
 	private String salaryMonth;
     private int uId;
     private String uanNo;
+    private double esiNumber;
 
 	
 	

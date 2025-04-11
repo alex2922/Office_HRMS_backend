@@ -29,9 +29,10 @@ public class SwaggerConfig {
                         .type(SecurityScheme.Type.HTTP)
                         .scheme("bearer")
                         .bearerFormat("JWT")))
-            .servers(List.of(
-                    new Server().url("https://tomcat.diwise.in/HRMS_Pandoza/"),
-                    new Server().url("http://localhost:8080/")));
+
+	        .servers(List.of(
+	        		new Server().url("https://tomcat.diwise.in/HRMS_Pandoza/"),
+	        		new Server().url("http://localhost:8080/")));
 
     }
 }

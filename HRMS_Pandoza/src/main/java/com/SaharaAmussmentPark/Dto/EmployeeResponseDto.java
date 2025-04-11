@@ -9,15 +9,6 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain=true)
 public class EmployeeResponseDto {
-    private String employeeName;
-    private String department;
-    private String designation;
-    private String accountNumber;
-    private String bankName;
-    private String uanNo;
-	private int sId;
-
-	
 	@NotBlank(message = "Employee ID is required")
 	private String employeeId;
 
@@ -41,11 +32,21 @@ public class EmployeeResponseDto {
 	@Min(value = 0, message = "Deduction must be greater than or equal to 0")
 	private double deduction;
 	@NotNull(message = "Pf cannot be null")
+    private String employeeName;
+    private String department;
+    private String designation;
+    private String accountNumber;
+    private String bankName;
+    private String uanNo;
+	private int sId;
+    private double esiNumber;
+    private double panNumber;
     private double pf;
     private double lop;
     private int absentDays;
     private int presentDays;
     private int workingDays;
+
  
 
 }
