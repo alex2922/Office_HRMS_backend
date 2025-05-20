@@ -44,6 +44,11 @@ public interface constants {
 	String SALARY_DELETED = "Salary Deleted";
 	String SALARY_FOUND = "Salary found";
 	String SALARY_NOT_FOUND = "Salary not found";
+	String OTP_SENT_SUCCESSFULLY = "OTP Sent Successfully";
+	String OTP_VERIFIED_SUCCESSFULLY = "OTP verified successfully";
+	String INVALID_OTP = "Invalid Otp or user dosent Exist";
+	String USER_NOT_FOUND = "User not found";
+	String PASSWORD_AND_NEW_PASSWORD_SHOULD_NOT_BE_SAME = "Old password and new password should not be same";
 	
 	
 

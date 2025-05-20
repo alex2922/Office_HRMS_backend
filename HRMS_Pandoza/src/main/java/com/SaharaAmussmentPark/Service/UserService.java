@@ -15,4 +15,6 @@ public interface UserService {
 	public Message<UserDto>deleteUser(Integer uId);
 	public Message<UserDto>getUserById(Integer uId);
 	public Message<UserDto>updatePassword(ChangePasswordDto request);
+	public Message<UserDto> sendOtp(String email);
+	public Message<UserDto>verifyOtp(String email,String otp);
 }

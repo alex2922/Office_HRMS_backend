@@ -42,6 +42,7 @@ public class Employee {
 	private String accNumber;
 	private String salaryMonth;
     private int uId;
+	private String otp;
     private String uanNo;
     private double esiNumber;
 

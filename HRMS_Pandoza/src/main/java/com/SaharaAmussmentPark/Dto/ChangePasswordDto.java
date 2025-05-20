@@ -9,8 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ChangePasswordDto {
 	
-	private int uId;
-	private String oldPassword;
+	private String email;
 	private String newPassword;
 	private String confirmPassword;
 
