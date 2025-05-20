@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+       
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: orange;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .otp-code {
+            font-size: 28px;
+            font-weight: bold;
+            color: orange;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            color: #777;
+            background: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">OTP Verification</div>
+        <div class="content">
+            <p>Your one-time password (OTP) for verification is:</p>
+            <p class="otp-code">${request1}</p>
+            <p>Please enter this code to complete your verification process.</p>
+        </div>
+        <div class="footer">
+            &copy; 2025 [Your E-Commerce Name]. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>

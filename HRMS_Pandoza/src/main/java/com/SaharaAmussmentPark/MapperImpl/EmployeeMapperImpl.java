@@ -33,7 +33,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setEmployeeStatus(employee.getEmployeeStatus())
 				.setGender(employee.getGender())
 				.setIfscCode(employee.getIfscCode())
-				.setUId(employee.getUId());
+				.setUanNo(employee.getUanNo());
+				
 	}
 
 	@Override
@@ -59,7 +60,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setEmployeeStatus(employeeDto.getEmployeeStatus())
 				.setGender(employeeDto.getGender())
 				.setIfscCode(employeeDto.getIfscCode())
-				.setUId(employeeDto.getUId());
+				.setUanNo(employeeDto.getUanNo());
 	}
+
 
 }

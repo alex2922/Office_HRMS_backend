@@ -37,6 +37,19 @@ public interface constants {
 	String EMPLOYEE_RECORD_NOT_FOUND = "Employee Record not Found";
 	String USER_DELETED_SUCCESSFULLY = "User Deleted successfully";
 	
+	//Salary
+	String SALARY_ADDED_SUCCESSFULLY = "Salary added suuccessfully";
+	String SALARY_UPDATED = "Salary Updated";
+	String SALARY_SLIP_NOT_FOUND = "Salary Slip not Found";
+	String SALARY_DELETED = "Salary Deleted";
+	String SALARY_FOUND = "Salary found";
+	String SALARY_NOT_FOUND = "Salary not found";
+	String OTP_SENT_SUCCESSFULLY = "OTP Sent Successfully";
+	String OTP_VERIFIED_SUCCESSFULLY = "OTP verified successfully";
+	String INVALID_OTP = "Invalid Otp or user dosent Exist";
+	String USER_NOT_FOUND = "User not found";
+	String PASSWORD_AND_NEW_PASSWORD_SHOULD_NOT_BE_SAME = "Old password and new password should not be same";
+	
 	
 
 }

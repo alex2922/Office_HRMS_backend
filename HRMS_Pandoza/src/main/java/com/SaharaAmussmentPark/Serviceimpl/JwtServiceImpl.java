@@ -40,7 +40,7 @@ public class JwtServiceImpl implements JwtService {
 //		    claims.put("roles", userdetails.getRole());
 //		    claims.put("contactNumber", userdetails.getContactNumber());
 		    
-		return Jwts.builder().setSubject(userdetails.getEmail())
+		return Jwts.builder().setSubject(userdetails.getUsername())
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + 1000 *60 * 60 * 24))
 				.signWith(getSignKey(), SignatureAlgorithm.HS256).compact(); 
