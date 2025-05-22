@@ -63,6 +63,7 @@ public class AdminController {
 //	        Message<SalaryDto> salaryResponse = salaryService.getSalaryDetails(employeeId, month);
 //	        return ResponseEntity.ok(salaryResponse);
 //	    }
+	
 	@PostMapping("/RegisterUser")
 	public ResponseEntity<Message<UserDto>> registerUser(@RequestBody UserDto user) {
 		log.info("In UserController registerUser() with request: {}", user);

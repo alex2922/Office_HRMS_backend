@@ -32,6 +32,7 @@ import lombok.extern.log4j.Log4j2;
 public class EmployeeController {	
 	private final SalaryService salaryService;
 	private final EmployeeService employeeService;
+	private final UserService userservice;
 	
 	
 	 @GetMapping("/download/{employeeId}/{month}")
@@ -49,5 +50,13 @@ public class EmployeeController {
 			Message<EmployeeDto> message = employeeService.getByemployeeId(employeeId);
 			return ResponseEntity.status(HttpStatus.OK).body(message);
 		}
+		@GetMapping("/getUserById/{uId}")
+		public ResponseEntity<Message<UserDto>> getUserById(@PathVariable int uId) {
+			log.info("In usercontroller login() with request:{}", uId);
+			Message<UserDto> message = userservice.getUserById(uId);
+			HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+			return ResponseEntity.status(httpStatus).body(message);
+		}
+
 		
 }

@@ -3,6 +3,8 @@ package com.SaharaAmussmentPark.Controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,5 +62,13 @@ public class AuthController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+	@GetMapping("/getUserById/{uId}")
+	public ResponseEntity<Message<UserDto>> getUserById(@PathVariable int uId) {
+		log.info("In usercontroller login() with request:{}", uId);
+		Message<UserDto> message = userservice.getUserById(uId);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
+
 
 }
