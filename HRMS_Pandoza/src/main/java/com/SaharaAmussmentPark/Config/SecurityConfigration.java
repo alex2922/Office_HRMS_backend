@@ -53,8 +53,10 @@ public class SecurityConfigration {
 	    http.csrf(AbstractHttpConfigurer::disable)
 	        .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
 	        .authorizeHttpRequests(registry -> registry
-	            .requestMatchers("/user/**","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+	            .requestMatchers("AuthController/**","/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+	            .requestMatchers("/auth/RegisterUser").permitAll() 
             .requestMatchers("/Employee/**").hasAnyAuthority("EMPLOYEE")
+            .requestMatchers("/user/**").hasAnyAuthority("USER")
             .requestMatchers("/Admin/**").hasAnyAuthority("ADMIN")
 	            .anyRequest().authenticated())
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

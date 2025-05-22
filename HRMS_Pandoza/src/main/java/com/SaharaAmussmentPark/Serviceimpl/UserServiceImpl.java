@@ -20,6 +20,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
 import com.SaharaAmussmentPark.Dto.LoginDto;
+import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
@@ -33,7 +34,6 @@ import com.SaharaAmussmentPark.model.User;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.utility.Constants;
 import jakarta.mail.Authenticator;
 import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
@@ -84,10 +84,10 @@ private String password;
 	}
 
 	@Override
-	public Message<UserDto> loginUser(LoginDto request) {
-		Message<UserDto> message = new Message<>();
+	public Message<LoginResponseDto> loginUser(LoginDto request) {
+		Message<LoginResponseDto> message = new Message<>();
 		User user = null;
-		UserDto userDto =null;
+		LoginResponseDto userloginDto =null;
 		try {
 			user = userRepository.getByEmailAndPassword(request.getEmail(), request.getPassword());
 			if (user == null) {
@@ -97,11 +97,11 @@ private String password;
 				return message;
 			}
 			 String token=jwtService.genrateToken(user);
-			 userDto=userMapperImpl.userToUserDto(user);
-			 userDto.setToken(token);
+			 userloginDto=userMapperImpl.userToLoginResponseDto(user);
+			 userloginDto.setToken(token);
 			message.setStatus(HttpStatus.OK);
 			message.setResponseMessage(constants.LOGIN_SUCCESSFULL);
-			message.setData(userDto);
+			message.setData(userloginDto);
 			log.info("LOGIN_SUCCESSFULL" + "  " + message.getData());
 			return message;
 		} catch (Exception e) {

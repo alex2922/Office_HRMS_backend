@@ -25,5 +25,4 @@ public class Message<T> implements  Serializable {
 	private String responseMessage;
 	
 	private transient T data;
-
 }
