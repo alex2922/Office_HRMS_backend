@@ -17,6 +17,7 @@ import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.UserDto;
+import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -63,9 +64,9 @@ public class AuthController {
 		return ResponseEntity.status(httpStatus).body(message);
 	}
 	@GetMapping("/getUserById/{uId}")
-	public ResponseEntity<Message<UserDto>> getUserById(@PathVariable int uId) {
+	public ResponseEntity<Message<userdetailsResponseDto>> getUserById(@PathVariable int uId) {
 		log.info("In usercontroller login() with request:{}", uId);
-		Message<UserDto> message = userservice.getUserById(uId);
+		Message<userdetailsResponseDto> message = userservice.getUserById(uId);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}

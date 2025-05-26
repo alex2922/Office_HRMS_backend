@@ -1,6 +1,10 @@
 package com.SaharaAmussmentPark.Serviceimpl;
 
-import java.util.Optional;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,7 +17,6 @@ import com.SaharaAmussmentPark.Repository.EmployeeRepository;
 import com.SaharaAmussmentPark.Repository.SalaryRepository;
 import com.SaharaAmussmentPark.Service.SalaryService;
 import com.SaharaAmussmentPark.Util.constants;
-import com.SaharaAmussmentPark.mapper.EmployeeMapper;
 import com.SaharaAmussmentPark.mapper.SalaryMapper;
 import com.SaharaAmussmentPark.model.Employee;
 import com.SaharaAmussmentPark.model.Salary;
@@ -27,7 +30,6 @@ import lombok.extern.log4j.Log4j2;
 public class SalaryServiceImpl implements SalaryService {
 
 	private final SalaryMapper salaryMapperImpl;
-	private final EmployeeMapper employeeMapperImpl;
 	private final SalaryRepository salaryRepository;
 	private final EmployeeRepository employeeRepository;
 
@@ -35,8 +37,9 @@ public class SalaryServiceImpl implements SalaryService {
 
 	public Message<SalaryDto> AddSalary(SalaryDto request) {
 		Message<SalaryDto> response = new Message<>();
+		Employee employee =null;
 		try {
-			Employee employee = employeeRepository.findEmployeeByEmployeeId(request.getEmployeeId())
+			 employee = employeeRepository.findEmployeeByEmployeeId(request.getEmployeeId())
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, constants.RECORD_NOT_FOUND));
 			Salary salary = salaryMapperImpl.salaryDtoToSalary(request);
 			salaryRepository.save(salary);
@@ -184,4 +187,89 @@ public class SalaryServiceImpl implements SalaryService {
 		}
 
 	}
+
+	@Override
+	public Map<String, Object> findAllSalaryByemployeeId(String employeeId) {
+		Map<String, Object> responseMap = new LinkedHashMap<>();
+	    try {
+	        List<Salary> salaries = salaryRepository.findByEmployeeId(employeeId);
+	        if (salaries.isEmpty()) {
+	        	responseMap.put("status", HttpStatus.NOT_FOUND);
+	            responseMap.put("message", "No salary records found for employeeId: " + employeeId);
+	            responseMap.put("data", Collections.emptyList());
+	            return responseMap;
+	        }
+	        List<SalaryDto> salaryDtos = salaries.stream()
+	        		.map(salaryMapperImpl::salaryToSalaryDto)
+	        		.collect(Collectors.toList());
+	        responseMap.put("status", HttpStatus.OK);
+	        responseMap.put("message", "Salary records found for employeeId: " + employeeId);
+	        responseMap.put("data", salaryDtos);
+	        return responseMap;
+	        
+
+	    } catch (Exception e) {
+	      responseMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+	      responseMap.put("message", "Error fetching salary records for employeeId: " + employeeId);
+	      responseMap.put("data", Collections.emptyList());
+	      return responseMap;
+	    }
+	    }
+
+	@Override
+	public Map<String, Object> findAllSalaryBymonthAndsalary(String month, String year) {
+		Map<String, Object> responseMap = new LinkedHashMap<>();
+	    try {
+	    	 List<Salary> salaries = salaryRepository.findByMonthAndYear(month, year);
+	        if (salaries.isEmpty()) {
+	        	responseMap.put("status", HttpStatus.NOT_FOUND);
+	            responseMap.put("message", "No salary records found for month: " + month + " and year: " + year);
+	            responseMap.put("data", Collections.emptyList());
+	            return responseMap;
+	        }
+	        List<SalaryDto> salaryDtos = salaries.stream()
+	        		.map(salaryMapperImpl::salaryToSalaryDto)
+	        		.collect(Collectors.toList());
+	        responseMap.put("status", HttpStatus.OK);
+	        responseMap.put("message", "Salary records found for month: " + month + " and year: " + year);
+	        responseMap.put("data", salaryDtos);
+	        return responseMap;
+	        
+
+	    } catch (Exception e) {
+	      responseMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+	      responseMap.put("message", "Error fetching salary records for month: " + month + " and year: " + year);
+	      responseMap.put("data", Collections.emptyList());
+	      return responseMap;
+	    }
+	}
+
+	@Override
+	public Map<String, Object> getAllSalary() {
+		Map<String, Object> responseMap = new LinkedHashMap<>();
+	    try {
+	    	 List<Salary> salaries = salaryRepository.findAll();
+	        if (salaries.isEmpty()) {
+	        	responseMap.put("status", HttpStatus.NOT_FOUND);
+	            responseMap.put("message", "No salary records not found" );
+	            responseMap.put("data", Collections.emptyList());
+	            return responseMap;
+	        }
+	        List<SalaryDto> salaryDtos = salaries.stream()
+	        		.map(salaryMapperImpl::salaryToSalaryDto)
+	        		.collect(Collectors.toList());
+	        responseMap.put("status", HttpStatus.OK);
+	        responseMap.put("message", "Salary records found  " );
+	        responseMap.put("data", salaryDtos);
+	        return responseMap;
+	        
+
+	    } catch (Exception e) {
+	      responseMap.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+	      responseMap.put("message", "Error fetching salary records ");
+	      responseMap.put("data", Collections.emptyList());
+	      return responseMap;
+	    }
+	}
+	
 }

@@ -12,6 +12,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 	@Override
 	public EmployeeDto employeeToEmployeeDto(Employee employee) {
 		return new  EmployeeDto().setAadharNumber(employee.getAadharNumber())
+				.setEId(employee.getEId())
 				.setAccountNumber(employee.getAccountNumber())
 				.setAddress(employee.getAddress())
 				.setAttendanceCode(employee.getAttendanceCode())
@@ -33,7 +34,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setEmployeeStatus(employee.getEmployeeStatus())
 				.setGender(employee.getGender())
 				.setIfscCode(employee.getIfscCode())
-				.setUanNo(employee.getUanNo());
+				.setUanNo(employee.getUanNo())
+				.setUId(employee.getUId());
 				
 	}
 
@@ -60,7 +62,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setEmployeeStatus(employeeDto.getEmployeeStatus())
 				.setGender(employeeDto.getGender())
 				.setIfscCode(employeeDto.getIfscCode())
-				.setUanNo(employeeDto.getUanNo());
+				.setUanNo(employeeDto.getUanNo())
+				.setUId(employeeDto.getUId());
 	}
 
 

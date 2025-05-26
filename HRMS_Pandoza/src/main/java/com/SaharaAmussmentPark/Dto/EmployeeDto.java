@@ -106,6 +106,7 @@ public class EmployeeDto {
     private String employeeImage;
     private String address;
     private String uanNo;
+    private int uId;
 
 
 }

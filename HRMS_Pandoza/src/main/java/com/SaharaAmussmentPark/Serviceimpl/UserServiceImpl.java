@@ -23,6 +23,7 @@ import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.UserDto;
+import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
 import com.SaharaAmussmentPark.Repository.UserRepository;
 import com.SaharaAmussmentPark.Service.JwtService;
@@ -178,24 +179,40 @@ private String password;
 	}
 
 	@Override
-	public Message<UserDto> getUserById(Integer uId) {
-		Message<UserDto> message=new Message<>();
+	public Message<userdetailsResponseDto> getUserById(Integer uId) {
+		Message<userdetailsResponseDto> message=new Message<>();
 		try {
-			User user= userRepository.getById(uId);
-			if(user==null) {
-				message.setStatus(HttpStatus.NOT_FOUND);
-				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-				return message;
-			}
-			message.setStatus(HttpStatus.OK);
-			message.setResponseMessage(constants.RECORD_FOUND);
-			message.setData(userMapperImpl.userToUserDto(user));
-			return message;
+		    User user = userRepository.getById(uId);
+		    if (user == null) {
+		        message.setStatus(HttpStatus.NOT_FOUND);
+		        message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+		        return message;
+		    }
+
+		    Employee emp = employeeRepository.findByuId(uId);
+		    if (emp == null) {
+		        message.setStatus(HttpStatus.NOT_FOUND);
+		        message.setResponseMessage("Employee record not found");
+		        return message;
+		    }
+
+		    // Map user and employee to DTO
+		    userdetailsResponseDto responseDto = new userdetailsResponseDto();
+		    responseDto.setUId(user.getUId());
+		    responseDto.setEmail(user.getEmail());
+		    responseDto.setRole(user.getRole());
+		    responseDto.setEmployeeId(emp.getEmployeeId()); // assuming it's a String or matches type
+
+		    message.setStatus(HttpStatus.OK);
+		    message.setResponseMessage(constants.RECORD_FOUND);
+		    message.setData(responseDto);
+		    return message;
+
 		} catch (Exception e) {
-			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-			message.setResponseMessage(e.getMessage());
-			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-			return message;
+		    message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		    message.setResponseMessage(e.getMessage());
+		    log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+		    return message;
 		}
 	}
 	@Override

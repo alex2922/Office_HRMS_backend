@@ -20,7 +20,6 @@ public class UserMapperImpl implements UserMapper {
 		return new UserDto().setUId(user.getUId())
 				.setCreatedDate(user.getCreatedDate())
 				.setEmail(user.getEmail())
-				.setPassword(user.getPassword())
 				.setRole(user.getRole());
 				
 		
@@ -30,14 +29,14 @@ public class UserMapperImpl implements UserMapper {
 	public User userDtoToUser(UserDto userDto) {
 		return new User().setCreatedDate(userDto.getCreatedDate())
 				.setEmail(userDto.getEmail())
-				.setOtp(userDto.getEmail())
+				.setPassword(userDto.getPassword())
 				.setRole(userDto.getRole());
 		
 	}
 
 	@Override
 	public LoginResponseDto userToLoginResponseDto(User user) {
-		return new LoginResponseDto().setUId(user.getUId()).setEmail(user.getEmail());
+		return new LoginResponseDto().setUId(user.getUId()).setEmail(user.getEmail()).setRole(user.getRole());
 	}
 
 

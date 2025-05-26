@@ -1,6 +1,7 @@
 package com.SaharaAmussmentPark.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +18,14 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
 import com.SaharaAmussmentPark.Dto.DepartmentDto;
 import com.SaharaAmussmentPark.Dto.DesignationDto;
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
 import com.SaharaAmussmentPark.Dto.SalaryDto;
-import com.SaharaAmussmentPark.Dto.SalaryResponse;
 import com.SaharaAmussmentPark.Dto.UserDto;
+import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Service.DepartmentService;
 import com.SaharaAmussmentPark.Service.DesignationService;
 import com.SaharaAmussmentPark.Service.EmployeeService;
@@ -208,9 +208,9 @@ public class AdminController {
 		return ResponseEntity.status(httpStatus).body(message);
 	}
 	@GetMapping("/getUserById/{uId}")
-	public ResponseEntity<Message<UserDto>> getUserById(@PathVariable int uId) {
+	public ResponseEntity<Message<userdetailsResponseDto>> getUserById(@PathVariable int uId) {
 		log.info("In usercontroller login() with request:{}", uId);
-		Message<UserDto> message = userservice.getUserById(uId);
+		Message<userdetailsResponseDto> message = userservice.getUserById(uId);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
@@ -280,6 +280,15 @@ public class AdminController {
 		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
-	
+	@GetMapping("/salaryFilter/{month}/{year}")
+	public ResponseEntity<Map<String, Object>> getSalariesByEmployeeId(@PathVariable String month,@PathVariable String year) {
+		Map<String, Object> response = salaryService.findAllSalaryBymonthAndsalary(month,year);
+	    return ResponseEntity.ok(response);
+	}
+	@GetMapping("/getAllsalary/")
+	public ResponseEntity<Map<String, Object>> getAllSalaries() {
+		Map<String, Object> response = salaryService.getAllSalary();
+	    return ResponseEntity.ok(response);
+	}
 	
 }

@@ -107,25 +107,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 		        }
 
 		        // Update fields
-		        employee.setEmployeeName(request.getEmployeeName());
-		        employee.setDesignation(request.getDesignation());
-		        employee.setDepartment(request.getDepartment());
-		        employee.setEmployeeStatus(request.getEmployeeStatus());
-		        employee.setContactNumber(request.getContactNumber());
-		        employee.setEmail(request.getEmail());
-		        employee.setCosttoCompany(request.getCosttoCompany());
-		        employee.setEmployeeSalary(request.getEmployeeSalary());
-		        employee.setIfscCode(request.getIfscCode());
-		        employee.setAccountNumber(request.getAccountNumber());
-		        employee.setBankName(request.getBankName());
-		        employee.setDiduction(request.getDiduction());
-		        employee.setDateOfJoining(request.getDateOfJoining());
-		        employee.setDateOfLiving(request.getDateOfLiving());
-		        employee.setDateOfBirth(request.getDateOfBirth());
-		        employee.setAadharNumber(request.getAadharNumber());
-		        employee.setAttendanceCode(request.getAttendanceCode());
-		        employee.setCompanyName(request.getCompanyName());
-		        employee.setUanNo(request.getUanNo());
+		        employeeMapperImpl.employeeDtoToEmployee(request);
+//		        employee.setEmployeeName(request.getEmployeeName());
+//		        employee.setDesignation(request.getDesignation());
+//		        employee.setDepartment(request.getDepartment());
+//		        employee.setEmployeeStatus(request.getEmployeeStatus());
+//		        employee.setContactNumber(request.getContactNumber());
+//		        employee.setEmail(request.getEmail());
+//		        employee.setCosttoCompany(request.getCosttoCompany());
+//		        employee.setEmployeeSalary(request.getEmployeeSalary());
+//		        employee.setIfscCode(request.getIfscCode());
+//		        employee.setAccountNumber(request.getAccountNumber());
+//		        employee.setBankName(request.getBankName());
+//		        employee.setDiduction(request.getDiduction());
+//		        employee.setDateOfJoining(request.getDateOfJoining());
+//		        employee.setDateOfLiving(request.getDateOfLiving());
+//		        employee.setDateOfBirth(request.getDateOfBirth());
+//		        employee.setAadharNumber(request.getAadharNumber());
+//		        employee.setAttendanceCode(request.getAttendanceCode());
+//		        employee.setCompanyName(request.getCompanyName());
+//		        employee.setUanNo(request.getUanNo());
 
 		        // **Check if the user uploaded a new image**
 		        if (file != null && !file.isEmpty()) {

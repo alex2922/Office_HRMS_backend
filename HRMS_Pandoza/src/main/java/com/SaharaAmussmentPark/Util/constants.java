@@ -23,7 +23,7 @@ public interface constants {
 	String OFFICIAL_LETTER_FOUND = "Official Letter found";
 	
 	//user
-	String EMAIL_ALREADY_EXISTS = "Email alraedy availabale";
+	String EMAIL_ALREADY_EXISTS = "Email already availabale";
 	String USER_REGISTERED_SUCCESSFULLY = "User Register successfully";
 	String RECORD_NOT_FOUND = "Invalid credentials";
 	String LOGIN_SUCCESSFULL = "Login successfully";

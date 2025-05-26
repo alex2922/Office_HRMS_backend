@@ -1,5 +1,6 @@
 package com.SaharaAmussmentPark.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,9 @@ import com.SaharaAmussmentPark.model.Salary;
 public interface SalaryRepository extends JpaRepository<Salary, Integer> {
 
 	Optional<Salary> findEmployeeByEmployeeIdAndMonth(String employeeId, String month);
+
+	List<Salary> findByEmployeeId(String employeeId);
+
+	List<Salary> findByMonthAndYear(String month, String year);
 
 }
