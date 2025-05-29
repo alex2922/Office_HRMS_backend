@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: HRMS_Pandoza
+
+  datasource:
+    url: jdbc:mysql://145.223.88.194:3306/hrmspandoza
+    username: developer
+    password: Pan@Server@2025
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        enable_lazy_load_no_trans: true
+
+  servlet:
+    multipart:
+      enabled: true
+      location: /var/www/images/Hrms/employeeImage/
+      max-file-size: 500MB
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: foundationakka@gmail.com
+    password: mkwz vmhz kkee plwj
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: 8001
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    com.netflix.discovery: DEBUG
+    org.springframework.cloud.netflix.eureka: DEBUG
+
+jwt:
+  secret: Pandoza_Admin

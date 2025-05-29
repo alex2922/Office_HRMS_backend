@@ -344,5 +344,28 @@ private String password;
 
 }
 
+	@Override
+	public Message<UserDto> getByEmail(String email) {
+		// TODO Auto-generated method stub
+		Message<UserDto> message=new Message<>();
+		try {
+			  User user=userRepository.getByEmail(email);
+			  if(user==null) {
+				  message.setStatus(HttpStatus.NOT_FOUND);
+				  message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				  return message;
+			  }
+			  message.setStatus(HttpStatus.OK);
+			  message.setResponseMessage(constants.RECORD_FOUND);
+			  message.setData(userMapperImpl.userToUserDto(user));
+			  return message;
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+			return message;
+		}
+	}
+
 	
 }

@@ -69,6 +69,12 @@ public class AuthController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+	@GetMapping("/getUserByemail/{email}")
+	public ResponseEntity<Message<UserDto>> getUserById(@PathVariable String email) {
+		log.info("In usercontroller login() with request:{}", email);
+		Message<UserDto> message = userservice.getByEmail(email);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
 
-
+	}
 }
