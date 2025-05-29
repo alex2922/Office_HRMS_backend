@@ -32,7 +32,7 @@ public class SwaggerConfig {
 
 	        .servers(List.of(
 	        		new Server().url("https://tomcat.diwise.in/HRMS_Pandoza/"),
-	        		new Server().url("http://localhost:8080/")));
+	        		new Server().url("http://localhost:8001/")));
 
     }
 }

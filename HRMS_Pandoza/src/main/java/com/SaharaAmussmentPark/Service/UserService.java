@@ -20,4 +20,5 @@ public interface UserService {
 	public Message<UserDto>updatePassword(ChangePasswordDto request);
 	public Message<UserDto> sendOtp(String email);
 	public Message<UserDto>verifyOtp(String email,String otp);
+	public Message<UserDto>getByEmail(String email);
 }
