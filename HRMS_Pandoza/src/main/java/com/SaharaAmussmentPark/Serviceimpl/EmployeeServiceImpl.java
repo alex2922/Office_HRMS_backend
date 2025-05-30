@@ -97,7 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 				return response;
 			}
 
-<<<<<<< HEAD
+
 		        // Update fields
 		        employeeMapperImpl.employeeDtoToEmployee(request);
 //		        employee.setEmployeeName(request.getEmployeeName());
@@ -119,7 +119,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 //		        employee.setAttendanceCode(request.getAttendanceCode());
 //		        employee.setCompanyName(request.getCompanyName());
 //		        employee.setUanNo(request.getUanNo());
-=======
+
 			// Update fields
 			employee.setEmployeeName(request.getEmployeeName());
 			employee.setDesignation(request.getDesignation());
@@ -140,7 +140,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setAttendanceCode(request.getAttendanceCode());
 			employee.setCompanyName(request.getCompanyName());
 			employee.setUanNo(request.getUanNo());
->>>>>>> branch 'main' of https://github.com/alex2922/Office_HRMS_backend.git
+
 
 			Employee updatedEmployee = employeeRepository.save(employee);
 

@@ -34,12 +34,9 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setGender(employee.getGender())
 				.setIfscCode(employee.getIfscCode())
 				.setUanNo(employee.getUanNo())
-<<<<<<< HEAD
-				.setUId(employee.getUId());
-=======
+				.setUId(employee.getUId())
 				.setEsicNumber(employee.getEsicNumber());
->>>>>>> branch 'main' of https://github.com/alex2922/Office_HRMS_backend.git
-				
+		
 	}
 
 	@Override
@@ -66,11 +63,10 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setGender(employeeDto.getGender())
 				.setIfscCode(employeeDto.getIfscCode())
 				.setUanNo(employeeDto.getUanNo())
-<<<<<<< HEAD
-				.setUId(employeeDto.getUId());
-=======
+
+				.setUId(employeeDto.getUId())
+
 				.setEsicNumber(employeeDto.getEsicNumber());
->>>>>>> branch 'main' of https://github.com/alex2922/Office_HRMS_backend.git
 	}
 
 
