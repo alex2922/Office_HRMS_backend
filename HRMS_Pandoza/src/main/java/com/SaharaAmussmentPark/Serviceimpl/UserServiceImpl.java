@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
+import com.SaharaAmussmentPark.Dto.EmployeeResponse;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
@@ -362,9 +363,10 @@ private String password;
 }
 
 	@Override
-	public Message<UserDto> getByEmail(String email) {
+	public Message<EmployeeResponse> getByEmail(String email) {
 		// TODO Auto-generated method stub
-		Message<UserDto> message=new Message<>();
+		Message<EmployeeResponse> message=new Message<>();
+		EmployeeResponse dto=new EmployeeResponse();
 		try {
 			  User user=userRepository.getByEmail(email);
 			  if(user==null) {
@@ -372,9 +374,35 @@ private String password;
 				  message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
 				  return message;
 			  }
+			  Employee employee=employeeRepository.findDetailsByuId(user.getUId());
+			  dto.setUId(user.getUId());
+		        dto.setEmail(user.getEmail());
+		        dto.setRole(user.getRole());
+		        dto.setEmployeeName(employee.getEmployeeName());
+		        dto.setEmployeeId(employee.getEmployeeId());
+		        dto.setAttendanceCode(employee.getAttendanceCode());
+		        dto.setGender(employee.getGender());
+		        dto.setEmployeeStatus(employee.getEmployeeStatus());
+		        dto.setDesignation(employee.getDesignation());
+		        dto.setDepartment(employee.getDepartment());
+		        dto.setDateOfJoining(employee.getDateOfJoining());
+		        dto.setDateOfLiving(employee.getDateOfLiving());
+		        dto.setContactNumber(employee.getContactNumber());
+		        dto.setIfscCode(employee.getIfscCode());
+		        dto.setDateOfBirth(employee.getDateOfBirth());
+		        dto.setAadharNumber(employee.getAadharNumber());
+		        dto.setPanNumber(employee.getPanNumber());
+		        dto.setAccountNumber(employee.getAccountNumber());
+		        dto.setCosttoCompany(employee.getCosttoCompany());
+		        dto.setEmployeeSalary(employee.getEmployeeSalary());
+		        dto.setBankName(employee.getBankName());
+		        dto.setCompanyName(employee.getCompanyName());
+		        dto.setDiduction(employee.getDiduction());
+		        dto.setAddress(employee.getAddress());
+			  
 			  message.setStatus(HttpStatus.OK);
 			  message.setResponseMessage(constants.RECORD_FOUND);
-			  message.setData(userMapperImpl.userToUserDto(user));
+			  message.setData(dto);
 			  return message;
 		} catch (Exception e) {
 			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -382,6 +410,31 @@ private String password;
 			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
 			return message;
 		}
+	}
+
+	@Override
+	public Message<UserDto> findByEmail(String email) {
+		// TODO Auto-generated method stub
+				Message<UserDto> message=new Message<>();
+				UserDto dto=new UserDto();
+				try {
+					  User user=userRepository.getByEmail(email);
+					  if(user==null) {
+						  message.setStatus(HttpStatus.NOT_FOUND);
+						  message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+						  return message;
+					  }
+					  
+					  message.setStatus(HttpStatus.OK);
+					  message.setResponseMessage(constants.RECORD_FOUND);
+					  message.setData(userMapperImpl.userToUserDto(user));
+					  return message;
+				} catch (Exception e) {
+					message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+					message.setResponseMessage(e.getMessage());
+					log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+					return message;
+				}
 	}
 
 	
