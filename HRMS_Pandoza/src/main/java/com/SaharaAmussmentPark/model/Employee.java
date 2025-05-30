@@ -37,14 +37,13 @@ public class Employee {
 	private String bankName;
 	private String companyName;
 	private double diduction;
-	private String employeeImage;
 	private String address;
 	private String accNumber;
 	private String salaryMonth;
     private int uId;
 	private String otp;
     private String uanNo;
-    private double esiNumber;
+    private double esicNumber;
 
 	
 	

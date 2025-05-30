@@ -3,8 +3,8 @@ package com.SaharaAmussmentPark.Service;
 import java.util.List;
 
 import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
+import com.SaharaAmussmentPark.Dto.EmployeeResponse;
 import com.SaharaAmussmentPark.Dto.LoginDto;
-import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.UserDto;
@@ -20,5 +20,6 @@ public interface UserService {
 	public Message<UserDto>updatePassword(ChangePasswordDto request);
 	public Message<UserDto> sendOtp(String email);
 	public Message<UserDto>verifyOtp(String email,String otp);
-	public Message<UserDto>getByEmail(String email);
+	public Message<EmployeeResponse>getByEmail(String email);
+	public Message<UserDto>findByEmail(String email);
 }

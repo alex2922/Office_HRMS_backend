@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
+import com.SaharaAmussmentPark.Dto.EmployeeResponse;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
@@ -72,7 +73,16 @@ public class AuthController {
 	@GetMapping("/getUserByemail/{email}")
 	public ResponseEntity<Message<UserDto>> getUserById(@PathVariable String email) {
 		log.info("In usercontroller login() with request:{}", email);
-		Message<UserDto> message = userservice.getByEmail(email);
+		Message<UserDto> message = userservice.findByEmail(email);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+
+	}
+	
+	@GetMapping("/UserByemail/{email}")
+	public ResponseEntity<Message<EmployeeResponse>> getUserByemial(@PathVariable String email) {
+		log.info("In usercontroller login() with request:{}", email);
+		Message<EmployeeResponse> message = userservice.getByEmail(email);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 

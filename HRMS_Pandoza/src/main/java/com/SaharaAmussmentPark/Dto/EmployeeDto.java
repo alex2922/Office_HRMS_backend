@@ -103,9 +103,8 @@ public class EmployeeDto {
 
     private double diduction;
 
-    private String employeeImage;
     private String address;
     private String uanNo;
-
+    private double esicNumber;
 
 }

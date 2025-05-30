@@ -27,13 +27,13 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setDiduction(employee.getDiduction())
 				.setEmail(employee.getEmail())
 				.setEmployeeId(employee.getEmployeeId())
-				.setEmployeeImage(employee.getEmployeeImage())
 				.setEmployeeName(employee.getEmployeeName())
 				.setEmployeeSalary(employee.getEmployeeSalary())
 				.setEmployeeStatus(employee.getEmployeeStatus())
 				.setGender(employee.getGender())
 				.setIfscCode(employee.getIfscCode())
-				.setUanNo(employee.getUanNo());
+				.setUanNo(employee.getUanNo())
+				.setEsicNumber(employee.getEsicNumber());
 				
 	}
 
@@ -60,7 +60,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setEmployeeStatus(employeeDto.getEmployeeStatus())
 				.setGender(employeeDto.getGender())
 				.setIfscCode(employeeDto.getIfscCode())
-				.setUanNo(employeeDto.getUanNo());
+				.setUanNo(employeeDto.getUanNo())
+				.setEsicNumber(employeeDto.getEsicNumber());
 	}
 
 

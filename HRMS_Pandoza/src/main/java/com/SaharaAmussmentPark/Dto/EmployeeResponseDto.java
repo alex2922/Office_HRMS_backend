@@ -30,7 +30,7 @@ public class EmployeeResponseDto {
 
 	@NotNull(message = "Pf cannot be null")
 	private int sId;
-    private double esiNumber;
+	 private double esicNumber;
     private double panNumber;
     private double pf;
     private double lop;
