@@ -5,6 +5,7 @@ package com.SaharaAmussmentPark.MapperImpl;
 import org.springframework.stereotype.Component;
 
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
+import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.mapper.UserMapper;
 import com.SaharaAmussmentPark.model.User;
@@ -37,6 +38,14 @@ public class UserMapperImpl implements UserMapper {
 	@Override
 	public LoginResponseDto userToLoginResponseDto(User user) {
 		return new LoginResponseDto().setUId(user.getUId()).setEmail(user.getEmail()).setRole(user.getRole());
+	}
+
+	@Override
+	public RestTemplateDto userToRestTemplateDto(User user) {
+		return new RestTemplateDto().setUId(user.getUId())
+				.setEmail(user.getEmail())
+				.setRole(user.getRole());
+		
 	}
 
 

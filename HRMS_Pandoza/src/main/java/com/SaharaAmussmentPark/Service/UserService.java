@@ -7,6 +7,7 @@ import com.SaharaAmussmentPark.Dto.EmployeeResponse;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 
@@ -22,5 +23,5 @@ public interface UserService {
 	public Message<UserDto> sendOtp(String email);
 	public Message<UserDto>verifyOtp(String email,String otp);
 	public Message<EmployeeResponse>getByEmail(String email);
-	public Message<UserDto>findByEmail(String email);
+	public Message<RestTemplateDto>findByEmail(String email);
 }

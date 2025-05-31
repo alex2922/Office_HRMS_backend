@@ -23,6 +23,7 @@ import com.SaharaAmussmentPark.Dto.EmployeeResponse;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
@@ -411,10 +412,10 @@ private String password;
 	}
 
 	@Override
-	public Message<UserDto> findByEmail(String email) {
+	public Message<RestTemplateDto> findByEmail(String email) {
 		// TODO Auto-generated method stub
-				Message<UserDto> message=new Message<>();
-				UserDto dto=new UserDto();
+				Message<RestTemplateDto> message=new Message<>();
+				RestTemplateDto dto=new RestTemplateDto();
 				try {
 					  User user=userRepository.getByEmail(email);
 					  if(user==null) {
@@ -425,7 +426,7 @@ private String password;
 					  
 					  message.setStatus(HttpStatus.OK);
 					  message.setResponseMessage(constants.RECORD_FOUND);
-					  message.setData(userMapperImpl.userToUserDto(user));
+					  message.setData(userMapperImpl.userToRestTemplateDto(user));
 					  return message;
 				} catch (Exception e) {
 					message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);

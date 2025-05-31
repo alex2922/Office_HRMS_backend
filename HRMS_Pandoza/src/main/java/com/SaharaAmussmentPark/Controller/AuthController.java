@@ -17,6 +17,7 @@ import com.SaharaAmussmentPark.Dto.EmployeeResponse;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Service.UserService;
@@ -72,9 +73,9 @@ public class AuthController {
 		return ResponseEntity.status(httpStatus).body(message);
 	}
 	@GetMapping("/getUserByemail/{email}")
-	public ResponseEntity<Message<UserDto>> getUserById(@PathVariable String email) {
+	public ResponseEntity<Message<RestTemplateDto>> getUserById(@PathVariable String email) {
 		log.info("In usercontroller login() with request:{}", email);
-		Message<UserDto> message = userservice.findByEmail(email);
+		Message<RestTemplateDto> message = userservice.findByEmail(email);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 
