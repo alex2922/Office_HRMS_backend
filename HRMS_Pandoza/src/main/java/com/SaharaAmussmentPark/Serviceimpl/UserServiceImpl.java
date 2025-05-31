@@ -376,28 +376,15 @@ private String password;
 				  return message;
 			  }
 			  Employee employee=employeeRepository.findDetailsByuId(user.getUId());
-			  dto.setUId(user.getUId());
-		        dto.setEmail(user.getEmail());
-		        dto.setRole(user.getRole());
-		        dto.setEmployeeName(employee.getEmployeeName());
-		        dto.setEmployeeId(employee.getEmployeeId());
-		        dto.setGender(employee.getGender());
-		        dto.setEmployeeStatus(employee.getEmployeeStatus());
-		        dto.setDesignation(employee.getDesignation());
-		        dto.setDepartment(employee.getDepartment());
-		        dto.setDateOfJoining(employee.getDateOfJoining());
-		        dto.setDateOfLiving(employee.getDateOfLiving());
-		        dto.setContactNumber(employee.getContactNumber());
+			
 		        dto.setIfscCode(employee.getIfscCode());
-		        dto.setDateOfBirth(employee.getDateOfBirth());
-		        dto.setAadharNumber(employee.getAadharNumber());
+		       
 		        dto.setPanNumber(employee.getPanNumber());
 		        dto.setAccountNumber(employee.getAccountNumber());
-		        dto.setCosttoCompany(employee.getCosttoCompany());
-		        dto.setEmployeeSalary(employee.getEmployeeSalary());
+		       
 		        dto.setBankName(employee.getBankName());
-		        dto.setCompanyName(employee.getCompanyName());
-		        dto.setAddress(employee.getAddress());
+		      
+		        dto.setUanNo(employee.getUanNo());
 			  
 			  message.setStatus(HttpStatus.OK);
 			  message.setResponseMessage(constants.RECORD_FOUND);
