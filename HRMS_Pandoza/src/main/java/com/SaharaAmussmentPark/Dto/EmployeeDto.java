@@ -1,5 +1,6 @@
 package com.SaharaAmussmentPark.Dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -108,7 +109,8 @@ public class EmployeeDto {
     private String insuranceCompany;
 
 
-    private double esicNumber;
+    @Schema(required = false, description = "Optional ESIC number")
+    private String esicNumber;
 
 
 }

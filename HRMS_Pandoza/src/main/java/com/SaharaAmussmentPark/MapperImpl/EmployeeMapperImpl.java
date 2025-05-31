@@ -33,7 +33,6 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setIfscCode(employee.getIfscCode())
 				.setUanNo(employee.getUanNo())
 				.setUId(employee.getUId())
-				.setEsicNumber(employee.getEsicNumber())
 				.setPolicyNumber(employee.getPolicyNumber())
 				.setInsuranceCompany(employee.getInsuranceCompany());
 		
@@ -61,10 +60,7 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setGender(employeeDto.getGender())
 				.setIfscCode(employeeDto.getIfscCode())
 				.setUanNo(employeeDto.getUanNo())
-
 				.setUId(employeeDto.getUId())
-
-				.setEsicNumber(employeeDto.getEsicNumber())
 				.setPolicyNumber(employeeDto.getPolicyNumber())
 				.setInsuranceCompany(employeeDto.getInsuranceCompany());
 	}

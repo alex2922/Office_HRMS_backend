@@ -45,6 +45,7 @@ public class UserMapperImpl implements UserMapper {
 		return new RestTemplateDto().setUId(user.getUId())
 				.setEmail(user.getEmail())
 				.setRole(user.getRole());
+				
 		
 	}
 
