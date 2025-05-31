@@ -380,7 +380,6 @@ private String password;
 		        dto.setRole(user.getRole());
 		        dto.setEmployeeName(employee.getEmployeeName());
 		        dto.setEmployeeId(employee.getEmployeeId());
-		        dto.setAttendanceCode(employee.getAttendanceCode());
 		        dto.setGender(employee.getGender());
 		        dto.setEmployeeStatus(employee.getEmployeeStatus());
 		        dto.setDesignation(employee.getDesignation());
@@ -397,7 +396,6 @@ private String password;
 		        dto.setEmployeeSalary(employee.getEmployeeSalary());
 		        dto.setBankName(employee.getBankName());
 		        dto.setCompanyName(employee.getCompanyName());
-		        dto.setDiduction(employee.getDiduction());
 		        dto.setAddress(employee.getAddress());
 			  
 			  message.setStatus(HttpStatus.OK);

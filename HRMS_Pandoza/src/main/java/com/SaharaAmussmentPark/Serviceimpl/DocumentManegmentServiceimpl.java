@@ -33,9 +33,9 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 
 	@Override
 	public Map<String, Object> uploadDocuments(MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
-	                                           MultipartFile certificate, MultipartFile salarySlip, MultipartFile bankStatement,
-	                                           MultipartFile otherDocuments, MultipartFile latestEducationCertificateOrDegree,
-	                                           MultipartFile employeeImage, int uId) {
+            MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
+             MultipartFile latestEducationCertificateOrDegree,
+            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate, int uId) {
 
 	    Map<String, Object> response = new LinkedHashMap<>();
 	    try {
@@ -66,9 +66,14 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        documents.setPanCard(uploadFile(panCard, basePath, "panCard"));
 	        documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
 	        documents.setCertificate(uploadFile(certificate, basePath, "certificate"));
-	        documents.setSalarySlip(uploadFile(salarySlip, basePath, "salarySlip"));
+	        documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
+	        documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
+	        documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
 	        documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
-	        documents.setOtherDocuments(uploadFile(otherDocuments, basePath, "otherDocuments"));
+	        documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
+	        documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
+	        documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
+	        documents.setRelevingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
 	        documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
 	        documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
 
@@ -90,9 +95,9 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 
 	@Override
 	public Map<String, Object> updateDocuments(MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
-	                                           MultipartFile certificate, MultipartFile salarySlip, MultipartFile bankStatement,
-	                                           MultipartFile otherDocuments, MultipartFile latestEducationCertificateOrDegree,
-	                                           MultipartFile employeeImage, int uId) {
+            MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
+            MultipartFile latestEducationCertificateOrDegree,
+            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate, int uId) {
 	    Map<String, Object> response = new LinkedHashMap<>();
 	    try {
 	        // Step 1: Fetch existing Documents by uId
@@ -134,14 +139,29 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        if (certificate != null && !certificate.isEmpty()) {
 	            documents.setCertificate(uploadFile(certificate, basePath, "certificate"));
 	        }
-	        if (salarySlip != null && !salarySlip.isEmpty()) {
-	            documents.setSalarySlip(uploadFile(salarySlip, basePath, "salarySlip"));
+	        if (salarySlip1 != null && !salarySlip1.isEmpty()) {
+	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip"));
 	        }
 	        if (bankStatement != null && !bankStatement.isEmpty()) {
 	            documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
 	        }
-	        if (otherDocuments != null && !otherDocuments.isEmpty()) {
-	            documents.setOtherDocuments(uploadFile(otherDocuments, basePath, "otherDocuments"));
+	        if (salarySlip2 != null && !salarySlip2.isEmpty()) {
+	            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "otherDocuments"));
+	        }
+	        if (salarySlip3 != null && !salarySlip3.isEmpty()) {
+	        	documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "otherDocuments"));
+	        }
+	        if(tenthCertificate != null && !tenthCertificate.isEmpty()) {
+	        	documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
+	        }
+	        if(twelfthCertificate != null && !twelfthCertificate.isEmpty()) {
+		        documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "tenthCertificate"));
+	        }
+	        if(degreeCertificate != null && !degreeCertificate.isEmpty()) {
+	        	documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
+	        }
+	        if(relevingLetter != null && !relevingLetter.isEmpty()) {
+	        	documents.setRelevingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
 	        }
 	        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty()) {
 	            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
@@ -185,9 +205,14 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        documentsDto.setPanCard(documents.getPanCard());
 		        documentsDto.setExperianceLetter(documents.getExperianceLetter());
 		        documentsDto.setCertificate(documents.getCertificate());
-		        documentsDto.setSalarySlip(documents.getSalarySlip());
+		        documentsDto.setSalarySlip1(documents.getSalarySlip1());
+		        documentsDto.setSalarySlip2(documents.getSalarySlip2());
+		        documentsDto.setSalarySlip3(documents.getSalarySlip3());
 		        documentsDto.setBankStatement(documents.getBankStatement());
-		        documentsDto.setOtherDocuments(documents.getOtherDocuments());
+		       documentsDto.setTenthCertificate(documents.getTenthCertificate());
+		        documentsDto.setTwelfthCertificate(documents.getTwelfthCertificate());
+		        documentsDto.setDegreeCertificate(documents.getDegreeCertificate());
+		        documentsDto.setRelevingLetter(documents.getRelevingLetter());
 		        documentsDto.setLatestEducationCertificateOrDegree(documents.getLatestEducationCertificateOrDegree());
 		        documentsDto.setEmployeeImage(documents.getEmployeeImage());
 		        documentsDto.setUId(documents.getUId());

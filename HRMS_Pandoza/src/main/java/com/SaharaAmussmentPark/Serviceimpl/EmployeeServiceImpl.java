@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String uploadDirectory;
 
 	@Override
-	public Message<EmployeeDto> registerUser(@Valid EmployeeDto request, MultipartFile file) {
+	public Message<EmployeeDto> registerUser(@Valid EmployeeDto request) {
 		Message<EmployeeDto> response = new Message<>();
 		try {
 			Optional<Employee> existingEmployee = employeeRepository.findByEmployeeIdOrEmailOrAadharNumber(
@@ -73,7 +73,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Message<EmployeeDto> updateEmployee(@Valid EmployeeDto request, MultipartFile file) {
+	public Message<EmployeeDto> updateEmployee(@Valid EmployeeDto request) {
 		Message<EmployeeDto> response = new Message<>();
 		try {
 			// Check if Employee exists
@@ -97,9 +97,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 				return response;
 			}
 
-
-		        // Update fields
-		        employeeMapperImpl.employeeDtoToEmployee(request);
+			// Update fields
+			employeeMapperImpl.employeeDtoToEmployee(request);
 //		        employee.setEmployeeName(request.getEmployeeName());
 //		        employee.setDesignation(request.getDesignation());
 //		        employee.setDepartment(request.getDepartment());
@@ -132,15 +131,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setIfscCode(request.getIfscCode());
 			employee.setAccountNumber(request.getAccountNumber());
 			employee.setBankName(request.getBankName());
-			employee.setDiduction(request.getDiduction());
 			employee.setDateOfJoining(request.getDateOfJoining());
 			employee.setDateOfLiving(request.getDateOfLiving());
 			employee.setDateOfBirth(request.getDateOfBirth());
 			employee.setAadharNumber(request.getAadharNumber());
-			employee.setAttendanceCode(request.getAttendanceCode());
 			employee.setCompanyName(request.getCompanyName());
 			employee.setUanNo(request.getUanNo());
-
+			employee.setPolicyNumber(request.getPolicyNumber());
+			employee.setInsuranceCompany(request.getInsuranceCompany());
 
 			Employee updatedEmployee = employeeRepository.save(employee);
 

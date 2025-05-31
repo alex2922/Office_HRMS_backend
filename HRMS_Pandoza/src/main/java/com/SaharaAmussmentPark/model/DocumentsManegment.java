@@ -20,9 +20,14 @@ public class DocumentsManegment {
 	private String panCard;
 	private String experianceLetter;
 	private String certificate;
-	private String salarySlip;
+	private String salarySlip1;
+	private String salarySlip2;
+	private String salarySlip3;
 	private String bankStatement;
-	private String otherDocuments;
+	private String relevingLetter;
+	private String tenthCertificate;
+	private String twelfthCertificate;
+	private String degreeCertificate;
 	private String latestEducationCertificateOrDegree;
 	private String employeeImage;
 	private int uId;

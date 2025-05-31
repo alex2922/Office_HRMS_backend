@@ -82,7 +82,6 @@ public class SalaryMapperImpl implements SalaryMapper {
 				.setAccountNumber(emp.getAccountNumber())
 				.setBankName(emp.getBankName())
 				.setUanNo(emp.getUanNo())
-				.setSId(emp.getAttendanceCode())
 				.setEmployeeId(emp.getEmployeeId())
 				.setMonth(salary.getMonth())
 				.setYear(salary.getYear())

@@ -33,6 +33,9 @@ public class EmployeeResponse {
 	private double diduction;
 	private String employeeImage;
 	private String address;
+	private String policyNumber;
+	private String insuranceCompany;
 
+	private double esicNumber;
 
 }

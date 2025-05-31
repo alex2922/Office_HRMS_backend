@@ -47,9 +47,6 @@ public class EmployeeDto {
     @NotBlank(message = "Employee ID cannot be empty")
     private String employeeId;
 
-    @Min(value = 1, message = "Attendance Code must be greater than 0")
-    private int attendanceCode;
-
     @NotBlank(message = "Gender is required")
     private String gender;
 
@@ -107,6 +104,8 @@ public class EmployeeDto {
     private String uanNo;
 
     private int uId;
+    private String policyNumber;
+    private String insuranceCompany;
 
 
     private double esicNumber;

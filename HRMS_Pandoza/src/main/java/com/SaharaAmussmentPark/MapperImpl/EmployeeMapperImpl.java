@@ -15,7 +15,6 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setEId(employee.getEId())
 				.setAccountNumber(employee.getAccountNumber())
 				.setAddress(employee.getAddress())
-				.setAttendanceCode(employee.getAttendanceCode())
 				.setBankName(employee.getBankName())
 				.setCompanyName(employee.getCompanyName())
 				.setContactNumber(employee.getContactNumber())
@@ -25,7 +24,6 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setDateOfLiving(employee.getDateOfLiving())
 				.setDepartment(employee.getDepartment())
 				.setDesignation(employee.getDesignation())
-				.setDiduction(employee.getDiduction())
 				.setEmail(employee.getEmail())
 				.setEmployeeId(employee.getEmployeeId())
 				.setEmployeeName(employee.getEmployeeName())
@@ -35,7 +33,9 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setIfscCode(employee.getIfscCode())
 				.setUanNo(employee.getUanNo())
 				.setUId(employee.getUId())
-				.setEsicNumber(employee.getEsicNumber());
+				.setEsicNumber(employee.getEsicNumber())
+				.setPolicyNumber(employee.getPolicyNumber())
+				.setInsuranceCompany(employee.getInsuranceCompany());
 		
 	}
 
@@ -44,7 +44,6 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 		return new Employee().setAadharNumber(employeeDto.getAadharNumber())
 				.setAccountNumber(employeeDto.getAccountNumber())
 				.setAddress(employeeDto.getAddress())
-				.setAttendanceCode(employeeDto.getAttendanceCode())
 				.setBankName(employeeDto.getBankName())
 				.setCompanyName(employeeDto.getCompanyName())
 				.setContactNumber(employeeDto.getContactNumber())
@@ -54,7 +53,6 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setDateOfLiving(employeeDto.getDateOfLiving())
 				.setDepartment(employeeDto.getDepartment())
 				.setDesignation(employeeDto.getDesignation())
-				.setDiduction(employeeDto.getDiduction())
 				.setEmail(employeeDto.getEmail())
 				.setEmployeeId(employeeDto.getEmployeeId())
 				.setEmployeeName(employeeDto.getEmployeeName())
@@ -66,7 +64,9 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 
 				.setUId(employeeDto.getUId())
 
-				.setEsicNumber(employeeDto.getEsicNumber());
+				.setEsicNumber(employeeDto.getEsicNumber())
+				.setPolicyNumber(employeeDto.getPolicyNumber())
+				.setInsuranceCompany(employeeDto.getInsuranceCompany());
 	}
 
 

@@ -18,7 +18,6 @@ public class Employee {
 	private int eId;
 	private String employeeName;
 	private String employeeId;
-	private int attendanceCode;
 	private String gender;
 	private String employeeStatus;
 	private String designation;
@@ -36,7 +35,6 @@ public class Employee {
 	private double employeeSalary;
 	private String bankName;
 	private String companyName;
-	private double diduction;
 	private String address;
 	private String accNumber;
 	private String salaryMonth;
@@ -44,6 +42,8 @@ public class Employee {
 	private String otp;
     private String uanNo;
     private double esicNumber;
+    private String policyNumber;
+    private String insuranceCompany;
 
 	
 	

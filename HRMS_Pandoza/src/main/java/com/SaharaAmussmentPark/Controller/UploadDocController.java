@@ -39,9 +39,14 @@ public class UploadDocController {
 	            @RequestPart(value = "panCard", required = false) MultipartFile panCard,
 	            @RequestPart(value = "experianceLetter", required = false) MultipartFile experianceLetter,
 	            @RequestPart(value = "certificate", required = false) MultipartFile certificate,
-	            @RequestPart(value = "salarySlip", required = false) MultipartFile salarySlip,
+	            @RequestPart(value = "salarySlip1", required = false) MultipartFile salarySlip1,
+	            @RequestPart(value = "salarySlip2", required = false) MultipartFile salarySlip2,
+	            @RequestPart(value = "salarySlip3", required = false) MultipartFile salarySlip3,
 	            @RequestPart(value = "bankStatement", required = false) MultipartFile bankStatement,
-	            @RequestPart(value = "otherDocuments", required = false) MultipartFile otherDocuments,
+	            @RequestPart(value = "relevingletter", required = false) MultipartFile relevingletter,
+	            @RequestPart(value = "tenthCertificate", required = false) MultipartFile tenthCertificate,
+	            @RequestPart(value = "twelfthCertificate", required = false) MultipartFile twelfthCertificate,
+	            @RequestPart(value = "degreeCertificate", required = false) MultipartFile degreeCertificate,
 	            @RequestPart(value = "latestEducationCertificateOrDegree", required = false) MultipartFile latestEducationCertificateOrDegree,
 	            @RequestPart(value = "employeeImage", required = false) MultipartFile employeeImage,
 	            @RequestParam("uId") int uId
@@ -52,12 +57,16 @@ public class UploadDocController {
 	                    panCard,
 	                    experianceLetter,
 	                    certificate,
-	                    salarySlip,
+	                    salarySlip1,
+	                    salarySlip2,
+	                    salarySlip3,
 	                    bankStatement,
-	                    otherDocuments,
+	                    relevingletter,
+	                    tenthCertificate,
+	                    twelfthCertificate,
+	                    degreeCertificate,
 	                    latestEducationCertificateOrDegree,
-	                    employeeImage,
-	                    uId
+	                    employeeImage, uId
 	            );
 	            return new ResponseEntity<>(response, HttpStatus.OK);
 	        } catch (Exception e) {
@@ -70,15 +79,20 @@ public class UploadDocController {
 	    }
 	 @PutMapping("/update/{uId}")
 	    public ResponseEntity<Map<String, Object>> updateDocuments(
-	    		@RequestPart(value = "adharCard", required = false) MultipartFile adharCard,
-	    		@RequestPart(value = "panCard", required = false) MultipartFile panCard,
-	    		@RequestPart(value = "experianceLetter", required = false) MultipartFile experianceLetter,
-	    		@RequestPart(value = "certificate", required = false) MultipartFile certificate,
-	    		@RequestPart(value = "salarySlip", required = false) MultipartFile salarySlip,
-	    		@RequestPart(value = "bankStatement", required = false) MultipartFile bankStatement,
-	    		@RequestPart(value = "otherDocuments", required = false) MultipartFile otherDocuments,
-	    		@RequestPart(value = "latestEducationCertificateOrDegree", required = false) MultipartFile latestEducationCertificateOrDegree,
-	    		@RequestPart(value = "employeeImage", required = false) MultipartFile employeeImage,
+	    		  @RequestPart(value = "adharCard", required = false) MultipartFile adharCard,
+		            @RequestPart(value = "panCard", required = false) MultipartFile panCard,
+		            @RequestPart(value = "experianceLetter", required = false) MultipartFile experianceLetter,
+		            @RequestPart(value = "certificate", required = false) MultipartFile certificate,
+		            @RequestPart(value = "salarySlip1", required = false) MultipartFile salarySlip1,
+		            @RequestPart(value = "salarySlip2", required = false) MultipartFile salarySlip2,
+		            @RequestPart(value = "salarySlip3", required = false) MultipartFile salarySlip3,
+		            @RequestPart(value = "bankStatement", required = false) MultipartFile bankStatement,
+		            @RequestPart(value = "relevingletter", required = false) MultipartFile relevingletter,
+		            @RequestPart(value = "tenthCertificate", required = false) MultipartFile tenthCertificate,
+		            @RequestPart(value = "twelfthCertificate", required = false) MultipartFile twelfthCertificate,
+		            @RequestPart(value = "degreeCertificate", required = false) MultipartFile degreeCertificate,
+		            @RequestPart(value = "latestEducationCertificateOrDegree", required = false) MultipartFile latestEducationCertificateOrDegree,
+		            @RequestPart(value = "employeeImage", required = false) MultipartFile employeeImage,
 	            @PathVariable int uId) {
 
 	        Map<String, Object> response = documentManegmentServiceimpl.updateDocuments(
@@ -86,12 +100,16 @@ public class UploadDocController {
 	                panCard,
 	                experianceLetter,
 	                certificate,
-	                salarySlip,
+	                salarySlip1,
+	                salarySlip2,
+	                salarySlip3,
 	                bankStatement,
-	                otherDocuments,
+	                relevingletter,
+	                tenthCertificate,
+	                twelfthCertificate,
+	                degreeCertificate,
 	                latestEducationCertificateOrDegree,
-	                employeeImage,
-	                uId
+	                employeeImage, uId
 	        );
 
 	        HttpStatus status = (HttpStatus) response.get("status");
