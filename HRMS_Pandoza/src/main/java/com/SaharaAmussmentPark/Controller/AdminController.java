@@ -1,7 +1,6 @@
 package com.SaharaAmussmentPark.Controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,27 +13,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.SaharaAmussmentPark.Dto.DepartmentDto;
 import com.SaharaAmussmentPark.Dto.DesignationDto;
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
-import com.SaharaAmussmentPark.Dto.SalaryDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Service.DepartmentService;
 import com.SaharaAmussmentPark.Service.DesignationService;
 import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Service.OfficialLetterService;
-import com.SaharaAmussmentPark.Service.SalaryService;
 import com.SaharaAmussmentPark.Service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -50,19 +43,11 @@ public class AdminController {
 	private final DepartmentService departmentservice;
 	private final DesignationService designationservice;
 	private final EmployeeService employeeService;
-	private final SalaryService salaryService;
 	public final OfficialLetterService officialLetterservice;
 
 	
 	
-//	 @GetMapping("/download/{employeeId}/{month}")
-//	    public ResponseEntity<Message<SalaryDto>> getSalaryDetails(
-//	            @PathVariable String employeeId,
-//	            @PathVariable String month) {
-//	        
-//	        Message<SalaryDto> salaryResponse = salaryService.getSalaryDetails(employeeId, month);
-//	        return ResponseEntity.ok(salaryResponse);
-//	    }
+
 	
 	@PostMapping("/RegisterUser")
 	public ResponseEntity<Message<UserDto>> registerUser(@RequestBody UserDto user) {
@@ -217,34 +202,7 @@ public class AdminController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	} 
-	@PostMapping("/addSalary")
-	public ResponseEntity<Message<SalaryDto>> addUser(@RequestBody SalaryDto request) {
-		log.info("In usercontroller login() with request:{}", request);
-		Message<SalaryDto> message = salaryService.AddSalary(request);
-		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
-		return ResponseEntity.status(httpStatus).body(message);
-	}
-	@PutMapping("/updateSalary")
-	public ResponseEntity<Message<SalaryDto>> updateSalary(@RequestBody SalaryDto request){
-		log.info("In usercontroller login() with request:{}",request);
-		Message<SalaryDto> message = salaryService.UpdateSalary(request);
-		HttpStatus httpStatus =HttpStatus.valueOf(message.getStatus().value());
-		return ResponseEntity.status(httpStatus).body(message);
-	}
-	@DeleteMapping("/deleteSalary")
-	public ResponseEntity<Message<SalaryDto>> deleteSalary(@RequestParam("eId") int eId){
-		log.info("In usercontroller login() with request:{}",eId);
-		Message<SalaryDto> message=salaryService.DeleteSalary(eId);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
-		return ResponseEntity.status(httpStatus).body(message);
-	}
-	@GetMapping("/getSalaryById")
-	public ResponseEntity<Message<SalaryDto>> getSalaryById(@RequestParam("eId") int eId){
-		log.info("In usercontroller login() with request:{}",eId);
-		Message<SalaryDto> message=salaryService.getById(eId);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
-		return ResponseEntity.status(httpStatus).body(message);
-	}
+
 	@PostMapping("/addOfficialLetter")
 	public ResponseEntity<Message<OfficialLetterDto>> AddOfficialLetter(@RequestBody OfficialLetterDto request){
 		log.info("In usercontroller login() with request:{}",request);
@@ -275,15 +233,6 @@ public class AdminController {
 		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
-	@GetMapping("/salaryFilter/{month}/{year}")
-	public ResponseEntity<Map<String, Object>> getSalariesByEmployeeId(@PathVariable String month,@PathVariable String year) {
-		Map<String, Object> response = salaryService.findAllSalaryBymonthAndsalary(month,year);
-	    return ResponseEntity.ok(response);
-	}
-	@GetMapping("/getAllsalary/")
-	public ResponseEntity<Map<String, Object>> getAllSalaries() {
-		Map<String, Object> response = salaryService.getAllSalary();
-	    return ResponseEntity.ok(response);
-	}
+	
 	
 }
