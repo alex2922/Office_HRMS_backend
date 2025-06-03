@@ -34,7 +34,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setUanNo(employee.getUanNo())
 				.setUId(employee.getUId())
 				.setPolicyNumber(employee.getPolicyNumber())
-				.setInsuranceCompany(employee.getInsuranceCompany());
+				.setInsuranceCompany(employee.getInsuranceCompany())
+				.setEditableAccess(employee.isEditableAccess());
 		
 	}
 
@@ -62,7 +63,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setUanNo(employeeDto.getUanNo())
 				.setUId(employeeDto.getUId())
 				.setPolicyNumber(employeeDto.getPolicyNumber())
-				.setInsuranceCompany(employeeDto.getInsuranceCompany());
+				.setInsuranceCompany(employeeDto.getInsuranceCompany())
+				.setEditableAccess(true);
 	}
 
 

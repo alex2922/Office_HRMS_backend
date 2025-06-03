@@ -81,10 +81,9 @@ public class AdminController {
 	    return ResponseEntity.status(httpStatus).body(message);
 	}
 @GetMapping("/GetAllEmployee")
-	public ResponseEntity<List<Message<EmployeeDto>>> getAllEmployee(@RequestParam("Page") int page,
-			@RequestParam("Size") int size) {
+	public ResponseEntity<List<Message<EmployeeDto>>> getAllEmployee() {
 		log.info("In AdminController getAllUser()");
-		List<Message<EmployeeDto>> message = employeeService.getAllEmployee(page, size);
+		List<Message<EmployeeDto>> message = employeeService.getAllEmployee();
 		return ResponseEntity.status(HttpStatus.OK).body(message);
 	}
 @GetMapping("/GetEmployee/{employeeId}")
@@ -95,10 +94,9 @@ public class AdminController {
 	}
 
 	@GetMapping("/GetAllUser")
-	public ResponseEntity<List<Message<UserDto>>> getAllUser(@RequestParam("Page") int page,
-			@RequestParam("Size") int size) {
+	public ResponseEntity<List<Message<UserDto>>> getAllUser() {
 		log.info("In AdminController getAllUser()");
-		List<Message<UserDto>> message = userservice.getAllUsers(page, size);
+		List<Message<UserDto>> message = userservice.getAllUsers();
 		return ResponseEntity.status(HttpStatus.OK).body(message);
 	}
 

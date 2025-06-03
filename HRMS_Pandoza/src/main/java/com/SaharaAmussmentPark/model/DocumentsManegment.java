@@ -33,7 +33,7 @@ public class DocumentsManegment {
 	private String diplomaCertificate;
 	
 	private int uId;
-	private String EmployeeId;
+	private String employeeId;
 	private String employeeName;
 
 }

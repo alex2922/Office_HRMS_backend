@@ -111,6 +111,7 @@ public class EmployeeDto {
 
     @Schema(required = false, description = "Optional ESIC number")
     private String esicNumber;
+    private boolean editableAccess; 
 
 
 }

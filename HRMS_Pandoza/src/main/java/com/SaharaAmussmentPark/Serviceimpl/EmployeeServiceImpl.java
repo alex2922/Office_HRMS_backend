@@ -177,13 +177,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<Message<EmployeeDto>> getAllEmployee(Integer Page, Integer Size) {
+	public List<Message<EmployeeDto>> getAllEmployee() {
 		List<Message<EmployeeDto>> message = new ArrayList<>();
 		try {
-			int pageNumber = (Page == null || Page <= 0) ? 0 : Page - 1;
-			int pageSize = (Size == null || Size <= 0) ? 10 : Size;
-			Pageable pageable = PageRequest.of(pageNumber, pageSize);
-			Page<Employee> employees = employeeRepository.findAll(pageable);
+			
+			List<Employee> employees = employeeRepository.findAll();
 			if (employees == null || employees.isEmpty()) {
 				Message<EmployeeDto> message1 = new Message<>();
 				message1.setStatus(HttpStatus.NOT_FOUND);

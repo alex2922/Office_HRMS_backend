@@ -36,14 +36,13 @@ public class Employee {
 	private String bankName;
 	private String companyName;
 	private String address;
-	private String accNumber;
-	private String salaryMonth;
     private int uId;
 	private String otp;
     private String uanNo;
     private double esicNumber;
     private String policyNumber;
     private String insuranceCompany;
+    private boolean editableAccess; 
 
 	
 	

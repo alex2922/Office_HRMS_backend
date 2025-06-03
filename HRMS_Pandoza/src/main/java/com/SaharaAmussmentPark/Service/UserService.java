@@ -15,7 +15,7 @@ import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 public interface UserService {
 	public Message<UserDto>registerUser(UserDto request);
 	public Message<LoginResponseDto>loginUser(LoginDto request);
-	public List<Message<UserDto>>getAllUsers(Integer page, Integer size);
+	public List<Message<UserDto>>getAllUsers();
 	public Message<UserDto>updateUser(UserDto request);
 	public Message<UserDto>deleteUser(Integer uId);
 	public Message<userdetailsResponseDto>getUserById(Integer uId);

@@ -12,4 +12,6 @@ public interface DocumentsRepository extends JpaRepository<DocumentsManegment, I
 
 	Optional<DocumentsManegment> findByuId(int uId);
 
+	Optional<DocumentsManegment> findByemployeeId(String employeeId);
+
 }

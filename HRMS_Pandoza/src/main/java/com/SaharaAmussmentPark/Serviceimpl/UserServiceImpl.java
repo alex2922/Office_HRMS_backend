@@ -1,6 +1,5 @@
 package com.SaharaAmussmentPark.Serviceimpl;
 
-
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,49 +47,49 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class UserServiceImpl implements UserService {
-private final UserMapper userMapperImpl;
-private final UserRepository userRepository;
-private final EmployeeRepository employeeRepository;
-private final JwtService jwtService;
-private final OTPGenerateService otpService;
-private final EmailService emailService;
-private final  Configuration config;
+	private final UserMapper userMapperImpl;
+	private final UserRepository userRepository;
+	private final EmployeeRepository employeeRepository;
+	private final JwtService jwtService;
+	private final OTPGenerateService otpService;
+	private final EmailService emailService;
+	private final Configuration config;
 
-@Value("${spring.mail.username}") 
-private String sender;
-@Value("${spring.mail.password}")
-private String password;
+	@Value("${spring.mail.username}")
+	private String sender;
+	@Value("${spring.mail.password}")
+	private String password;
 
 	@Override
 	public Message<UserDto> registerUser(UserDto request) {
-          Message<UserDto> message=new Message<>();
-          try {
-          User user=userRepository.getByEmail(request.getEmail());
-          if(user!=null) {
-        	  message.setResponseMessage(constants.EMAIL_ALREADY_EXISTS);
-        	  message.setStatus(HttpStatus.CONFLICT);
-        	  return message;
-		  }
-		  user=userMapperImpl.userDtoToUser(request);
-		  userRepository.save(user);
-		  message.setResponseMessage(constants.USER_REGISTERED_SUCCESSFULLY);
-		  message.setStatus(HttpStatus.OK);
-		  message.setData(userMapperImpl.userToUserDto(user));
-		  return message;
-          }catch (Exception e) {
-  			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-  			message.setResponseMessage(e.getMessage());
-  			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-  			return message;
+		Message<UserDto> message = new Message<>();
+		try {
+			User user = userRepository.getByEmail(request.getEmail());
+			if (user != null) {
+				message.setResponseMessage(constants.EMAIL_ALREADY_EXISTS);
+				message.setStatus(HttpStatus.CONFLICT);
+				return message;
+			}
+			user = userMapperImpl.userDtoToUser(request);
+			userRepository.save(user);
+			message.setResponseMessage(constants.USER_REGISTERED_SUCCESSFULLY);
+			message.setStatus(HttpStatus.OK);
+			message.setData(userMapperImpl.userToUserDto(user));
+			return message;
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+			return message;
 
-  		}
+		}
 	}
 
 	@Override
 	public Message<LoginResponseDto> loginUser(LoginDto request) {
 		Message<LoginResponseDto> message = new Message<>();
 		User user = null;
-		LoginResponseDto userloginDto =null;
+		LoginResponseDto userloginDto = null;
 		try {
 			user = userRepository.getByEmailAndPassword(request.getEmail(), request.getPassword());
 			if (user == null) {
@@ -99,9 +98,9 @@ private String password;
 				log.info("RECORD_NOT_FOUND");
 				return message;
 			}
-			 String token=jwtService.genrateToken(user);
-			 userloginDto=userMapperImpl.userToLoginResponseDto(user);
-			 userloginDto.setToken(token);
+			String token = jwtService.genrateToken(user);
+			userloginDto = userMapperImpl.userToLoginResponseDto(user);
+			userloginDto.setToken(token);
 			message.setStatus(HttpStatus.OK);
 			message.setResponseMessage(constants.LOGIN_SUCCESSFULL);
 			message.setData(userloginDto);
@@ -116,57 +115,50 @@ private String password;
 	}
 
 	@Override
-	public List<Message<UserDto>> getAllUsers(Integer page, Integer size) {
-			List<Message<UserDto>> messages = new ArrayList<>(); 
-		    try {
-		    	 int pageNumber = (page == null || page <= 0) ? 0 : page - 1;
+	public List<Message<UserDto>> getAllUsers() {
+		List<Message<UserDto>> messages = new ArrayList<>();
+		try {
+			List<User> users = userRepository.findAll();
 
-		         int pageSize = (size == null || size <= 0) ? 10 : size;
+			if (users == null || users.isEmpty()) {
+				Message<UserDto> message = new Message<>();
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				messages.add(message);
+				return messages;
+			}
+			for (User user : users) {
+				Message<UserDto> message = new Message<>();
+				{
+					message.setStatus(HttpStatus.OK);
+					message.setResponseMessage(constants.RECORD_FOUND);
+					message.setData(userMapperImpl.userToUserDto(user));
+				}
+				messages.add(message);
+			}
 
-		         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-				Page<User> users = userRepository.findAll(pageable);
-		        
-		        if (users == null || users.isEmpty()) { 
-		            Message<UserDto> message = new Message<>();
-		            message.setStatus(HttpStatus.NOT_FOUND);
-		            message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-		            messages.add(message);
-		            return messages;
-		        }
-		        
-		        for (User user : users) { 
-		            Message<UserDto> message = new Message<>();
-		            
-		            {
-		                message.setStatus(HttpStatus.OK);
-		                message.setResponseMessage(constants.RECORD_FOUND);
-		                message.setData(userMapperImpl.userToUserDto(user)); 
-		            }
-		            messages.add(message); 
-		        }
-		        
-		        return messages; 
-		    } catch (Exception e) {
-		        Message<UserDto> errorMessage = new Message<>();
-		        errorMessage.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		        errorMessage.setResponseMessage(e.getMessage());
-		        log.error("SOMETHING_WENT_WRONG" + "  " + errorMessage.getResponseMessage());
-		        messages.add(errorMessage);
-		        return messages;
-		    }
+			return messages;
+		} catch (Exception e) {
+			Message<UserDto> errorMessage = new Message<>();
+			errorMessage.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			errorMessage.setResponseMessage(e.getMessage());
+			log.error("SOMETHING_WENT_WRONG" + "  " + errorMessage.getResponseMessage());
+			messages.add(errorMessage);
+			return messages;
 		}
+	}
 
 	@Override
 	public Message<UserDto> updateUser(UserDto request) {
-		Message<UserDto> message=new Message<>();
+		Message<UserDto> message = new Message<>();
 		try {
-			User user= userRepository.getById(request.getUId());
-			if(user==null) {
+			User user = userRepository.getById(request.getUId());
+			if (user == null) {
 				message.setStatus(HttpStatus.NOT_FOUND);
 				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
 				return message;
 			}
-			user=userMapperImpl.userDtoToUser(request);
+			user = userMapperImpl.userDtoToUser(request);
 			userRepository.save(user);
 			message.setStatus(HttpStatus.OK);
 			message.setResponseMessage(constants.USER_UPDATED_SUCCESSFULLY);
@@ -182,214 +174,214 @@ private String password;
 
 	@Override
 	public Message<userdetailsResponseDto> getUserById(Integer uId) {
-		Message<userdetailsResponseDto> message=new Message<>();
+		Message<userdetailsResponseDto> message = new Message<>();
 		try {
-		    User user = userRepository.getById(uId);
-		    if (user == null) {
-		        message.setStatus(HttpStatus.NOT_FOUND);
-		        message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-		        return message;
-		    }
+			User user = userRepository.getById(uId);
+			if (user == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				return message;
+			}
 
-		    Employee emp = employeeRepository.findByuId(uId);
-		    if (emp == null) {
-		        message.setStatus(HttpStatus.NOT_FOUND);
-		        message.setResponseMessage("Employee record not found");
-		        return message;
-		    }
+			Employee emp = employeeRepository.findByuId(uId);
+			if (emp == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage("Employee record not found");
+				return message;
+			}
 
-		    // Map user and employee to DTO
-		    userdetailsResponseDto responseDto = new userdetailsResponseDto();
-		    responseDto.setUId(user.getUId());
-		    responseDto.setEmail(user.getEmail());
-		    responseDto.setRole(user.getRole());
-		    responseDto.setEmployeeId(emp.getEmployeeId()); // assuming it's a String or matches type
+			// Map user and employee to DTO
+			userdetailsResponseDto responseDto = new userdetailsResponseDto();
+			responseDto.setUId(user.getUId());
+			responseDto.setEmail(user.getEmail());
+			responseDto.setRole(user.getRole());
+			responseDto.setEmployeeId(emp.getEmployeeId()); // assuming it's a String or matches type
 
-		    message.setStatus(HttpStatus.OK);
-		    message.setResponseMessage(constants.RECORD_FOUND);
-		    message.setData(responseDto);
-		    return message;
+			message.setStatus(HttpStatus.OK);
+			message.setResponseMessage(constants.RECORD_FOUND);
+			message.setData(responseDto);
+			return message;
 
 		} catch (Exception e) {
-		    message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		    message.setResponseMessage(e.getMessage());
-		    log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-		    return message;
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+			return message;
 		}
 	}
+
 	@Override
 	public Message<UserDto> sendOtp(String email) {
-		   Message<UserDto> message = new Message<>();
-	        User user= userRepository.getByEmail(email);
-	        try {
-	        	if (user==null) {
-					message.setStatus(HttpStatus.NOT_FOUND);
-					message.setResponseMessage(constants.RECORD_NOT_FOUND);
-					return message;
-				}else {
-					String otp = otpService.generateOTP(email);
-					Properties props = new Properties();
-					Session session = Session.getInstance(props, new Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(sender, password);
-						}
-					});
-					
-					MimeMessage mailMessage = new MimeMessage(session);
-
-					MimeMessageHelper helper = new MimeMessageHelper(mailMessage,
-							MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-					Map<String, Object> model = new HashMap<>();
-					model.put("request1", otp);
-					model.put("user", user);
-					Template t = config.getTemplate("Otp.html");
-					String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-//					 SimpleMailMessage mailMessage = new SimpleMailMessage();
-			            helper.setFrom(sender);
-			            helper.setTo(user.getEmail());
-			            helper.setSubject("Forgot Password!!");
-			            helper.setText(html,true);
-
-					
-					emailService.sendEmail(mailMessage);
-					user.setOtp(otp);
-					userRepository.save(user);
-					message.setStatus(HttpStatus.OK);
-					message.setResponseMessage(constants.OTP_SENT_SUCCESSFULLY);
-					return message;
-				}
-			} catch (Exception e) {
-				message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-				message.setResponseMessage(e.getMessage());
+		Message<UserDto> message = new Message<>();
+		User user = userRepository.getByEmail(email);
+		try {
+			if (user == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.RECORD_NOT_FOUND);
 				return message;
-	        }
-	        
+			} else {
+				String otp = otpService.generateOTP(email);
+				Properties props = new Properties();
+				Session session = Session.getInstance(props, new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(sender, password);
+					}
+				});
+
+				MimeMessage mailMessage = new MimeMessage(session);
+
+				MimeMessageHelper helper = new MimeMessageHelper(mailMessage,
+						MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+				Map<String, Object> model = new HashMap<>();
+				model.put("request1", otp);
+				model.put("user", user);
+				Template t = config.getTemplate("Otp.html");
+				String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+//					 SimpleMailMessage mailMessage = new SimpleMailMessage();
+				helper.setFrom(sender);
+				helper.setTo(user.getEmail());
+				helper.setSubject("Forgot Password!!");
+				helper.setText(html, true);
+
+				emailService.sendEmail(mailMessage);
+				user.setOtp(otp);
+				userRepository.save(user);
+				message.setStatus(HttpStatus.OK);
+				message.setResponseMessage(constants.OTP_SENT_SUCCESSFULLY);
+				return message;
+			}
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			return message;
 		}
+
+	}
+
 	@Override
 	public Message<UserDto> verifyOtp(String email, String otp) {
-		 Message<UserDto> message = new Message<>();
-		    try {
-		        User user = userRepository.getByEmail(email);
-		        
-		        if (user == null) {
-		            message.setStatus(HttpStatus.NOT_FOUND);
-		            message.setResponseMessage(constants.USER_NOT_FOUND);
-		            return message;
-		        }
-		        
-		        if (user.getOtp() != null && user.getOtp().equals(otp)) {
-		            message.setStatus(HttpStatus.OK);
-		            message.setResponseMessage(constants.OTP_VERIFIED_SUCCESSFULLY);
-		        } else {
-		            message.setStatus(HttpStatus.BAD_REQUEST);
-		            message.setResponseMessage(constants.INVALID_OTP);
-		        }
-		        
-		    } catch (Exception e) {
-		        message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		        message.setResponseMessage(constants.SOMETHING_WENT_WRONG + ": " + e.getMessage());
-		    }
-		    return message;
+		Message<UserDto> message = new Message<>();
+		try {
+			User user = userRepository.getByEmail(email);
+
+			if (user == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_NOT_FOUND);
+				return message;
+			}
+
+			if (user.getOtp() != null && user.getOtp().equals(otp)) {
+				message.setStatus(HttpStatus.OK);
+				message.setResponseMessage(constants.OTP_VERIFIED_SUCCESSFULLY);
+			} else {
+				message.setStatus(HttpStatus.BAD_REQUEST);
+				message.setResponseMessage(constants.INVALID_OTP);
+			}
+
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(constants.SOMETHING_WENT_WRONG + ": " + e.getMessage());
 		}
+		return message;
+	}
 
 	@Override
 	public Message<UserDto> updatePassword(ChangePasswordDto request) {
-      Message<UserDto> message=new Message<>();
-      try {
-    	  User user=userRepository.getByEmail(request.getEmail());
-		  if(user==null) {
-			  message.setStatus(HttpStatus.NOT_FOUND);
-			  message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-			  return message;
-		  }
-		  else if(user.getPassword().equals(request.getNewPassword())) {
-			  message.setStatus(HttpStatus.BAD_REQUEST);
-			  message.setResponseMessage(constants.PASSWORD_AND_NEW_PASSWORD_SHOULD_NOT_BE_SAME);
-			  return message;
-			  
-		  }
-		  if (request.getNewPassword().equals(request.getConfirmPassword())) {
-			  user.setPassword(request.getNewPassword());
-			  userRepository.save(user);
-			  message.setStatus(HttpStatus.OK);
-			  message.setResponseMessage(constants.PASSWORD_CHANGED_SUCCESSFULLY);
-			  message.setData(userMapperImpl.userToUserDto(user));
-			  return message;
-		  } else {
-			  message.setStatus(HttpStatus.BAD_REQUEST);
-			  message.setResponseMessage(constants.PASSWORD_NOT_MATCHED);
-			  return message;
-		  }
-	  } catch (Exception e) {
-		  message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		  message.setResponseMessage(e.getMessage());
-		  log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-		  return message;
-      }
+		Message<UserDto> message = new Message<>();
+		try {
+			User user = userRepository.getByEmail(request.getEmail());
+			if (user == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				return message;
+			} else if (user.getPassword().equals(request.getNewPassword())) {
+				message.setStatus(HttpStatus.BAD_REQUEST);
+				message.setResponseMessage(constants.PASSWORD_AND_NEW_PASSWORD_SHOULD_NOT_BE_SAME);
+				return message;
+
+			}
+			if (request.getNewPassword().equals(request.getConfirmPassword())) {
+				user.setPassword(request.getNewPassword());
+				userRepository.save(user);
+				message.setStatus(HttpStatus.OK);
+				message.setResponseMessage(constants.PASSWORD_CHANGED_SUCCESSFULLY);
+				message.setData(userMapperImpl.userToUserDto(user));
+				return message;
+			} else {
+				message.setStatus(HttpStatus.BAD_REQUEST);
+				message.setResponseMessage(constants.PASSWORD_NOT_MATCHED);
+				return message;
+			}
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+			return message;
+		}
 	}
 
 	@Override
 	public Message<UserDto> deleteUser(Integer uId) {
-		Message<UserDto> message=new Message<>();
+		Message<UserDto> message = new Message<>();
 		try {
-		 Optional<User> userOptional = userRepository.findById(uId);
-	        if (userOptional.isEmpty()) {
-	            message.setStatus(HttpStatus.NOT_FOUND);
-	            message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-	            return message;
-	        }
-	        
-	        User user = userOptional.get();
+			Optional<User> userOptional = userRepository.findById(uId);
+			if (userOptional.isEmpty()) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				return message;
+			}
 
-	        // Check if Employee exists for the given uId
-	        Optional<Employee> employeeOptional = employeeRepository.findById(uId);
-	        employeeOptional.ifPresent(employee -> {
-	            employeeRepository.delete(employee); // Delete Employee record if found
-	        });
+			User user = userOptional.get();
 
-	        // Delete User record
-	        userRepository.delete(user);
+			// Check if Employee exists for the given uId
+			Optional<Employee> employeeOptional = employeeRepository.findById(uId);
+			employeeOptional.ifPresent(employee -> {
+				employeeRepository.delete(employee); // Delete Employee record if found
+			});
 
-	        message.setStatus(HttpStatus.OK);
-	        message.setResponseMessage(constants.USER_DELETED_SUCCESSFULLY);
-	        return message;
+			// Delete User record
+			userRepository.delete(user);
 
-	    } catch (Exception e) {
-	        message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-	        message.setResponseMessage(e.getMessage());
-	        log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-	        return message;
-	    }
+			message.setStatus(HttpStatus.OK);
+			message.setResponseMessage(constants.USER_DELETED_SUCCESSFULLY);
+			return message;
 
-}
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+			return message;
+		}
+
+	}
 
 	@Override
 	public Message<EmployeeResponse> getByEmail(String email) {
 		// TODO Auto-generated method stub
-		Message<EmployeeResponse> message=new Message<>();
-		EmployeeResponse dto=new EmployeeResponse();
+		Message<EmployeeResponse> message = new Message<>();
+		EmployeeResponse dto = new EmployeeResponse();
 		try {
-			  User user=userRepository.getByEmail(email);
-			  if(user==null) {
-				  message.setStatus(HttpStatus.NOT_FOUND);
-				  message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-				  return message;
-			  }
-			  Employee employee=employeeRepository.findDetailsByuId(user.getUId());
-			
-		        dto.setIfscCode(employee.getIfscCode());
-		       
-		        dto.setPanNumber(employee.getPanNumber());
-		        dto.setAccountNumber(employee.getAccountNumber());
-		       
-		        dto.setBankName(employee.getBankName());
-		      
-		        dto.setUanNo(employee.getUanNo());
-			  
-			  message.setStatus(HttpStatus.OK);
-			  message.setResponseMessage(constants.RECORD_FOUND);
-			  message.setData(dto);
-			  return message;
+			User user = userRepository.getByEmail(email);
+			if (user == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				return message;
+			}
+			Employee employee = employeeRepository.findDetailsByuId(user.getUId());
+
+			dto.setIfscCode(employee.getIfscCode());
+
+			dto.setPanNumber(employee.getPanNumber());
+			dto.setAccountNumber(employee.getAccountNumber());
+
+			dto.setBankName(employee.getBankName());
+
+			dto.setUanNo(employee.getUanNo());
+
+			message.setStatus(HttpStatus.OK);
+			message.setResponseMessage(constants.RECORD_FOUND);
+			message.setData(dto);
+			return message;
 		} catch (Exception e) {
 			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			message.setResponseMessage(e.getMessage());
@@ -401,27 +393,26 @@ private String password;
 	@Override
 	public Message<RestTemplateDto> findByEmail(String email) {
 		// TODO Auto-generated method stub
-				Message<RestTemplateDto> message=new Message<>();
-				RestTemplateDto dto=new RestTemplateDto();
-				try {
-					  User user=userRepository.getByEmail(email);
-					  if(user==null) {
-						  message.setStatus(HttpStatus.NOT_FOUND);
-						  message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-						  return message;
-					  }
-					  
-					  message.setStatus(HttpStatus.OK);
-					  message.setResponseMessage(constants.RECORD_FOUND);
-					  message.setData(userMapperImpl.userToRestTemplateDto(user));
-					  return message;
-				} catch (Exception e) {
-					message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-					message.setResponseMessage(e.getMessage());
-					log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-					return message;
-				}
+		Message<RestTemplateDto> message = new Message<>();
+		RestTemplateDto dto = new RestTemplateDto();
+		try {
+			User user = userRepository.getByEmail(email);
+			if (user == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				return message;
+			}
+
+			message.setStatus(HttpStatus.OK);
+			message.setResponseMessage(constants.RECORD_FOUND);
+			message.setData(userMapperImpl.userToRestTemplateDto(user));
+			return message;
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+			return message;
+		}
 	}
 
-	
 }

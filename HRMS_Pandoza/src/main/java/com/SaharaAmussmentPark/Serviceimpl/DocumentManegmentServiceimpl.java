@@ -80,6 +80,8 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 
 	        // Step 4: Save to DB
 	        documentrepository.save(documents);
+	        employee.setEditableAccess(false);
+	        employeeRepository.save(employee);
 
 	        response.put("status", HttpStatus.OK);
 	        response.put("message", "Documents uploaded successfully");
@@ -190,14 +192,14 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	    }
 	}
 	@Override
-	public Map<String, Object> getDocuments(int uId) {
+	public Map<String, Object> getDocuments(String EmployeeId) {
 		 Map<String, Object> response = new LinkedHashMap<>();
 		    try {
 		        // Step 1: Fetch existing Documents by uId
-		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
+		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByemployeeId(EmployeeId);
 		        if (existingDocOpt.isEmpty()) {
 		            response.put("status", HttpStatus.NOT_FOUND);
-		            response.put("message", "Documents not found for uId: " + uId);
+		            response.put("message", "Documents not found for uId: " + EmployeeId);
 		            return response;
 		        }
 
@@ -225,7 +227,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        documentsDto.setDId(documents.getDId());
 
 		        response.put("status", HttpStatus.OK);
-		        response.put("message", "Documents found for uId: " + uId);
+		        response.put("message", "Documents found for EmployeeId: " + EmployeeId);
 		        response.put("data", documentsDto);
 		        return response;
 		    } catch (Exception e) {
@@ -244,6 +246,9 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	            if (!created) {
 	                throw new IOException("Failed to create directory: " + directory.getAbsolutePath());
 	            }
+	        }
+	        if(file.getSize() > 2 * 1024 * 1024) {
+	        	throw new IOException("File size should be less than 2MB");
 	        }
 
 	        String originalFilename = file.getOriginalFilename();

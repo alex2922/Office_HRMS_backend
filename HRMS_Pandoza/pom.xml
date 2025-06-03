@@ -11,7 +11,7 @@
 	<groupId>com.NVMAdminPanel</groupId>
 	<artifactId>HRMS_Pandoza</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>HRMS_Pandoza</name>
 	<description>NVMAdminPanel</description>
 	<url/>
@@ -150,6 +150,8 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							        <version>1.18.32</version> <!-- Add a valid version -->
+
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
