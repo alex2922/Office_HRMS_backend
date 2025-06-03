@@ -43,12 +43,13 @@ public class UploadDocController {
 	            @RequestPart(value = "salarySlip2", required = false) MultipartFile salarySlip2,
 	            @RequestPart(value = "salarySlip3", required = false) MultipartFile salarySlip3,
 	            @RequestPart(value = "bankStatement", required = false) MultipartFile bankStatement,
-	            @RequestPart(value = "relevingletter", required = false) MultipartFile relevingletter,
+	            @RequestPart(value = "relievingLetter", required = false) MultipartFile relevingletter,
 	            @RequestPart(value = "tenthCertificate", required = false) MultipartFile tenthCertificate,
 	            @RequestPart(value = "twelfthCertificate", required = false) MultipartFile twelfthCertificate,
 	            @RequestPart(value = "degreeCertificate", required = false) MultipartFile degreeCertificate,
 	            @RequestPart(value = "latestEducationCertificateOrDegree", required = false) MultipartFile latestEducationCertificateOrDegree,
 	            @RequestPart(value = "employeeImage", required = false) MultipartFile employeeImage,
+	            @RequestPart(value = "diplomaCertificate", required = false) MultipartFile diplomaCertificate,
 	            @RequestParam("uId") int uId
 	    ) {
 	        try {
@@ -66,7 +67,8 @@ public class UploadDocController {
 	                    twelfthCertificate,
 	                    degreeCertificate,
 	                    latestEducationCertificateOrDegree,
-	                    employeeImage, uId
+	                    employeeImage,
+	                    diplomaCertificate,uId
 	            );
 	            return new ResponseEntity<>(response, HttpStatus.OK);
 	        } catch (Exception e) {
@@ -93,6 +95,7 @@ public class UploadDocController {
 		            @RequestPart(value = "degreeCertificate", required = false) MultipartFile degreeCertificate,
 		            @RequestPart(value = "latestEducationCertificateOrDegree", required = false) MultipartFile latestEducationCertificateOrDegree,
 		            @RequestPart(value = "employeeImage", required = false) MultipartFile employeeImage,
+		            @RequestPart(value = "diplomaCertificate", required = false) MultipartFile diplomaCertificate,
 	            @PathVariable int uId) {
 
 	        Map<String, Object> response = documentManegmentServiceimpl.updateDocuments(
@@ -109,7 +112,8 @@ public class UploadDocController {
 	                twelfthCertificate,
 	                degreeCertificate,
 	                latestEducationCertificateOrDegree,
-	                employeeImage, uId
+	                employeeImage, 
+	                diplomaCertificate,uId
 	        );
 
 	        HttpStatus status = (HttpStatus) response.get("status");

@@ -35,7 +35,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	public Map<String, Object> uploadDocuments(MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
             MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
              MultipartFile latestEducationCertificateOrDegree,
-            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate, int uId) {
+            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile diplomaCertificate, int uId) {
 
 	    Map<String, Object> response = new LinkedHashMap<>();
 	    try {
@@ -73,9 +73,10 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
 	        documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
 	        documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
-	        documents.setRelevingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
+	        documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
 	        documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
 	        documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
+	        documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
 
 	        // Step 4: Save to DB
 	        documentrepository.save(documents);
@@ -97,7 +98,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	public Map<String, Object> updateDocuments(MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
             MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
             MultipartFile latestEducationCertificateOrDegree,
-            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate, int uId) {
+            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile diplomaCertificate, int uId) {
 	    Map<String, Object> response = new LinkedHashMap<>();
 	    try {
 	        // Step 1: Fetch existing Documents by uId
@@ -161,13 +162,16 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        	documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
 	        }
 	        if(relevingLetter != null && !relevingLetter.isEmpty()) {
-	        	documents.setRelevingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
+	        	documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
 	        }
 	        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty()) {
 	            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
 	        }
 	        if (employeeImage != null && !employeeImage.isEmpty()) {
 	            documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
+	        }
+	        if (diplomaCertificate != null && !employeeImage.isEmpty()) {
+	            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "employeeImage"));
 	        }
 
 	        // Step 5: Save updated DocumentsManegment entity
@@ -212,7 +216,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		       documentsDto.setTenthCertificate(documents.getTenthCertificate());
 		        documentsDto.setTwelfthCertificate(documents.getTwelfthCertificate());
 		        documentsDto.setDegreeCertificate(documents.getDegreeCertificate());
-		        documentsDto.setRelevingLetter(documents.getRelevingLetter());
+		        documentsDto.setRelievingLetter(documents.getRelievingLetter());
 		        documentsDto.setLatestEducationCertificateOrDegree(documents.getLatestEducationCertificateOrDegree());
 		        documentsDto.setEmployeeImage(documents.getEmployeeImage());
 		        documentsDto.setUId(documents.getUId());
