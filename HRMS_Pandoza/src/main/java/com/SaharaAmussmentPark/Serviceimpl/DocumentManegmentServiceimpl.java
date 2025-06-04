@@ -262,7 +262,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        File destFile = new File(directory, newFileName);
 	        file.transferTo(destFile);
 
-	        return "https://media.saharaamusement.com/sahara/" + newFileName;
+	        return "https://diwise.cloud/Hrms/" + directory.getName() + "/"+ newFileName;
 	    }
 
 	    throw new IOException("File is empty or null");
