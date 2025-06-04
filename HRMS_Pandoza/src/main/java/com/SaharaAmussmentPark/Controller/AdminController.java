@@ -233,4 +233,13 @@ public class AdminController {
 	}
 	
 	
+	@PostMapping("/EditAccess")
+	public ResponseEntity<Message<EmployeeDto>> AddOfficialLetterType(@RequestParam("eid") int eid){
+		log.info("In AdminController login() with request:{}",eid);
+		Message<EmployeeDto> message=employeeService.ApproveEdit(eid);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+		
+	}
+	
 }

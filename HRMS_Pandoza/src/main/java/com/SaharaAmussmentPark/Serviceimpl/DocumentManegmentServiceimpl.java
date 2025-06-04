@@ -239,16 +239,16 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	}
 
 	private String uploadFile(MultipartFile file, File directory, String type) throws IOException {
-	    if (file != null && !file.isEmpty()) {
-	        // Ensure directory exists
+		if (file != null && !file.isEmpty()) {
+	        if (file.getSize() > 2 * 1024 * 1024) {
+	            throw new IOException("File size should be less than or equal to 2MB");
+	        }
+
 	        if (!directory.exists()) {
-	            boolean created = directory.mkdirs(); // create parent folders if needed
+	            boolean created = directory.mkdirs();
 	            if (!created) {
 	                throw new IOException("Failed to create directory: " + directory.getAbsolutePath());
 	            }
-	        }
-	        if(file.getSize() > 2 * 1024 * 1024) {
-	        	throw new IOException("File size should be less than 2MB");
 	        }
 
 	        String originalFilename = file.getOriginalFilename();
@@ -257,16 +257,15 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        if (originalFilename != null && originalFilename.contains(".")) {
 	            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
 	        }
-	        String newFileName = type + extension;
 
-	        // Save the file to local directory
+	        String newFileName = type + extension;
 	        File destFile = new File(directory, newFileName);
 	        file.transferTo(destFile);
 
-	        // Return the public URL instead of local path
 	        return "https://media.saharaamusement.com/sahara/" + newFileName;
 	    }
-	    return null;
+
+	    throw new IOException("File is empty or null");
 	}
 
 	

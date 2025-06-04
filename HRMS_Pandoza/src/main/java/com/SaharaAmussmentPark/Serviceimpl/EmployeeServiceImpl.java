@@ -139,6 +139,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			employee.setUanNo(request.getUanNo());
 			employee.setPolicyNumber(request.getPolicyNumber());
 			employee.setInsuranceCompany(request.getInsuranceCompany());
+			employee.setPanNumber(request.getPanNumber());
 
 			Employee updatedEmployee = employeeRepository.save(employee);
 
@@ -203,6 +204,35 @@ public class EmployeeServiceImpl implements EmployeeService {
 			errorMessage.setResponseMessage(e.getMessage());
 			log.error("SOMETHING_WENT_WRONG" + "  " + errorMessage.getResponseMessage());
 			message.add(errorMessage);
+			return message;
+		}
+	}
+
+	@Override
+	public Message<EmployeeDto> ApproveEdit(int eid) {
+		Message<EmployeeDto> message = new Message();
+		try {
+			
+			Optional<Employee> existingEmployee = employeeRepository.findById(eid);
+
+			if (existingEmployee.isEmpty()) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage("Employee Not Found!");
+				return message;
+			}
+
+			Employee employee = existingEmployee.get();
+
+			employee.setEditableAccess(true);
+			Employee updatedEmployee = employeeRepository.save(employee);
+
+			message.setStatus(HttpStatus.OK);
+			message.setResponseMessage("Employee Updated Successfully!");
+			message.setData(employeeMapperImpl.employeeToEmployeeDto(updatedEmployee));
+			return message;
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage("Error while updating employee: " + e.getMessage());
 			return message;
 		}
 	}
