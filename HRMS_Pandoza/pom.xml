@@ -169,7 +169,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>HRMS_Pandoza</finalName>
+		<finalName>UserService</finalName>
 	</build>
 
 </project>
