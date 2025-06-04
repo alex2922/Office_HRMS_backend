@@ -52,7 +52,11 @@ public class EmployeeResponseDto {
 	private double tds;
 	private double salaryAdvance;
 	private double personalLoan;
-	private double otherDiductions; 
+	private double otherDiductions;
+	  public String emergencyContactNumber;
+	    public String emergencyContactName;
+		public String emergencyContactRelation;
+		public String emergencyContactAddress;
 
 
  

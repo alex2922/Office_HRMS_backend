@@ -36,7 +36,11 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setPolicyNumber(employee.getPolicyNumber())
 				.setPanNumber(employee.getPanNumber())
 				.setInsuranceCompany(employee.getInsuranceCompany())
-				.setEditableAccess(employee.isEditableAccess());
+				.setEditableAccess(employee.isEditableAccess())
+				.setEmergencyContactNumber(employee.getEmergencyContactNumber())
+				.setEmergencyContactName(employee.getEmergencyContactName())
+				.setEmergencyContactRelation(employee.getEmergencyContactRelation())
+				.setEmergencyContactAddress(employee.getEmergencyContactAddress());
 		
 	}
 
@@ -66,7 +70,11 @@ public class EmployeeMapperImpl implements EmployeeMapper {
 				.setPanNumber(employeeDto.getPanNumber())
 				.setPolicyNumber(employeeDto.getPolicyNumber())
 				.setInsuranceCompany(employeeDto.getInsuranceCompany())
-				.setEditableAccess(true);
+				.setEditableAccess(true)
+				.setEmergencyContactNumber(employeeDto.getEmergencyContactNumber())
+				.setEmergencyContactName(employeeDto.getEmergencyContactName())
+				.setEmergencyContactRelation(employeeDto.getEmergencyContactRelation())
+				.setEmergencyContactAddress(employeeDto.getEmergencyContactAddress());
 	}
 
 

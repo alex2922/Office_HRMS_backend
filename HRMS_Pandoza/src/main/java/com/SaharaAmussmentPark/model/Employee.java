@@ -42,7 +42,11 @@ public class Employee {
     private double esicNumber;
     private String policyNumber;
     private String insuranceCompany;
-    private boolean editableAccess; 
+    private boolean editableAccess;
+    public String emergencyContactNumber;
+    public String emergencyContactName;
+	public String emergencyContactRelation;
+	public String emergencyContactAddress;
 
 	
 	

@@ -107,6 +107,10 @@ public class EmployeeDto {
     private int uId;
     private String policyNumber;
     private String insuranceCompany;
+    public String emergencyContactNumber;
+    public String emergencyContactName;
+	public String emergencyContactRelation;
+	public String emergencyContactAddress;
 
 
     @Schema(required = false, description = "Optional ESIC number")

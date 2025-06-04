@@ -32,7 +32,7 @@ public class SwaggerConfig {
 
 	        .servers(List.of(
 	        		new Server().url("https://userservice.pandozasolutions.com/"),
-	        		new Server().url("http://localhost:8001/")));
+	        		new Server().url("http://localhost:9001/")));
 
     }
 }
