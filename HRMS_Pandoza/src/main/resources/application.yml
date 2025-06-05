@@ -19,9 +19,9 @@ spring:
   servlet:
     multipart:
       enabled: true
-      location: /var/www/images/Hrms/
+      location: D:\uploads
       max-file-size: 2MB
-      max-request-size: 2MB
+      max-request-size: 25MB
         
 
   mail:
