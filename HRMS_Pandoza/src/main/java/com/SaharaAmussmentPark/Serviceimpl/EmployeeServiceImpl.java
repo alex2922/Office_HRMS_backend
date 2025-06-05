@@ -237,4 +237,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	}
 
+	@Override
+	public Message<EmployeeDto> getEmployeeByUid(int uId) {
+		Message<EmployeeDto> response = new Message<>();
+		try {
+			Employee employee = employeeRepository.findDetailsByuId(uId);
+			if (employee != null) {
+				response.setStatus(HttpStatus.OK);
+				response.setResponseMessage(constants.RECORD_FOUND);
+				response.setData(employeeMapperImpl.employeeToEmployeeDto(employee));
+				return response;
+			} else {
+				response.setStatus(HttpStatus.NOT_FOUND);
+				response.setResponseMessage(constants.RECORD_NOT_FOUND);
+				return response;
+			}
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + response.getResponseMessage());
+			return response;
+		}
+	}
+
 }

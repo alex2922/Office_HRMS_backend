@@ -22,6 +22,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	Employee findByuId(Integer uId);
 
+	
+
 
 
 }
