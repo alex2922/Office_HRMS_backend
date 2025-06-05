@@ -44,12 +44,6 @@ public class EmployeeController {
 			return ResponseEntity.status(httpStatus).body(message);
 //			asbh
 		}
-		@GetMapping("/GetEmployeeByUId/{uId}")
-		public ResponseEntity<Message<EmployeeDto>> getAllEmployee(@PathVariable int uId) {
-			log.info("In AdminController get Employee By EmployeeID");
-			Message<EmployeeDto> message = employeeService.getEmployeeByUid(uId);
-			return ResponseEntity.status(HttpStatus.OK).body(message);
-		}
 	
 		
 }
