@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
+import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.EmployeeResponse;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
@@ -20,6 +21,7 @@ import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
+import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class AuthController {
 	private final UserService userservice;
+	private final EmployeeService employeeService;
 
 	@PostMapping("/Login")
 	public ResponseEntity<Message<LoginResponseDto>> loginUser(@RequestBody LoginDto request) {
@@ -89,4 +92,11 @@ public class AuthController {
 		return ResponseEntity.status(httpStatus).body(message);
 
 	}
+	@GetMapping("/GetEmployeeByUId/{uId}")
+	public ResponseEntity<Message<EmployeeDto>> getAllEmployee(@PathVariable int uId) {
+		log.info("In AdminController get Employee By EmployeeID");
+		Message<EmployeeDto> message = employeeService.getEmployeeByUid(uId);
+		return ResponseEntity.status(HttpStatus.OK).body(message);
+	}
+
 }
