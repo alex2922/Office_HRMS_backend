@@ -18,7 +18,7 @@ public class SwaggerConfig {
         final String securitySchemeName = "bearerAuth";
         return new OpenAPI()
             .info(new Info()
-                .title("Political Team API")
+                .title("Hrms Team API")
                 .version("1.0")
                 .description("API documentation for Political Team Project"))
             .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
