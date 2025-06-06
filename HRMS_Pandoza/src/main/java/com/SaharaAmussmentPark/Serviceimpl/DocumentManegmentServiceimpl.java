@@ -225,6 +225,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        documentsDto.setEmployeeId(documents.getEmployeeId());
 		        documentsDto.setEmployeeName(documents.getEmployeeName());
 		        documentsDto.setDId(documents.getDId());
+		        documentsDto.setDiplomaCertificate(documents.getDiplomaCertificate());
 
 		        response.put("status", HttpStatus.OK);
 		        response.put("message", "Documents found for EmployeeId: " + EmployeeId);
