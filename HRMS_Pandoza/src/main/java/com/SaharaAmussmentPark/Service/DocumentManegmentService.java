@@ -18,5 +18,5 @@ public interface DocumentManegmentService {
             MultipartFile latestEducationCertificateOrDegree,
             MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile diplomaCertificate, int uId);
 	
-	public Map<String, Object> getDocuments(String EmployeeId);
+	public Map<String, Object> getDocuments(int uId);
 }

@@ -79,49 +79,50 @@ public class UploadDocController {
 	            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	        }
 	    }
-	 @PutMapping("/update/{uId}")
-	    public ResponseEntity<Map<String, Object>> updateDocuments(
-	    		  @RequestPart(value = "adharCard", required = false) MultipartFile adharCard,
-		            @RequestPart(value = "panCard", required = false) MultipartFile panCard,
-		            @RequestPart(value = "experianceLetter", required = false) MultipartFile experianceLetter,
-		            @RequestPart(value = "certificate", required = false) MultipartFile certificate,
-		            @RequestPart(value = "salarySlip1", required = false) MultipartFile salarySlip1,
-		            @RequestPart(value = "salarySlip2", required = false) MultipartFile salarySlip2,
-		            @RequestPart(value = "salarySlip3", required = false) MultipartFile salarySlip3,
-		            @RequestPart(value = "bankStatement", required = false) MultipartFile bankStatement,
-		            @RequestPart(value = "relevingletter", required = false) MultipartFile relevingletter,
-		            @RequestPart(value = "tenthCertificate", required = false) MultipartFile tenthCertificate,
-		            @RequestPart(value = "twelfthCertificate", required = false) MultipartFile twelfthCertificate,
-		            @RequestPart(value = "degreeCertificate", required = false) MultipartFile degreeCertificate,
-		            @RequestPart(value = "latestEducationCertificateOrDegree", required = false) MultipartFile latestEducationCertificateOrDegree,
-		            @RequestPart(value = "employeeImage", required = false) MultipartFile employeeImage,
-		            @RequestPart(value = "diplomaCertificate", required = false) MultipartFile diplomaCertificate,
-	            @PathVariable int uId) {
+	 @PutMapping(value ="/update/{uId}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	 public ResponseEntity<Map<String, Object>> updateDocuments(
+	         @RequestPart(value = "adharCard", required = false) MultipartFile adharCard,
+	         @RequestPart(value = "panCard", required = false) MultipartFile panCard,
+	         @RequestPart(value = "experianceLetter", required = false) MultipartFile experianceLetter,
+	         @RequestPart(value = "certificate", required = false) MultipartFile certificate,
+	         @RequestPart(value = "salarySlip1", required = false) MultipartFile salarySlip1,
+	         @RequestPart(value = "salarySlip2", required = false) MultipartFile salarySlip2,
+	         @RequestPart(value = "salarySlip3", required = false) MultipartFile salarySlip3,
+	         @RequestPart(value = "bankStatement", required = false) MultipartFile bankStatement,
+	         @RequestPart(value = "relevingLetter", required = false) MultipartFile relevingLetter,
+	         @RequestPart(value = "tenthCertificate", required = false) MultipartFile tenthCertificate,
+	         @RequestPart(value = "twelfthCertificate", required = false) MultipartFile twelfthCertificate,
+	         @RequestPart(value = "degreeCertificate", required = false) MultipartFile degreeCertificate,
+	         @RequestPart(value = "latestEducationCertificateOrDegree", required = false) MultipartFile latestEducationCertificateOrDegree,
+	         @RequestPart(value = "employeeImage", required = false) MultipartFile employeeImage,
+	         @RequestPart(value = "diplomaCertificate", required = false) MultipartFile diplomaCertificate,
+	         @PathVariable int uId) {
 
-	        Map<String, Object> response = documentManegmentServiceimpl.updateDocuments(
-	                adharCard,
-	                panCard,
-	                experianceLetter,
-	                certificate,
-	                salarySlip1,
-	                salarySlip2,
-	                salarySlip3,
-	                bankStatement,
-	                relevingletter,
-	                tenthCertificate,
-	                twelfthCertificate,
-	                degreeCertificate,
-	                latestEducationCertificateOrDegree,
-	                employeeImage, 
-	                diplomaCertificate,uId
-	        );
+	     Map<String, Object> response = documentManegmentServiceimpl.updateDocuments(
+	         adharCard,
+	         panCard,
+	         experianceLetter,
+	         certificate,
+	         salarySlip1,
+	         bankStatement,
+	         latestEducationCertificateOrDegree,
+	         employeeImage,
+	         salarySlip2,
+	         salarySlip3,
+	         relevingLetter, // Corrected variable
+	         tenthCertificate,
+	         twelfthCertificate,
+	         degreeCertificate,
+	         diplomaCertificate,
+	         uId
+	     );
 
-	        HttpStatus status = (HttpStatus) response.get("status");
-	        return new ResponseEntity<>(response, status);
-	    }
-	 @GetMapping("/getDocuments/{EmployeeId}")
-	    public ResponseEntity<Map<String, Object>> getDocuments(@PathVariable String EmployeeId) {
-	        Map<String, Object> response = documentManegmentServiceimpl.getDocuments(EmployeeId);
+	     HttpStatus status = (HttpStatus) response.get("status");
+	     return new ResponseEntity<>(response, status);
+	 }
+	 @GetMapping("/getDocuments/{uId}")
+	    public ResponseEntity<Map<String, Object>> getDocuments(@PathVariable int uId) {
+	        Map<String, Object> response = documentManegmentServiceimpl.getDocuments(uId);
 	        HttpStatus status = (HttpStatus) response.get("status");
 	        return new ResponseEntity<>(response, status);
 	    }

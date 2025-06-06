@@ -62,21 +62,50 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        documents.setEmployeeId(employeeId);
 	        documents.setEmployeeName(employee.getEmployeeName());
 
-	        documents.setAdharCard(uploadFile(adharCard, basePath, "adharCard"));
-	        documents.setPanCard(uploadFile(panCard, basePath, "panCard"));
-	        documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
-	        documents.setCertificate(uploadFile(certificate, basePath, "certificate"));
-	        documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
-	        documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
-	        documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
-	        documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
-	        documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
-	        documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
-	        documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
-	        documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
-	        documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
-	        documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
-	        documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
+	        if (adharCard != null && !adharCard.isEmpty())
+	            documents.setAdharCard(uploadFile(adharCard, basePath, "adharCard"));
+
+	        if (panCard != null && !panCard.isEmpty())
+	            documents.setPanCard(uploadFile(panCard, basePath, "panCard"));
+
+	        if (experianceLetter != null && !experianceLetter.isEmpty())
+	            documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
+
+	        if (certificate != null && !certificate.isEmpty())
+	            documents.setCertificate(uploadFile(certificate, basePath, "certificate"));
+
+	        if (salarySlip1 != null && !salarySlip1.isEmpty())
+	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
+
+	        if (salarySlip2 != null && !salarySlip2.isEmpty())
+	            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
+
+	        if (salarySlip3 != null && !salarySlip3.isEmpty())
+	            documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
+
+	        if (bankStatement != null && !bankStatement.isEmpty())
+	            documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
+
+	        if (tenthCertificate != null && !tenthCertificate.isEmpty())
+	            documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
+
+	        if (twelfthCertificate != null && !twelfthCertificate.isEmpty())
+	            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
+
+	        if (degreeCertificate != null && !degreeCertificate.isEmpty())
+	            documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
+
+	        if (relevingLetter != null && !relevingLetter.isEmpty())
+	            documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
+
+	        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty())
+	            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
+
+	        if (employeeImage != null && !employeeImage.isEmpty())
+	            documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
+
+	        if (diplomaCertificate != null && !diplomaCertificate.isEmpty())
+	            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
 
 	        // Step 4: Save to DB
 	        documentrepository.save(documents);
@@ -97,11 +126,16 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	}
 
 	@Override
-	public Map<String, Object> updateDocuments(MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
-            MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
-            MultipartFile latestEducationCertificateOrDegree,
-            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile diplomaCertificate, int uId) {
+	public Map<String, Object> updateDocuments(
+	        MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
+	        MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
+	        MultipartFile latestEducationCertificateOrDegree, MultipartFile employeeImage,
+	        MultipartFile salarySlip2, MultipartFile salarySlip3, MultipartFile relevingLetter,
+	        MultipartFile tenthCertificate, MultipartFile twelfthCertificate, MultipartFile degreeCertificate,
+	        MultipartFile diplomaCertificate, int uId) {
+
 	    Map<String, Object> response = new LinkedHashMap<>();
+
 	    try {
 	        // Step 1: Fetch existing Documents by uId
 	        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
@@ -119,8 +153,8 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	            response.put("message", "Employee not found for uId: " + uId);
 	            return response;
 	        }
-	        Employee employee = employeeOpt.get();
 
+	        Employee employee = employeeOpt.get();
 	        String employeeId = employee.getEmployeeId();
 	        String employeeName = employee.getEmployeeName().replaceAll("\\s+", "");
 	        String folderName = employeeId + "_" + employeeName;
@@ -129,7 +163,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        File basePath = new File(uploadDirectory + File.separator + folderName);
 	        if (!basePath.exists()) basePath.mkdirs();
 
-	        // Step 4: Update files if new file provided, else keep existing URL
+	        // Step 4: Update files only if new file is provided
 	        if (adharCard != null && !adharCard.isEmpty()) {
 	            documents.setAdharCard(uploadFile(adharCard, basePath, "adharCard"));
 	        }
@@ -143,28 +177,28 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	            documents.setCertificate(uploadFile(certificate, basePath, "certificate"));
 	        }
 	        if (salarySlip1 != null && !salarySlip1.isEmpty()) {
-	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip"));
+	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
 	        }
 	        if (bankStatement != null && !bankStatement.isEmpty()) {
 	            documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
 	        }
 	        if (salarySlip2 != null && !salarySlip2.isEmpty()) {
-	            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "otherDocuments"));
+	            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
 	        }
 	        if (salarySlip3 != null && !salarySlip3.isEmpty()) {
-	        	documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "otherDocuments"));
+	            documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
 	        }
-	        if(tenthCertificate != null && !tenthCertificate.isEmpty()) {
-	        	documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
+	        if (tenthCertificate != null && !tenthCertificate.isEmpty()) {
+	            documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
 	        }
-	        if(twelfthCertificate != null && !twelfthCertificate.isEmpty()) {
-		        documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "tenthCertificate"));
+	        if (twelfthCertificate != null && !twelfthCertificate.isEmpty()) {
+	            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
 	        }
-	        if(degreeCertificate != null && !degreeCertificate.isEmpty()) {
-	        	documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
+	        if (degreeCertificate != null && !degreeCertificate.isEmpty()) {
+	            documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
 	        }
-	        if(relevingLetter != null && !relevingLetter.isEmpty()) {
-	        	documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
+	        if (relevingLetter != null && !relevingLetter.isEmpty()) {
+	            documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
 	        }
 	        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty()) {
 	            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
@@ -172,8 +206,8 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        if (employeeImage != null && !employeeImage.isEmpty()) {
 	            documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
 	        }
-	        if (diplomaCertificate != null && !employeeImage.isEmpty()) {
-	            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "employeeImage"));
+	        if (diplomaCertificate != null && !diplomaCertificate.isEmpty()) {
+	            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
 	        }
 
 	        // Step 5: Save updated DocumentsManegment entity
@@ -191,15 +225,16 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        return response;
 	    }
 	}
+
 	@Override
-	public Map<String, Object> getDocuments(String EmployeeId) {
+	public Map<String, Object> getDocuments(int uId) {
 		 Map<String, Object> response = new LinkedHashMap<>();
 		    try {
 		        // Step 1: Fetch existing Documents by uId
-		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByemployeeId(EmployeeId);
+		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
 		        if (existingDocOpt.isEmpty()) {
 		            response.put("status", HttpStatus.NOT_FOUND);
-		            response.put("message", "Documents not found for uId: " + EmployeeId);
+		            response.put("message", "Documents not found for uId: " + uId);
 		            return response;
 		        }
 
@@ -228,7 +263,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        documentsDto.setDiplomaCertificate(documents.getDiplomaCertificate());
 
 		        response.put("status", HttpStatus.OK);
-		        response.put("message", "Documents found for EmployeeId: " + EmployeeId);
+		        response.put("message", "Documents found for EmployeeId: " + uId);
 		        response.put("data", documentsDto);
 		        return response;
 		    } catch (Exception e) {
