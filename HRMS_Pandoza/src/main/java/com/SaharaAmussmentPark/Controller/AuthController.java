@@ -70,14 +70,14 @@ public class AuthController {
 	}
 	@GetMapping("/getUserById/{uId}")
 	public ResponseEntity<Message<userdetailsResponseDto>> getUserById(@PathVariable int uId) {
-		log.info("In usercontroller login() with request:{}", uId);
+		log.info("In usercontroller getUserById() with request:{}", uId);
 		Message<userdetailsResponseDto> message = userservice.getUserById(uId);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
 	@GetMapping("/getUserByemail/{email}")
 	public ResponseEntity<Message<RestTemplateDto>> getUserById(@PathVariable String email) {
-		log.info("In usercontroller login() with request:{}", email);
+		log.info("In usercontroller getUserById() with request:{}", email);
 		Message<RestTemplateDto> message = userservice.findByEmail(email);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
@@ -86,7 +86,7 @@ public class AuthController {
 	
 	@GetMapping("/UserByemail/{email}")
 	public ResponseEntity<Message<EmployeeResponse>> getUserByemial(@PathVariable String email) {
-		log.info("In usercontroller login() with request:{}", email);
+		log.info("In usercontroller getUserByemial() with request:{}", email);
 		Message<EmployeeResponse> message = userservice.getByEmail(email);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
