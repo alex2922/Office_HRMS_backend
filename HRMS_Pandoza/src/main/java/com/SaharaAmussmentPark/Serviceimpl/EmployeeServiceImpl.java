@@ -39,38 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String uploadDirectory;
 	
 
-//	@Override
-//	public Message<EmployeeDto> registerUser(@Valid EmployeeDto request) {
-//		Message<EmployeeDto> response = new Message<>();
-//		try {
-//			Optional<Employee> existingEmployee = employeeRepository.findByEmployeeIdOrEmailOrAadharNumber(
-//					request.getEmployeeId(), request.getEmail(), request.getAadharNumber());
-//
-//			if (existingEmployee.isPresent()) {
-//				response.setStatus(HttpStatus.CONFLICT);
-//				response.setResponseMessage("Employee with same Employee ID, Email, or Aadhar already exists!");
-//				return response;
-//			}
-//
-//			// Convert DTO to Entity
-//			Employee employee = employeeMapperImpl.employeeDtoToEmployee(request);
-//
-//			// Save Employee
-//			Employee savedEmployee = employeeRepository.save(employee);
-//
-//			// Convert Entity to DTO
-//			response.setStatus(HttpStatus.CREATED);
-//			response.setResponseMessage("Employee Registered Successfully!");
-//			response.setData(employeeMapperImpl.employeeToEmployeeDto(savedEmployee));
-//			return response;
-//
-//		} catch (Exception e) {
-//			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-//			response.setResponseMessage("Error while registering employee: " + e.getMessage());
-//			return response;
-//		}
-//
-//	}
+
 	@Override
 	public Message<EmployeeDto> registerUser(@Valid EmployeeDto request) {
 	    Message<EmployeeDto> response = new Message<>();

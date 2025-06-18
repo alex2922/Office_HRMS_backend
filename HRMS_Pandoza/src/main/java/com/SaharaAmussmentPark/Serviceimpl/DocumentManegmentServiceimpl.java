@@ -224,14 +224,14 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	}
 
 	@Override
-	public Map<String, Object> getDocuments(int uId) {
+	public Map<String, Object> getDocuments(String employeeId) {
 		 Map<String, Object> response = new LinkedHashMap<>();
 		    try {
 		        // Step 1: Fetch existing Documents by uId
-		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
+		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByemployeeId(employeeId);
 		        if (existingDocOpt.isEmpty()) {
 		            response.put("status", HttpStatus.NOT_FOUND);
-		            response.put("message", "Documents not found for uId: " + uId);
+		            response.put("message", "Documents not found for uId: " + employeeId);
 		            return response;
 		        }
 
@@ -259,7 +259,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        documentsDto.setDiplomaCertificate(documents.getDiplomaCertificate());
 
 		        response.put("status", HttpStatus.OK);
-		        response.put("message", "Documents found for EmployeeId: " + uId);
+		        response.put("message", "Documents found for EmployeeId: " + employeeId);
 		        response.put("data", documentsDto);
 		        return response;
 		    } catch (Exception e) {

@@ -116,9 +116,9 @@ public class UploadDocController {
 	     HttpStatus status = (HttpStatus) response.get("status");
 	     return new ResponseEntity<>(response, status);
 	 }
-	 @GetMapping("/getDocuments/{uId}")
-	    public ResponseEntity<Map<String, Object>> getDocuments(@PathVariable int uId) {
-	        Map<String, Object> response = documentManegmentServiceimpl.getDocuments(uId);
+	 @GetMapping("/getDocuments/{employeeId}")
+	    public ResponseEntity<Map<String, Object>> getDocuments(@PathVariable String employeeId) {
+	        Map<String, Object> response = documentManegmentServiceimpl.getDocuments(employeeId);
 	        HttpStatus status = (HttpStatus) response.get("status");
 	        return new ResponseEntity<>(response, status);
 	    }
