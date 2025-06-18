@@ -1,30 +1,28 @@
 package com.SaharaAmussmentPark.Serviceimpl;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.client.RestTemplate;
 
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
+import com.SaharaAmussmentPark.Dto.LeaveRecordRequest;
 import com.SaharaAmussmentPark.Dto.Message;
-import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
 import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Util.constants;
 import com.SaharaAmussmentPark.mapper.EmployeeMapper;
 import com.SaharaAmussmentPark.model.Employee;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -36,41 +34,102 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	private final EmployeeMapper employeeMapperImpl;
 	private final EmployeeRepository employeeRepository;
+	private final HttpServletRequest httpServletRequest;
 	@Value("${spring.servlet.multipart.location}")
 	public String uploadDirectory;
+	
 
+//	@Override
+//	public Message<EmployeeDto> registerUser(@Valid EmployeeDto request) {
+//		Message<EmployeeDto> response = new Message<>();
+//		try {
+//			Optional<Employee> existingEmployee = employeeRepository.findByEmployeeIdOrEmailOrAadharNumber(
+//					request.getEmployeeId(), request.getEmail(), request.getAadharNumber());
+//
+//			if (existingEmployee.isPresent()) {
+//				response.setStatus(HttpStatus.CONFLICT);
+//				response.setResponseMessage("Employee with same Employee ID, Email, or Aadhar already exists!");
+//				return response;
+//			}
+//
+//			// Convert DTO to Entity
+//			Employee employee = employeeMapperImpl.employeeDtoToEmployee(request);
+//
+//			// Save Employee
+//			Employee savedEmployee = employeeRepository.save(employee);
+//
+//			// Convert Entity to DTO
+//			response.setStatus(HttpStatus.CREATED);
+//			response.setResponseMessage("Employee Registered Successfully!");
+//			response.setData(employeeMapperImpl.employeeToEmployeeDto(savedEmployee));
+//			return response;
+//
+//		} catch (Exception e) {
+//			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+//			response.setResponseMessage("Error while registering employee: " + e.getMessage());
+//			return response;
+//		}
+//
+//	}
 	@Override
 	public Message<EmployeeDto> registerUser(@Valid EmployeeDto request) {
-		Message<EmployeeDto> response = new Message<>();
-		try {
-			Optional<Employee> existingEmployee = employeeRepository.findByEmployeeIdOrEmailOrAadharNumber(
-					request.getEmployeeId(), request.getEmail(), request.getAadharNumber());
+	    Message<EmployeeDto> response = new Message<>();
 
-			if (existingEmployee.isPresent()) {
-				response.setStatus(HttpStatus.CONFLICT);
-				response.setResponseMessage("Employee with same Employee ID, Email, or Aadhar already exists!");
-				return response;
-			}
+	    try {
+	        Optional<Employee> existingEmployee = employeeRepository.findByEmployeeIdOrEmailOrAadharNumber(
+	                request.getEmployeeId(), request.getEmail(), request.getAadharNumber());
 
-			// Convert DTO to Entity
-			Employee employee = employeeMapperImpl.employeeDtoToEmployee(request);
+	        if (existingEmployee.isPresent()) {
+	            response.setStatus(HttpStatus.CONFLICT);
+	            response.setResponseMessage("Employee with same Employee ID, Email, or Aadhar already exists!");
+	            return response;
+	        }
 
-			// Save Employee
-			Employee savedEmployee = employeeRepository.save(employee);
+	        // Convert DTO to Entity and save
+	        Employee employee = employeeMapperImpl.employeeDtoToEmployee(request);
+	        Employee savedEmployee = employeeRepository.save(employee);
 
-			// Convert Entity to DTO
-			response.setStatus(HttpStatus.CREATED);
-			response.setResponseMessage("Employee Registered Successfully!");
-			response.setData(employeeMapperImpl.employeeToEmployeeDto(savedEmployee));
-			return response;
+	        // Now call external Leave API
+	        RestTemplate restTemplate = new RestTemplate();
+	        String url = "https://salaryandleaveservice.pandozasolutions.com/admin/addLeaveRecord";
 
-		} catch (Exception e) {
-			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-			response.setResponseMessage("Error while registering employee: " + e.getMessage());
-			return response;
-		}
+	        LeaveRecordRequest leaveRequest = new LeaveRecordRequest(
+	                savedEmployee.getEmployeeId(),
+	                "0" // default paidLeaves
+	        );
 
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_JSON);
+
+	        // Forward token from original request
+	        String authHeader = httpServletRequest.getHeader("Authorization");
+	        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+	            headers.set("Authorization", authHeader);
+	        }
+
+	        HttpEntity<LeaveRecordRequest> entity = new HttpEntity<>(leaveRequest, headers);
+
+	        try {
+	            ResponseEntity<String> leaveResponse = restTemplate.postForEntity(url, entity, String.class);
+	            if (!leaveResponse.getStatusCode().is2xxSuccessful()) {
+	                response.setResponseMessage("Employee registered, but failed to notify Leave Service.");
+	            }
+	        } catch (Exception ex) {
+	            System.err.println("Leave Service Error: " + ex.getMessage());
+	        }
+
+	        response.setStatus(HttpStatus.CREATED);
+	        response.setResponseMessage("Employee Registered Successfully!");
+	        response.setData(employeeMapperImpl.employeeToEmployeeDto(savedEmployee));
+	        return response;
+
+	    } catch (Exception e) {
+	        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+	        response.setResponseMessage("Error while registering employee: " + e.getMessage());
+	        return response;
+	    }
 	}
+
 
 	@Override
 	public Message<EmployeeDto> updateEmployee(@Valid EmployeeDto request) {
