@@ -33,9 +33,9 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 
 	@Override
 	public Map<String, Object> uploadDocuments(MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
-            MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
-             MultipartFile latestEducationCertificateOrDegree,
-            MultipartFile employeeImage,MultipartFile salarySlip2,MultipartFile salarySlip3,MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile diplomaCertificate, int uId) {
+            MultipartFile salarySlip1,MultipartFile salarySlip2,MultipartFile salarySlip3, MultipartFile bankStatement,
+            MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile latestEducationCertificateOrDegree,
+           MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
 	    Map<String, Object> response = new LinkedHashMap<>();
 	    try {
@@ -44,6 +44,11 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        if (employeeOpt.isEmpty()) {
 	            response.put("status", HttpStatus.NOT_FOUND);
 	            response.put("message", "Employee not found for uId: " + uId);
+	            return response;
+	        }
+	        if (employeeOpt.get().isEditableAccess() == false) {
+	            response.put("status", HttpStatus.NOT_FOUND);
+	            response.put("message", "You have already uploaded documents please coordinate with Admin");
 	            return response;
 	        }
 
@@ -70,9 +75,6 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 
 	        if (experianceLetter != null && !experianceLetter.isEmpty())
 	            documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
-
-	        if (certificate != null && !certificate.isEmpty())
-	            documents.setCertificate(uploadFile(certificate, basePath, "certificate"));
 
 	        if (salarySlip1 != null && !salarySlip1.isEmpty())
 	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
@@ -127,12 +129,10 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 
 	@Override
 	public Map<String, Object> updateDocuments(
-	        MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
-	        MultipartFile certificate, MultipartFile salarySlip1, MultipartFile bankStatement,
-	        MultipartFile latestEducationCertificateOrDegree, MultipartFile employeeImage,
-	        MultipartFile salarySlip2, MultipartFile salarySlip3, MultipartFile relevingLetter,
-	        MultipartFile tenthCertificate, MultipartFile twelfthCertificate, MultipartFile degreeCertificate,
-	        MultipartFile diplomaCertificate, int uId) {
+			MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
+            MultipartFile salarySlip1,MultipartFile salarySlip2,MultipartFile salarySlip3, MultipartFile bankStatement,
+            MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile latestEducationCertificateOrDegree,
+           MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
 	    Map<String, Object> response = new LinkedHashMap<>();
 
@@ -172,9 +172,6 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        }
 	        if (experianceLetter != null && !experianceLetter.isEmpty()) {
 	            documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
-	        }
-	        if (certificate != null && !certificate.isEmpty()) {
-	            documents.setCertificate(uploadFile(certificate, basePath, "certificate"));
 	        }
 	        if (salarySlip1 != null && !salarySlip1.isEmpty()) {
 	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
@@ -245,7 +242,6 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        documentsDto.setAdharCard(documents.getAdharCard());
 		        documentsDto.setPanCard(documents.getPanCard());
 		        documentsDto.setExperianceLetter(documents.getExperianceLetter());
-		        documentsDto.setCertificate(documents.getCertificate());
 		        documentsDto.setSalarySlip1(documents.getSalarySlip1());
 		        documentsDto.setSalarySlip2(documents.getSalarySlip2());
 		        documentsDto.setSalarySlip3(documents.getSalarySlip3());

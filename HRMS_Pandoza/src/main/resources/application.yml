@@ -21,7 +21,7 @@ spring:
       enabled: true
       location: /var/www/images/Hrms/
       max-file-size: 2MB
-      max-request-size: 25MB
+      max-request-size: 50MB
         
 
   mail:

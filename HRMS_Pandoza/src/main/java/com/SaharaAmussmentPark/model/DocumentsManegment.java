@@ -9,9 +9,9 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Data
- @ToString
- @Entity
- @Accessors(chain = true)
+@ToString
+@Entity
+@Accessors(chain = true)
 public class DocumentsManegment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,6 @@ public class DocumentsManegment {
 	private String adharCard;
 	private String panCard;
 	private String experianceLetter;
-	private String certificate;
 	private String salarySlip1;
 	private String salarySlip2;
 	private String salarySlip3;
