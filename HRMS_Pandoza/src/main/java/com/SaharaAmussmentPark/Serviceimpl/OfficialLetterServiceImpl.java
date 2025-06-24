@@ -1,5 +1,8 @@
 package com.SaharaAmussmentPark.Serviceimpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -119,6 +122,44 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 		}
 	
 	}
+	
+
+
+	@Override
+	public List<Message<OfficialLetterDto>> GetAllOfficialLetter(){
+		 List<Message<OfficialLetterDto>> responseList = new ArrayList<>();
+		    try {
+		        Iterable<OfficialLetter> officialLetters = officialLetterRepository.findAll();
+
+		        for (OfficialLetter letter : officialLetters) {
+		            OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(letter);
+		            Message<OfficialLetterDto> message = new Message<>();
+		            message.setStatus(HttpStatus.OK);
+		            message.setResponseMessage(constants.OFFICIAL_LETTER_FOUND);
+		            message.setData(dto);
+		            responseList.add(message);
+		        }
+
+		        // If no letters found, add a message indicating so
+		        if (responseList.isEmpty()) {
+		            Message<OfficialLetterDto> emptyMessage = new Message<>();
+		            emptyMessage.setStatus(HttpStatus.NOT_FOUND);
+		            emptyMessage.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
+		            responseList.add(emptyMessage);
+		        }
+
+		        return responseList;
+		    } catch (Exception e) {
+		        System.err.println("Error fetching Official Letter: " + e.getMessage());
+
+		        Message<OfficialLetterDto> errorMessage = new Message<>();
+		        errorMessage.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		        errorMessage.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+		        responseList.add(errorMessage);
+
+		        return responseList;
+		    }
+		}
 
 		
 
