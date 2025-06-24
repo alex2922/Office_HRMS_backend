@@ -14,8 +14,16 @@ public class OfficialLetterMapperImpl implements OfficialLetterMapper {
 	public OfficialLetterDto officialLetterToOfficialLetterDto(OfficialLetter officialLetter) {
 		OfficialLetterDto dto = new OfficialLetterDto();
 		dto.setOId(officialLetter.getOId());
-		dto.setOname(officialLetter.getOname());
-		dto.setTemplate(officialLetter.getTemplate());
+		dto.setCompanyLogo(officialLetter.getCompanyLogo());
+		dto.setCompanyName(officialLetter.getCompanyName());
+		dto.setDate(officialLetter.getDate());
+		dto.setDateOfJoining(officialLetter.getDateOfJoining());
+		dto.setDepartment(officialLetter.getDepartment());
+		dto.setDesignation(officialLetter.getDesignation());
+		dto.setEmployeeName(officialLetter.getEmployeeName());
+		dto.setHrManagerName(officialLetter.getHrManagerName());
+		dto.setSalary(officialLetter.getSalary());
+		dto.setTag(officialLetter.getTag());
 		return dto;
 		
 	}
@@ -23,9 +31,19 @@ public class OfficialLetterMapperImpl implements OfficialLetterMapper {
 	@Override
 	public OfficialLetter officialLetterDtoToOfficialLetter(OfficialLetterDto dto) {
 		OfficialLetter officialLetter = new OfficialLetter();
-		officialLetter.setOname(dto.getOname());
-		officialLetter.setTemplate(dto.getTemplate());
+
+		officialLetter.setCompanyLogo(dto.getCompanyLogo());
+		officialLetter.setCompanyName(dto.getCompanyName());
+		officialLetter.setDate(dto.getDate());
+		officialLetter.setDateOfJoining(dto.getDateOfJoining());
+		officialLetter.setDepartment(dto.getDepartment());
+		officialLetter.setDesignation(dto.getDesignation());
+		officialLetter.setEmployeeName(dto.getEmployeeName());
+		officialLetter.setHrManagerName(dto.getHrManagerName());
+		officialLetter.setSalary(dto.getSalary());
+		officialLetter.setTag(dto.getTag());
 		return officialLetter;
+		
 		
 	}
 

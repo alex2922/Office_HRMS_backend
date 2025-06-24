@@ -111,6 +111,7 @@ public class EmployeeDto {
     public String emergencyContactName;
 	public String emergencyContactRelation;
 	public String emergencyContactAddress;
+	public String status;
 
 
     @Schema(required = false, description = "Optional ESIC number")

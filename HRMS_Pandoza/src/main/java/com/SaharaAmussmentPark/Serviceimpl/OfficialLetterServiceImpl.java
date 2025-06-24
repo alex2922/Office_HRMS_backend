@@ -65,6 +65,16 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			}
 			officialLetter.setOname(request.getOname());
 			officialLetter.setTemplate(request.getTemplate());
+			officialLetter.setCompanyLogo(request.getCompanyLogo());
+			officialLetter.setCompanyName(request.getCompanyName());
+			officialLetter.setDate(request.getDate());
+			officialLetter.setDateOfJoining(request.getDateOfJoining());
+			officialLetter.setDepartment(request.getDepartment());
+			officialLetter.setDesignation(request.getDesignation());
+			officialLetter.setEmployeeName(request.getEmployeeName());
+			officialLetter.setHrManagerName(request.getHrManagerName());
+			officialLetter.setSalary(request.getSalary());
+			officialLetter.setTag(request.getTag());
 			
 			
 			officialLetterRepository.save(officialLetter);
