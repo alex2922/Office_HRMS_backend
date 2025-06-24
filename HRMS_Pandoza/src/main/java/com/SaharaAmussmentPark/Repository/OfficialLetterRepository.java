@@ -7,6 +7,5 @@ import com.SaharaAmussmentPark.model.OfficialLetter;
 
 @Repository
 public interface OfficialLetterRepository extends JpaRepository<OfficialLetter, Integer> {
-	OfficialLetter findByoname(String oname);
 
 }
