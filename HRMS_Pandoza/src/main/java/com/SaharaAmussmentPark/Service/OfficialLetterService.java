@@ -1,5 +1,7 @@
 package com.SaharaAmussmentPark.Service;
 
+import java.util.List;
+
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
 
@@ -8,5 +10,6 @@ public interface OfficialLetterService {
 	public Message<OfficialLetterDto> UpdateOfficialLetter(OfficialLetterDto request);
 	public Message<OfficialLetterDto> GetOfficialLetterById(int oId);
 	public Message<OfficialLetterDto> GetOfficialLetterByName(String oname);
+	public List<Message<OfficialLetterDto>> GetAllOfficialLetter();
 
 }

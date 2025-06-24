@@ -28,7 +28,6 @@ import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Service.OfficialLetterService;
 import com.SaharaAmussmentPark.Service.UserService;
 
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -45,10 +44,6 @@ public class AdminController {
 	private final EmployeeService employeeService;
 	public final OfficialLetterService officialLetterservice;
 
-	
-	
-
-	
 	@PostMapping("/RegisterUser")
 	public ResponseEntity<Message<UserDto>> registerUser(@RequestBody UserDto user) {
 		log.info("In UserController registerUser() with request: {}", user);
@@ -56,37 +51,39 @@ public class AdminController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
-	
+
 	@PostMapping("/AddEmployee")
-	public ResponseEntity<Message<EmployeeDto>> registerEmployee(@RequestBody EmployeeDto dto){
+	public ResponseEntity<Message<EmployeeDto>> registerEmployee(@RequestBody EmployeeDto dto) {
 //	        @RequestPart("data") String employeeJson,
 //	        @RequestPart(value = "image", required = false) MultipartFile imageFile) 
 //	        throws JsonMappingException, JsonProcessingException {
 //	    
 //	    ObjectMapper objectMapper = new ObjectMapper();
 //	    EmployeeDto dto = objectMapper.readValue(employeeJson, EmployeeDto.class);
-	    
-	    Message<EmployeeDto> message = employeeService.registerUser(dto);
-	    HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 
-	    return ResponseEntity.status(httpStatus).body(message);
+		Message<EmployeeDto> message = employeeService.registerUser(dto);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+
+		return ResponseEntity.status(httpStatus).body(message);
 	}
+
 	@PutMapping("/UpdateEmployee")
-	public ResponseEntity<Message<EmployeeDto>> updateEmployee(@RequestBody EmployeeDto dto)
-	       {
-	    
-	    Message<EmployeeDto> message = employeeService.updateEmployee(dto);
-	    HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+	public ResponseEntity<Message<EmployeeDto>> updateEmployee(@RequestBody EmployeeDto dto) {
 
-	    return ResponseEntity.status(httpStatus).body(message);
+		Message<EmployeeDto> message = employeeService.updateEmployee(dto);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+
+		return ResponseEntity.status(httpStatus).body(message);
 	}
-@GetMapping("/GetAllEmployee")
+
+	@GetMapping("/GetAllEmployee")
 	public ResponseEntity<List<Message<EmployeeDto>>> getAllEmployee() {
 		log.info("In AdminController getAllUser()");
 		List<Message<EmployeeDto>> message = employeeService.getAllEmployee();
 		return ResponseEntity.status(HttpStatus.OK).body(message);
 	}
-@GetMapping("/GetEmployee/{employeeId}")
+
+	@GetMapping("/GetEmployee/{employeeId}")
 	public ResponseEntity<Message<EmployeeDto>> getAllDesignation(@PathVariable String employeeId) {
 		log.info("In AdminController get Employee By EmployeeID");
 		Message<EmployeeDto> message = employeeService.getByemployeeId(employeeId);
@@ -177,7 +174,7 @@ public class AdminController {
 		List<Message<DesignationDto>> message = designationservice.GetAllDesignation();
 		return ResponseEntity.status(HttpStatus.OK).body(message);
 	}
-	
+
 	@PutMapping("/updateUser")
 	public ResponseEntity<Message<UserDto>> updateUser(@RequestBody UserDto request) {
 		log.info("In usercontroller login() with request:{}", request);
@@ -185,6 +182,7 @@ public class AdminController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+
 	@GetMapping("/getUserById/{uId}")
 	public ResponseEntity<Message<userdetailsResponseDto>> getUserById(@PathVariable int uId) {
 		log.info("In usercontroller login() with request:{}", uId);
@@ -192,54 +190,74 @@ public class AdminController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
-	
+
 	@DeleteMapping("/deleteUser/{uId}")
 	public ResponseEntity<Message<UserDto>> deleteUser(@PathVariable int uId) {
 		log.info("In usercontroller login() with request:{}", uId);
 		Message<UserDto> message = userservice.deleteUser(uId);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
-	} 
+	}
 
 	@PostMapping("/addOfficialLetter")
-	public ResponseEntity<Message<OfficialLetterDto>> AddOfficialLetter(@RequestBody OfficialLetterDto request){
-		log.info("In usercontroller login() with request:{}",request);
-		Message<OfficialLetterDto> message=officialLetterservice.AddOfficialLetter(request);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+	public ResponseEntity<Message<OfficialLetterDto>> AddOfficialLetter(@RequestBody OfficialLetterDto request) {
+		log.info("In usercontroller login() with request:{}", request);
+		Message<OfficialLetterDto> message = officialLetterservice.AddOfficialLetter(request);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
-		
+
 	}
+
 	@PutMapping("/updateOfficialLetter")
-	public ResponseEntity<Message<OfficialLetterDto>> UpdateOfficialLetter(@RequestBody OfficialLetterDto request){
-		log.info("In usercontroller login() with request:{}",request);
-		Message<OfficialLetterDto> message=officialLetterservice.UpdateOfficialLetter(request);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+	public ResponseEntity<Message<OfficialLetterDto>> UpdateOfficialLetter(@RequestBody OfficialLetterDto request) {
+		log.info("In usercontroller login() with request:{}", request);
+		Message<OfficialLetterDto> message = officialLetterservice.UpdateOfficialLetter(request);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+
 	@GetMapping("/getOfficialLetterById")
-	public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetter(@RequestParam("oId") int oId){
-		log.info("In usercontroller login() with request:{}",oId);
-		Message<OfficialLetterDto> message=officialLetterservice.GetOfficialLetterById(oId);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+	public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetter(@RequestParam("oId") int oId) {
+		log.info("In usercontroller login() with request:{}", oId);
+		Message<OfficialLetterDto> message = officialLetterservice.GetOfficialLetterById(oId);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
-		
+
 	}
+
 	@GetMapping("/getOfficialLetterByName")
-	public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetterByName(@RequestParam("oname") String oname){
-		log.info("In usercontroller login() with request:{}",oname);
-		Message<OfficialLetterDto> message=officialLetterservice.GetOfficialLetterByName(oname);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+	public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetterByName(@RequestParam("oname") String oname) {
+		log.info("In usercontroller login() with request:{}", oname);
+		Message<OfficialLetterDto> message = officialLetterservice.GetOfficialLetterByName(oname);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
-	
-	
+
 	@PostMapping("/EditAccess")
-	public ResponseEntity<Message<EmployeeDto>> AddOfficialLetterType(@RequestParam("eid") int eid){
-		log.info("In AdminController login() with request:{}",eid);
-		Message<EmployeeDto> message=employeeService.ApproveEdit(eid);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+	public ResponseEntity<Message<EmployeeDto>> AddOfficialLetterType(@RequestParam("eid") int eid) {
+		log.info("In AdminController login() with request:{}", eid);
+		Message<EmployeeDto> message = employeeService.ApproveEdit(eid);
+		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
-		
+
 	}
-	
+
+	@GetMapping("/getAllOfficialLetters")
+	public ResponseEntity<List<Message<OfficialLetterDto>>> getAllOfficialLetters() {
+		log.info("In AdminController getAllOfficialLetters()");
+
+		List<Message<OfficialLetterDto>> messages = officialLetterservice.GetAllOfficialLetter();
+
+		// Determine appropriate HTTP status
+		HttpStatus httpStatus = HttpStatus.OK;
+		if (!messages.isEmpty()) {
+			HttpStatus firstStatus = messages.get(0).getStatus();
+			httpStatus = (firstStatus != null) ? firstStatus : HttpStatus.OK;
+		} else {
+			httpStatus = HttpStatus.NO_CONTENT;
+		}
+
+		return ResponseEntity.status(httpStatus).body(messages);
+	}
+
 }
