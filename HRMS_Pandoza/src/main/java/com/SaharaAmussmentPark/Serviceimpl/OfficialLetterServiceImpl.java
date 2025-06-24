@@ -63,8 +63,6 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 				response.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
 				return response;
 			}
-			officialLetter.setOname(request.getOname());
-			officialLetter.setTemplate(request.getTemplate());
 			officialLetter.setCompanyLogo(request.getCompanyLogo());
 			officialLetter.setCompanyName(request.getCompanyName());
 			officialLetter.setDate(request.getDate());
@@ -74,7 +72,7 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			officialLetter.setEmployeeName(request.getEmployeeName());
 			officialLetter.setHrManagerName(request.getHrManagerName());
 			officialLetter.setSalary(request.getSalary());
-			officialLetter.setTag(request.getTag());
+			officialLetter.setStatus(request.getStatus());
 			
 			
 			officialLetterRepository.save(officialLetter);
@@ -122,31 +120,6 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 	
 	}
 
-	@Override
-	public Message<OfficialLetterDto> GetOfficialLetterByName(String oname) {
-		Message<OfficialLetterDto> response = new Message<>();
-		try {
-			OfficialLetter officialLetter = new OfficialLetter();
-			officialLetter=officialLetterRepository.findByoname(oname);
-			
-			if(officialLetter == null) {
-				response.setStatus(HttpStatus.BAD_REQUEST);
-				response.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
-				return response;
-			}
-			OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
-			response.setStatus(HttpStatus.OK);
-			response.setResponseMessage(constants.OFFICIAL_LETTER_FOUND);
-			response.setData(dto);
-			return response;
-		} catch (Exception e) {
-			System.err.println("Error fetching Official Letter" +e.getMessage());
-			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
-			return response;
-			
-		}
-	}
 		
 
 

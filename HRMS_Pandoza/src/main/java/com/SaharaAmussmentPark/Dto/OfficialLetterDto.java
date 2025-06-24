@@ -7,8 +7,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain=true)
 public class OfficialLetterDto {
 	private int oId;
-	private String oname;
-	private String template;
 	private String date;
 	private String companyName;
 	private String companyLogo;
@@ -18,6 +16,6 @@ public class OfficialLetterDto {
 	private String dateOfJoining;
 	private String hrManagerName;
 	private int salary;
-	private String tag;
+	private String status;
 
 }

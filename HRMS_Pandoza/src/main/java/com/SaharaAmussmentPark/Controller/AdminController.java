@@ -224,13 +224,6 @@ public class AdminController {
 		return ResponseEntity.status(httpStatus).body(message);
 		
 	}
-	@GetMapping("/getOfficialLetterByName")
-	public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetterByName(@RequestParam("oname") String oname){
-		log.info("In usercontroller login() with request:{}",oname);
-		Message<OfficialLetterDto> message=officialLetterservice.GetOfficialLetterByName(oname);
-		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
-		return ResponseEntity.status(httpStatus).body(message);
-	}
 	
 	
 	@PostMapping("/EditAccess")

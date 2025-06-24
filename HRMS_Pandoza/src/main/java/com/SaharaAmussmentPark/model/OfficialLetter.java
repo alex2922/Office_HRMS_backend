@@ -15,8 +15,6 @@ public class OfficialLetter {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	
 	private int oId;
-	private String oname;
-	private String template;
 	private String date;
 	private String companyName;
 	private String companyLogo;
@@ -26,6 +24,6 @@ public class OfficialLetter {
 	private String dateOfJoining;
 	private String hrManagerName;
 	private int salary;
-	private String tag;
+	private String status;
 
 }
