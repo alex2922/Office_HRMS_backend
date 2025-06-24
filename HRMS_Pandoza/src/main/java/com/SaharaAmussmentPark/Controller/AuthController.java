@@ -26,6 +26,7 @@ import com.SaharaAmussmentPark.Service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
 @RestController
 @RequestMapping("/AuthController")
 @CrossOrigin(origins = { "*" }, allowedHeaders = { "*" })
@@ -68,6 +69,7 @@ public class AuthController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+
 	@GetMapping("/getUserById/{uId}")
 	public ResponseEntity<Message<userdetailsResponseDto>> getUserById(@PathVariable int uId) {
 		log.info("In usercontroller getUserById() with request:{}", uId);
@@ -75,6 +77,7 @@ public class AuthController {
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 		return ResponseEntity.status(httpStatus).body(message);
 	}
+
 	@GetMapping("/getUserByemail/{email}")
 	public ResponseEntity<Message<RestTemplateDto>> getUserById(@PathVariable String email) {
 		log.info("In usercontroller getUserById() with request:{}", email);
@@ -83,7 +86,7 @@ public class AuthController {
 		return ResponseEntity.status(httpStatus).body(message);
 
 	}
-	
+
 	@GetMapping("/UserByemail/{email}")
 	public ResponseEntity<Message<EmployeeResponse>> getUserByemial(@PathVariable String email) {
 		log.info("In usercontroller getUserByemial() with request:{}", email);
@@ -92,6 +95,7 @@ public class AuthController {
 		return ResponseEntity.status(httpStatus).body(message);
 
 	}
+
 	@GetMapping("/GetEmployeeByUId/{uId}")
 	public ResponseEntity<Message<EmployeeDto>> getAllEmployee(@PathVariable int uId) {
 		log.info("In AdminController get Employee By EmployeeID");

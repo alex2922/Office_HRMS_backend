@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Service.EmployeeService;
+import com.SaharaAmussmentPark.Service.OfficialLetterService;
 import com.SaharaAmussmentPark.Service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,8 @@ import lombok.extern.log4j.Log4j2;
 public class EmployeeController {	
 	private final EmployeeService employeeService;
 	private final UserService userservice;
+	public final OfficialLetterService officialLetterservice;
+
 	
 	
 	
@@ -43,6 +48,14 @@ public class EmployeeController {
 			HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 			return ResponseEntity.status(httpStatus).body(message);
 //			asbh
+		}
+		@GetMapping("/getOfficialLetterById")
+		public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetter(@RequestParam("oId") int oId) {
+			log.info("In usercontroller login() with request:{}", oId);
+			Message<OfficialLetterDto> message = officialLetterservice.GetOfficialLetterById(oId);
+			HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+			return ResponseEntity.status(httpStatus).body(message);
+
 		}
 	
 		

@@ -54,13 +54,6 @@ public class AdminController {
 
 	@PostMapping("/AddEmployee")
 	public ResponseEntity<Message<EmployeeDto>> registerEmployee(@RequestBody EmployeeDto dto) {
-//	        @RequestPart("data") String employeeJson,
-//	        @RequestPart(value = "image", required = false) MultipartFile imageFile) 
-//	        throws JsonMappingException, JsonProcessingException {
-//	    
-//	    ObjectMapper objectMapper = new ObjectMapper();
-//	    EmployeeDto dto = objectMapper.readValue(employeeJson, EmployeeDto.class);
-
 		Message<EmployeeDto> message = employeeService.registerUser(dto);
 		HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 
@@ -224,8 +217,6 @@ public class AdminController {
 		return ResponseEntity.status(httpStatus).body(message);
 
 	}
-
-	
 
 	@PostMapping("/EditAccess")
 	public ResponseEntity<Message<EmployeeDto>> AddOfficialLetterType(@RequestParam("eid") int eid) {
