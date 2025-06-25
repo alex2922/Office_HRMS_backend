@@ -191,53 +191,47 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Message<userdetailsResponseDto> getUserById(Integer uId) {
-		Message<userdetailsResponseDto> message = new Message<>();
-		System.out.println("Welcome to service"+uId);
-		try {
-			User user = userRepository.getById(uId);
-			if (user == null) {
-				message.setStatus(HttpStatus.NOT_FOUND);
-				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-				return message;
-			}
-			else {
-				if (user.getRole().equals("EMPLOYEE")) {
-					Employee emp = employeeRepository.findByuId(uId);
-					if (emp == null) {
-						message.setStatus(HttpStatus.NOT_FOUND);
-						message.setResponseMessage("Employee record not found");
-						return message;
-					}
-		
-					// Map user and employee to DTO
-					userdetailsResponseDto responseDto = new userdetailsResponseDto();
-					responseDto.setUId(user.getUId());
-					responseDto.setEmail(user.getEmail());
-					responseDto.setRole(user.getRole());
-					responseDto.setEmployeeId(emp.getEmployeeId());
-					message.setStatus(HttpStatus.OK);
-					message.setResponseMessage(constants.RECORD_FOUND);
-					message.setData(responseDto);
-					return message;// assuming it's a String or matches type
-				}
-				userdetailsResponseDto responseDto = new userdetailsResponseDto();
-				responseDto.setUId(user.getUId());
-				responseDto.setEmail(user.getEmail());
-				responseDto.setRole(user.getRole());
+		 Message<userdetailsResponseDto> message = new Message<>();
+		    System.out.println("Welcome to service" + uId);
 
-			message.setStatus(HttpStatus.OK);
-			message.setResponseMessage(constants.RECORD_FOUND);
-			message.setData(responseDto);
-			return message;
-			}
-		} catch (Exception e) {
-			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-			message.setResponseMessage(e.getMessage());
-			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-			return message;
+		    try {
+		        User user = userRepository.getById(uId);
+		        if (user == null) {
+		            message.setStatus(HttpStatus.NOT_FOUND);
+		            message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+		            return message;
+		        }
+
+		        userdetailsResponseDto responseDto = new userdetailsResponseDto();
+		        responseDto.setUId(user.getUId());
+		        responseDto.setEmail(user.getEmail());
+		        responseDto.setRole(user.getRole());
+
+		        long totalEmployees = employeeRepository.count(); // get total employee count
+		        responseDto.setTotalEmployeeCount(totalEmployees);
+
+		        if ("EMPLOYEE".equalsIgnoreCase(user.getRole())) {
+		            Employee emp = employeeRepository.findByuId(uId);
+		            if (emp == null) {
+		                message.setStatus(HttpStatus.NOT_FOUND);
+		                message.setResponseMessage("Employee record not found");
+		                return message;
+		            }
+		            responseDto.setEmployeeId(emp.getEmployeeId());
+		        }
+
+		        message.setStatus(HttpStatus.OK);
+		        message.setResponseMessage(constants.RECORD_FOUND);
+		        message.setData(responseDto);
+		        return message;
+
+		    } catch (Exception e) {
+		        message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		        message.setResponseMessage(e.getMessage());
+		        log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+		        return message;
+		    }
 		}
-	}
-
 	@Override
 	public Message<UserDto> sendOtp(String email) {
 		Message<UserDto> message = new Message<>();

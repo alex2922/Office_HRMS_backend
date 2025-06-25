@@ -12,4 +12,5 @@ public class userdetailsResponseDto {
 	private String email;
 	private String role;
 	private String employeeId;
+	private long totalEmployeeCount;
 }
