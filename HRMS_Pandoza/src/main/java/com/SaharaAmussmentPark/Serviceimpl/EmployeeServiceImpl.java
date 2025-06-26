@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
+import com.SaharaAmussmentPark.Dto.EmployeeInfoDto;
 import com.SaharaAmussmentPark.Dto.EmployeeSummaryDto;
 import com.SaharaAmussmentPark.Dto.LeaveRecordRequest;
 import com.SaharaAmussmentPark.Dto.Message;
@@ -294,10 +295,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Message<EmployeeSummaryDto> getEmployeeSummary() {
 		 Message<EmployeeSummaryDto> response = new Message<>();
 		    try {
-		        List<String> employeeNames = employeeRepository.findAllEmployeeNames(); // Custom query
-		        int totalCount = employeeNames.size();
+		    	  List<EmployeeInfoDto> employeeList = employeeRepository.findAllEmployeeInfo();
+		          int totalCount = employeeList.size();
 
-		        EmployeeSummaryDto summaryDto = new EmployeeSummaryDto(totalCount, employeeNames);
+		          EmployeeSummaryDto summaryDto = new EmployeeSummaryDto(totalCount, employeeList);
 		        response.setStatus(HttpStatus.OK);
 		        response.setResponseMessage(constants.RECORD_FOUND);
 		        response.setData(summaryDto);
