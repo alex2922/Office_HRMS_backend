@@ -15,9 +15,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.SaharaAmussmentPark.Dto.DocumentsManegmentDto;
 import com.SaharaAmussmentPark.Repository.DocumentsRepository;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
+import com.SaharaAmussmentPark.Repository.UserRepository;
 import com.SaharaAmussmentPark.Service.DocumentManegmentService;
 import com.SaharaAmussmentPark.model.DocumentsManegment;
 import com.SaharaAmussmentPark.model.Employee;
+import com.SaharaAmussmentPark.model.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +30,7 @@ import lombok.extern.log4j.Log4j2;
 public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	private final DocumentsRepository documentrepository;
 	private final EmployeeRepository employeeRepository;
+	private final UserRepository userRepository;
 	@Value("${spring.servlet.multipart.location}")
 	public String uploadDirectory;
 
@@ -38,6 +41,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
            MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
 	    Map<String, Object> response = new LinkedHashMap<>();
+	    Optional<User> user = userRepository.findById(uId);
 	    try {
 	        // Step 1: Fetch Employee by uId
 	        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
@@ -46,10 +50,13 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	            response.put("message", "Employee not found for uId: " + uId);
 	            return response;
 	        }
+	        if(user.get().getRole().equals("EMPLOYEE")){
+	        	
 	        if (employeeOpt.get().isEditableAccess() == false) {
 	            response.put("status", HttpStatus.NOT_FOUND);
 	            response.put("message", "You have already uploaded documents please coordinate with Admin");
 	            return response;
+	        }
 	        }
 
 	        Employee employee = employeeOpt.get();
