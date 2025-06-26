@@ -24,6 +24,7 @@ public class OfficialLetterMapperImpl implements OfficialLetterMapper {
 		dto.setHrManagerName(officialLetter.getHrManagerName());
 		dto.setSalary(officialLetter.getSalary());
 		dto.setStatus(officialLetter.getStatus());
+		dto.setGender(officialLetter.getGender());
 		return dto;
 		
 	}
@@ -42,6 +43,7 @@ public class OfficialLetterMapperImpl implements OfficialLetterMapper {
 		officialLetter.setHrManagerName(dto.getHrManagerName());
 		officialLetter.setSalary(dto.getSalary());
 		officialLetter.setStatus(dto.getStatus());
+		officialLetter.setGender(dto.getGender());
 		return officialLetter;
 		
 		
