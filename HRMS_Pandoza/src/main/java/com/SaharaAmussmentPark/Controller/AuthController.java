@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SaharaAmussmentPark.Dto.ChangePasswordDto;
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.EmployeeResponse;
+import com.SaharaAmussmentPark.Dto.EmployeeSummaryDto;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
@@ -102,5 +103,11 @@ public class AuthController {
 		Message<EmployeeDto> message = employeeService.getEmployeeByUid(uId);
 		return ResponseEntity.status(HttpStatus.OK).body(message);
 	}
-
+	@GetMapping("/getEmployeeSummary")
+	public ResponseEntity<Message<EmployeeSummaryDto>> getEmployeeSummary() {
+	    log.info("In EmployeeController getEmployeeSummary()");
+	    Message<EmployeeSummaryDto> response = employeeService.getEmployeeSummary();
+	    HttpStatus status = HttpStatus.valueOf(response.getStatus().value());
+	    return ResponseEntity.status(status).body(response);
+	}
 }

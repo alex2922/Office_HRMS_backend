@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
+import com.SaharaAmussmentPark.Dto.EmployeeSummaryDto;
 import com.SaharaAmussmentPark.Dto.LeaveRecordRequest;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
@@ -288,4 +289,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	}
 
+
+	@Override
+	public Message<EmployeeSummaryDto> getEmployeeSummary() {
+		 Message<EmployeeSummaryDto> response = new Message<>();
+		    try {
+		        List<String> employeeNames = employeeRepository.findAllEmployeeNames(); // Custom query
+		        int totalCount = employeeNames.size();
+
+		        EmployeeSummaryDto summaryDto = new EmployeeSummaryDto(totalCount, employeeNames);
+		        response.setStatus(HttpStatus.OK);
+		        response.setResponseMessage(constants.RECORD_FOUND);
+		        response.setData(summaryDto);
+		    } catch (Exception e) {
+		        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+		        response.setResponseMessage(e.getMessage());
+		        log.error(constants.SOMETHING_WENT_WRONG + "  " + response.getResponseMessage());
+		    }
+		    return response;
+		}
 }

@@ -1,8 +1,10 @@
 package com.SaharaAmussmentPark.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.SaharaAmussmentPark.model.Employee;
@@ -21,6 +23,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 
 	Employee findByuId(Integer uId);
+	
+	@Query("SELECT e.employeeName FROM Employee e")
+    List<String> findAllEmployeeNames();
 
 	
 
