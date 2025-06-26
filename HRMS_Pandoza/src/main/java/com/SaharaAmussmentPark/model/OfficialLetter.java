@@ -25,5 +25,6 @@ public class OfficialLetter {
 	private String hrManagerName;
 	private int salary;
 	private String status;
+	private String gender;
 
 }

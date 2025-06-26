@@ -76,6 +76,7 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			officialLetter.setHrManagerName(request.getHrManagerName());
 			officialLetter.setSalary(request.getSalary());
 			officialLetter.setStatus(request.getStatus());
+			officialLetter.setGender(request.getGender());
 			
 			
 			officialLetterRepository.save(officialLetter);

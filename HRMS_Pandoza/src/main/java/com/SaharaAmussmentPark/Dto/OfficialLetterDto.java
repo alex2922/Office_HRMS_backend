@@ -17,5 +17,6 @@ public class OfficialLetterDto {
 	private String hrManagerName;
 	private int salary;
 	private String status;
+	private String gender;
 
 }
