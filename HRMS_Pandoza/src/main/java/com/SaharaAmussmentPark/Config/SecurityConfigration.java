@@ -69,7 +69,7 @@ public class SecurityConfigration {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173","https://hrms.pandozasolutions.com")); // Allow all origins
+	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173","https://hrms.pandozasolutions.com/")); // Allow all origins
 	    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow specific methods
 	    configuration.setAllowedHeaders(Arrays.asList("*")); // Allow all headers
 	    configuration.setAllowCredentials(false); // Credentials are not allowed with "*" origin
