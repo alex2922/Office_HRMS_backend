@@ -141,142 +141,185 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
             MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile latestEducationCertificateOrDegree,
            MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
-	    Map<String, Object> response = new LinkedHashMap<>();
+		  Map<String, Object> response = new LinkedHashMap<>();
 
-	    try {
-	        // Step 1: Fetch existing Documents by uId
-	        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
-	        if (existingDocOpt.isEmpty()) {
-	            response.put("status", HttpStatus.NOT_FOUND);
-	            response.put("message", "Documents not found for uId: " + uId);
-	            return response;
-	        }
-	        DocumentsManegment documents = existingDocOpt.get();
-
-	        // Step 2: Fetch Employee by uId (for folder and naming)
-	        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
-	        if (employeeOpt.isEmpty()) {
-	            response.put("status", HttpStatus.NOT_FOUND);
-	            response.put("message", "Employee not found for uId: " + uId);
-	            return response;
-	        }
-
-	        Employee employee = employeeOpt.get();
-	        String employeeId = employee.getEmployeeId();
-	        String employeeName = employee.getEmployeeName().replaceAll("\\s+", "");
-	        String folderName = employeeId + "_" + employeeName;
-
-	        // Step 3: Prepare folder path
-	        File basePath = new File(uploadDirectory + File.separator + folderName);
-	        if (!basePath.exists()) basePath.mkdirs();
-
-	        // Step 4: Update files only if new file is provided
-	        if (adharCard != null && !adharCard.isEmpty()) {
-	            documents.setAdharCard(uploadFile(adharCard, basePath, "adharCard"));
-	        }
-	        if (panCard != null && !panCard.isEmpty()) {
-	            documents.setPanCard(uploadFile(panCard, basePath, "panCard"));
-	        }
-	        if (experianceLetter != null && !experianceLetter.isEmpty()) {
-	            documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
-	        }
-	        if (salarySlip1 != null && !salarySlip1.isEmpty()) {
-	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
-	        }
-	        if (bankStatement != null && !bankStatement.isEmpty()) {
-	            documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
-	        }
-	        if (salarySlip2 != null && !salarySlip2.isEmpty()) {
-	            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
-	        }
-	        if (salarySlip3 != null && !salarySlip3.isEmpty()) {
-	            documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
-	        }
-	        if (tenthCertificate != null && !tenthCertificate.isEmpty()) {
-	            documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
-	        }
-	        if (twelfthCertificate != null && !twelfthCertificate.isEmpty()) {
-	            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
-	        }
-	        if (degreeCertificate != null && !degreeCertificate.isEmpty()) {
-	            documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
-	        }
-	        if (relevingLetter != null && !relevingLetter.isEmpty()) {
-	            documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
-	        }
-	        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty()) {
-	            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
-	        }
-	        if (employeeImage != null && !employeeImage.isEmpty()) {
-	            documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
-	        }
-	        if (diplomaCertificate != null && !diplomaCertificate.isEmpty()) {
-	            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
-	        }
-
-	        // Step 5: Save updated DocumentsManegment entity
-	        documentrepository.save(documents);
-
-	        response.put("status", HttpStatus.OK);
-	        response.put("message", "Documents updated successfully");
-	        response.put("data", documents);
-	        return response;
-
-	    } catch (Exception e) {
-	        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
-	        response.put("message", "Update failed: " + e.getMessage());
-	        response.put("data", Collections.emptyList());
-	        return response;
-	    }
-	}
-
-	@Override
-	public Map<String, Object> getDocuments(String employeeId) {
-		 Map<String, Object> response = new LinkedHashMap<>();
 		    try {
-		        // Step 1: Fetch existing Documents by uId
-		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByemployeeId(employeeId);
+		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
 		        if (existingDocOpt.isEmpty()) {
 		            response.put("status", HttpStatus.NOT_FOUND);
-		            response.put("message", "Documents not found for uId: " + employeeId);
+		            response.put("message", "Documents not found for uId: " + uId);
 		            return response;
 		        }
 
 		        DocumentsManegment documents = existingDocOpt.get();
 
-		        // Step 2: Map entity to DTO
-		        DocumentsManegmentDto documentsDto = new DocumentsManegmentDto();
-		        documentsDto.setAdharCard(documents.getAdharCard());
-		        documentsDto.setPanCard(documents.getPanCard());
-		        documentsDto.setExperianceLetter(documents.getExperianceLetter());
-		        documentsDto.setSalarySlip1(documents.getSalarySlip1());
-		        documentsDto.setSalarySlip2(documents.getSalarySlip2());
-		        documentsDto.setSalarySlip3(documents.getSalarySlip3());
-		        documentsDto.setBankStatement(documents.getBankStatement());
-		       documentsDto.setTenthCertificate(documents.getTenthCertificate());
-		        documentsDto.setTwelfthCertificate(documents.getTwelfthCertificate());
-		        documentsDto.setDegreeCertificate(documents.getDegreeCertificate());
-		        documentsDto.setRelievingLetter(documents.getRelievingLetter());
-		        documentsDto.setLatestEducationCertificateOrDegree(documents.getLatestEducationCertificateOrDegree());
-		        documentsDto.setEmployeeImage(documents.getEmployeeImage());
-		        documentsDto.setUId(documents.getUId());
-		        documentsDto.setEmployeeId(documents.getEmployeeId());
-		        documentsDto.setEmployeeName(documents.getEmployeeName());
-		        documentsDto.setDId(documents.getDId());
-		        documentsDto.setDiplomaCertificate(documents.getDiplomaCertificate());
+		        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
+		        if (employeeOpt.isEmpty()) {
+		            response.put("status", HttpStatus.NOT_FOUND);
+		            response.put("message", "Employee not found for uId: " + uId);
+		            return response;
+		        }
+
+		        Employee employee = employeeOpt.get();
+		        String employeeId = employee.getEmployeeId();
+		        String employeeName = employee.getEmployeeName().replaceAll("\\s+", "");
+		        String folderName = employeeId + "_" + employeeName;
+
+		        // ✅ Create folder path
+		        File basePath = new File(uploadDirectory + File.separator + folderName);
+		        if (!basePath.exists()) basePath.mkdirs();
+
+		        // ✅ Upload only if file is provided
+		        if (adharCard != null && !adharCard.isEmpty())
+		            documents.setAdharCard(uploadFile(adharCard, basePath, "adharCard"));
+		        if (panCard != null && !panCard.isEmpty())
+		            documents.setPanCard(uploadFile(panCard, basePath, "panCard"));
+		        if (experianceLetter != null && !experianceLetter.isEmpty())
+		            documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
+		        if (salarySlip1 != null && !salarySlip1.isEmpty())
+		            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
+		        if (salarySlip2 != null && !salarySlip2.isEmpty())
+		            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
+		        if (salarySlip3 != null && !salarySlip3.isEmpty())
+		            documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
+		        if (bankStatement != null && !bankStatement.isEmpty())
+		            documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
+		        if (tenthCertificate != null && !tenthCertificate.isEmpty())
+		            documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
+		        if (twelfthCertificate != null && !twelfthCertificate.isEmpty())
+		            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
+		        if (degreeCertificate != null && !degreeCertificate.isEmpty())
+		            documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
+		        if (relevingLetter != null && !relevingLetter.isEmpty())
+		            documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
+		        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty())
+		            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
+		        if (employeeImage != null && !employeeImage.isEmpty())
+		            documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
+		        if (diplomaCertificate != null && !diplomaCertificate.isEmpty())
+		            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
+
+		        documentrepository.save(documents);
 
 		        response.put("status", HttpStatus.OK);
-		        response.put("message", "Documents found for EmployeeId: " + employeeId);
-		        response.put("data", documentsDto);
+		        response.put("message", "Documents updated successfully");
+		        response.put("data", documents);
 		        return response;
+
 		    } catch (Exception e) {
+		        e.printStackTrace(); // Helps for debugging
 		        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
-		        response.put("message", "Error fetching Documents: " + e.getMessage());
+		        response.put("message", "Update failed: " + e.getMessage());
 		        response.put("data", Collections.emptyList());
 		        return response;
 		    }
+		
 	}
 
+//	@Override
+//	public Map<String, Object> getDocuments(String employeeId) {
+//		 Map<String, Object> response = new LinkedHashMap<>();
+//		 
+//		    try {
+//		        // Step 1: Fetch existing Documents by uId
+//		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByemployeeId(employeeId);
+//		        if (existingDocOpt.isEmpty()) {
+//		            response.put("status", HttpStatus.NOT_FOUND);
+//		            response.put("message", "Documents not found for uId: " + employeeId);
+//		            return response;
+//		        }
+//
+//		        DocumentsManegment documents = existingDocOpt.get();
+//
+//		        // Step 2: Map entity to DTO
+//		        DocumentsManegmentDto documentsDto = new DocumentsManegmentDto();
+//		        documentsDto.setAdharCard(documents.getAdharCard());
+//		        documentsDto.setPanCard(documents.getPanCard());
+//		        documentsDto.setExperianceLetter(documents.getExperianceLetter());
+//		        documentsDto.setSalarySlip1(documents.getSalarySlip1());
+//		        documentsDto.setSalarySlip2(documents.getSalarySlip2());
+//		        documentsDto.setSalarySlip3(documents.getSalarySlip3());
+//		        documentsDto.setBankStatement(documents.getBankStatement());
+//		       documentsDto.setTenthCertificate(documents.getTenthCertificate());
+//		        documentsDto.setTwelfthCertificate(documents.getTwelfthCertificate());
+//		        documentsDto.setDegreeCertificate(documents.getDegreeCertificate());
+//		        documentsDto.setRelievingLetter(documents.getRelievingLetter());
+//		        documentsDto.setLatestEducationCertificateOrDegree(documents.getLatestEducationCertificateOrDegree());
+//		        documentsDto.setEmployeeImage(documents.getEmployeeImage());
+//		        documentsDto.setUId(documents.getUId());
+//		        documentsDto.setEmployeeId(documents.getEmployeeId());
+//		        documentsDto.setEmployeeName(documents.getEmployeeName());
+//		        documentsDto.setDId(documents.getDId());
+//		        documentsDto.setDiplomaCertificate(documents.getDiplomaCertificate());
+//
+//		        response.put("status", HttpStatus.OK);
+//		        response.put("message", "Documents found for EmployeeId: " + employeeId);
+//		        response.put("data", documentsDto);
+//		        return response;
+//		    } catch (Exception e) {
+//		        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+//		        response.put("message", "Error fetching Documents: " + e.getMessage());
+//		        response.put("data", Collections.emptyList());
+//		        return response;
+//		    }
+//	}
+	@Override
+	public Map<String, Object> getDocuments(String employeeId) {
+	    Map<String, Object> response = new LinkedHashMap<>();
+
+	    try {
+	        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByemployeeId(employeeId);
+	        if (existingDocOpt.isEmpty()) {
+	            response.put("status", HttpStatus.NOT_FOUND);
+	            response.put("message", "Documents not found for employeeId: " + employeeId);
+	            return response;
+	        }
+
+	        DocumentsManegment documents = existingDocOpt.get();
+	        DocumentsManegmentDto documentsDto = new DocumentsManegmentDto();
+
+	        documentsDto.setUId(documents.getUId());
+	        documentsDto.setEmployeeId(documents.getEmployeeId());
+	        documentsDto.setEmployeeName(documents.getEmployeeName());
+	        documentsDto.setDId(documents.getDId());
+
+	        // Convert stored file paths to secure URLs
+	        documentsDto.setAdharCard(convertToSecureUrl(documents.getAdharCard()));
+	        documentsDto.setPanCard(convertToSecureUrl(documents.getPanCard()));
+	        documentsDto.setExperianceLetter(convertToSecureUrl(documents.getExperianceLetter()));
+	        documentsDto.setSalarySlip1(convertToSecureUrl(documents.getSalarySlip1()));
+	        documentsDto.setSalarySlip2(convertToSecureUrl(documents.getSalarySlip2()));
+	        documentsDto.setSalarySlip3(convertToSecureUrl(documents.getSalarySlip3()));
+	        documentsDto.setBankStatement(convertToSecureUrl(documents.getBankStatement()));
+	        documentsDto.setTenthCertificate(convertToSecureUrl(documents.getTenthCertificate()));
+	        documentsDto.setTwelfthCertificate(convertToSecureUrl(documents.getTwelfthCertificate()));
+	        documentsDto.setDegreeCertificate(convertToSecureUrl(documents.getDegreeCertificate()));
+	        documentsDto.setRelievingLetter(convertToSecureUrl(documents.getRelievingLetter()));
+	        documentsDto.setLatestEducationCertificateOrDegree(convertToSecureUrl(documents.getLatestEducationCertificateOrDegree()));
+	        documentsDto.setEmployeeImage(convertToSecureUrl(documents.getEmployeeImage()));
+	        documentsDto.setDiplomaCertificate(convertToSecureUrl(documents.getDiplomaCertificate()));
+
+	        response.put("status", HttpStatus.OK);
+	        response.put("message", "Documents found for employeeId: " + employeeId);
+	        response.put("data", documentsDto);
+	        return response;
+
+	    } catch (Exception e) {
+	        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+	        response.put("message", "Error fetching documents: " + e.getMessage());
+	        response.put("data", Collections.emptyList());
+	        return response;
+	    }
+	}
+
+	// Helper method to convert stored relative path to full URL
+	private String convertToSecureUrl(String storedPath) {
+	    if (storedPath == null || storedPath.isBlank()) return null;
+	    return "https://diwise.cloud/api/employee/document/" + storedPath;
+	}
+	
+	
+	
 	private String uploadFile(MultipartFile file, File directory, String type) throws IOException {
 		if (file != null && !file.isEmpty()) {
 	        if (file.getSize() > 2 * 1024 * 1024) {
@@ -301,7 +344,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        File destFile = new File(directory, newFileName);
 	        file.transferTo(destFile);
 
-	        return "https://diwise.cloud/Hrms/" + directory.getName() + "/"+ newFileName;
+	        return  directory.getName() + "/" + newFileName;
 	    }
 
 	    throw new IOException("File is empty or null");

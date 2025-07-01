@@ -2,8 +2,19 @@ package com.SaharaAmussmentPark.Controller;
 
 
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +42,7 @@ public class EmployeeController {
 	private final EmployeeService employeeService;
 	private final UserService userservice;
 	public final OfficialLetterService officialLetterservice;
+	 private final String baseFolder = "/var/www/images/hrms";
 
 	
 	
@@ -57,6 +69,46 @@ public class EmployeeController {
 			return ResponseEntity.status(httpStatus).body(message);
 
 		}
-	
+		@GetMapping("/{folder}/{filename:.+}")
+		public ResponseEntity<Resource> serveDocument(@PathVariable String folder,
+		                                              @PathVariable String filename) throws IOException {
+
+		    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		    if (authentication == null || !authentication.isAuthenticated()) {
+		        return ResponseEntity.status(401).build();
+		    }
+
+		    // Suppose your JWT details are in authentication.getPrincipal()
+		    // Cast it to your UserDetails or custom JWT class
+
+		    userdetailsResponseDto userDetails = (userdetailsResponseDto) authentication.getPrincipal();
+
+		    String username = userDetails.getEmail();
+		    String employeeIdFromToken = userDetails.getEmployeeId();  // custom getter
+		    String roleFromToken = userDetails.getRole();              // custom getter
+
+		    // Authorization check:
+		    boolean isAdmin = roleFromToken.equalsIgnoreCase("ADMIN");
+
+		    if (!isAdmin && (employeeIdFromToken == null || !folder.startsWith(employeeIdFromToken))) {
+		        return ResponseEntity.status(403).build();
+		    }
+
+		    Path filePath = Paths.get(baseFolder, folder, filename);
+		    if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
+		        return ResponseEntity.notFound().build();
+		    }
+
+		    Resource resource = new UrlResource(filePath.toUri());
+
+		    String contentType = Files.probeContentType(filePath);
+		    if (contentType == null) contentType = "application/octet-stream";
+
+		    return ResponseEntity.ok()
+		            .contentType(MediaType.parseMediaType(contentType))
+		            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+		            .body(resource);
+		}
+
 		
 }
