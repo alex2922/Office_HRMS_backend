@@ -40,100 +40,96 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
             MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile latestEducationCertificateOrDegree,
            MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
-	    Map<String, Object> response = new LinkedHashMap<>();
-	    Optional<User> user = userRepository.findById(uId);
-	    try {
-	        // Step 1: Fetch Employee by uId
-	        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
-	        if (employeeOpt.isEmpty()) {
-	            response.put("status", HttpStatus.NOT_FOUND);
-	            response.put("message", "Employee not found for uId: " + uId);
-	            return response;
-	        }
-	        if(user.get().getRole().equals("EMPLOYEE")){
-	        	
-	        if (employeeOpt.get().isEditableAccess() == false) {
-	            response.put("status", HttpStatus.NOT_FOUND);
-	            response.put("message", "You have already uploaded documents please coordinate with Admin");
-	            return response;
-	        }
-	        }
+		 Map<String, Object> response = new LinkedHashMap<>();
+		    Optional<User> user = userRepository.findById(uId);
 
-	        Employee employee = employeeOpt.get();
-	        String employeeId = employee.getEmployeeId();
-	        String employeeName = employee.getEmployeeName().replaceAll("\\s+", ""); // Clean name
+		    try {
+		        // Fetch Employee by uId
+		        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
+		        if (employeeOpt.isEmpty()) {
+		            response.put("status", HttpStatus.NOT_FOUND);
+		            response.put("message", "Employee not found for uId: " + uId);
+		            return response;
+		        }
 
-	        // Step 2: Create employee folder if not exists
-	        String folderName = employeeId + "_" + employeeName;
-	        File basePath = new File(uploadDirectory + File.separator + folderName);
-	        if (!basePath.exists()) basePath.mkdirs();
+		        if (user.isPresent() && user.get().getRole().equals("EMPLOYEE")) {
+		            if (!employeeOpt.get().isEditableAccess()) {
+		                response.put("status", HttpStatus.FORBIDDEN);
+		                response.put("message", "You have already uploaded documents, please coordinate with Admin");
+		                return response;
+		            }
+		        }
 
-	        // Step 3: Upload files
-	        DocumentsManegment documents = new DocumentsManegment();
-	        documents.setUId(uId);
-	        documents.setEmployeeId(employeeId);
-	        documents.setEmployeeName(employee.getEmployeeName());
+		        Employee employee = employeeOpt.get();
+		        String employeeId = employee.getEmployeeId();
+		        String employeeName = employee.getEmployeeName().replaceAll("\\s+", "");
+		        String folderName = employeeId + "_" + employeeName;
 
-	        if (adharCard != null && !adharCard.isEmpty())
-	            documents.setAdharCard(uploadFile(adharCard, basePath, "adharCard"));
+		        DocumentsManegment documents = new DocumentsManegment();
+		        documents.setUId(uId);
+		        documents.setEmployeeId(employeeId);
+		        documents.setEmployeeName(employee.getEmployeeName());
 
-	        if (panCard != null && !panCard.isEmpty())
-	            documents.setPanCard(uploadFile(panCard, basePath, "panCard"));
+		        if (adharCard != null && !adharCard.isEmpty())
+		            documents.setAdharCard(uploadFile(adharCard, folderName, "adharCard"));
 
-	        if (experianceLetter != null && !experianceLetter.isEmpty())
-	            documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
+		        if (panCard != null && !panCard.isEmpty())
+		            documents.setPanCard(uploadFile(panCard, folderName, "panCard"));
 
-	        if (salarySlip1 != null && !salarySlip1.isEmpty())
-	            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
+		        if (experianceLetter != null && !experianceLetter.isEmpty())
+		            documents.setExperianceLetter(uploadFile(experianceLetter, folderName, "experienceLetter"));
 
-	        if (salarySlip2 != null && !salarySlip2.isEmpty())
-	            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
+		        if (salarySlip1 != null && !salarySlip1.isEmpty())
+		            documents.setSalarySlip1(uploadFile(salarySlip1, folderName, "salarySlip1"));
 
-	        if (salarySlip3 != null && !salarySlip3.isEmpty())
-	            documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
+		        if (salarySlip2 != null && !salarySlip2.isEmpty())
+		            documents.setSalarySlip2(uploadFile(salarySlip2, folderName, "salarySlip2"));
 
-	        if (bankStatement != null && !bankStatement.isEmpty())
-	            documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
+		        if (salarySlip3 != null && !salarySlip3.isEmpty())
+		            documents.setSalarySlip3(uploadFile(salarySlip3, folderName, "salarySlip3"));
 
-	        if (tenthCertificate != null && !tenthCertificate.isEmpty())
-	            documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
+		        if (bankStatement != null && !bankStatement.isEmpty())
+		            documents.setBankStatement(uploadFile(bankStatement, folderName, "bankStatement"));
 
-	        if (twelfthCertificate != null && !twelfthCertificate.isEmpty())
-	            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
+		        if (tenthCertificate != null && !tenthCertificate.isEmpty())
+		            documents.setTenthCertificate(uploadFile(tenthCertificate, folderName, "tenthCertificate"));
 
-	        if (degreeCertificate != null && !degreeCertificate.isEmpty())
-	            documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
+		        if (twelfthCertificate != null && !twelfthCertificate.isEmpty())
+		            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, folderName, "twelfthCertificate"));
 
-	        if (relevingLetter != null && !relevingLetter.isEmpty())
-	            documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
+		        if (degreeCertificate != null && !degreeCertificate.isEmpty())
+		            documents.setDegreeCertificate(uploadFile(degreeCertificate, folderName, "degreeCertificate"));
 
-	        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty())
-	            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
+		        if (relevingLetter != null && !relevingLetter.isEmpty())
+		            documents.setRelievingLetter(uploadFile(relevingLetter, folderName, "relevingLetter"));
 
-	        if (employeeImage != null && !employeeImage.isEmpty())
-	            documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
+		        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty())
+		            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, folderName, "educationCertificate"));
 
-	        if (diplomaCertificate != null && !diplomaCertificate.isEmpty())
-	            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
+		        if (employeeImage != null && !employeeImage.isEmpty())
+		            documents.setEmployeeImage(uploadFile(employeeImage, folderName, "employeeImage"));
 
-	        // Step 4: Save to DB
-	        documentrepository.save(documents);
-	        employee.setEditableAccess(false);
-	        employeeRepository.save(employee);
+		        if (diplomaCertificate != null && !diplomaCertificate.isEmpty())
+		            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, folderName, "diplomaCertificate"));
 
-	        response.put("status", HttpStatus.OK);
-	        response.put("message", "Documents uploaded successfully");
-	        response.put("data", documents);
-	        return response;
+		        // Save documents & update employee editableAccess
+		        documentrepository.save(documents);
+		        employee.setEditableAccess(false);
+		        employeeRepository.save(employee);
 
-	    } catch (Exception e) {
-	        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
-	        response.put("message", "Upload failed: " + e.getMessage());
-	        response.put("data", Collections.emptyList());
-	        return response;
-	    }
-	}
+		        response.put("status", HttpStatus.OK);
+		        response.put("message", "Documents uploaded successfully");
+		        response.put("data", documents);
+		        return response;
 
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+		        response.put("message", "Upload failed: " + e.getMessage());
+		        response.put("data", Collections.emptyList());
+		        return response;
+		    }
+		}
 	@Override
 	public Map<String, Object> updateDocuments(
 			MultipartFile adharCard, MultipartFile panCard, MultipartFile experianceLetter,
@@ -141,7 +137,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
             MultipartFile relevingLetter,MultipartFile tenthCertificate,MultipartFile twelfthCertificate,MultipartFile degreeCertificate,MultipartFile latestEducationCertificateOrDegree,
            MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
-		  Map<String, Object> response = new LinkedHashMap<>();
+		 Map<String, Object> response = new LinkedHashMap<>();
 
 		    try {
 		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
@@ -165,39 +161,47 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        String employeeName = employee.getEmployeeName().replaceAll("\\s+", "");
 		        String folderName = employeeId + "_" + employeeName;
 
-		        // ✅ Create folder path
-		        File basePath = new File(uploadDirectory + File.separator + folderName);
-		        if (!basePath.exists()) basePath.mkdirs();
-
-		        // ✅ Upload only if file is provided
 		        if (adharCard != null && !adharCard.isEmpty())
-		            documents.setAdharCard(uploadFile(adharCard, basePath, "adharCard"));
+		            documents.setAdharCard(uploadFile(adharCard, folderName, "adharCard"));
+
 		        if (panCard != null && !panCard.isEmpty())
-		            documents.setPanCard(uploadFile(panCard, basePath, "panCard"));
+		            documents.setPanCard(uploadFile(panCard, folderName, "panCard"));
+
 		        if (experianceLetter != null && !experianceLetter.isEmpty())
-		            documents.setExperianceLetter(uploadFile(experianceLetter, basePath, "experienceLetter"));
+		            documents.setExperianceLetter(uploadFile(experianceLetter, folderName, "experienceLetter"));
+
 		        if (salarySlip1 != null && !salarySlip1.isEmpty())
-		            documents.setSalarySlip1(uploadFile(salarySlip1, basePath, "salarySlip1"));
+		            documents.setSalarySlip1(uploadFile(salarySlip1, folderName, "salarySlip1"));
+
 		        if (salarySlip2 != null && !salarySlip2.isEmpty())
-		            documents.setSalarySlip2(uploadFile(salarySlip2, basePath, "salarySlip2"));
+		            documents.setSalarySlip2(uploadFile(salarySlip2, folderName, "salarySlip2"));
+
 		        if (salarySlip3 != null && !salarySlip3.isEmpty())
-		            documents.setSalarySlip3(uploadFile(salarySlip3, basePath, "salarySlip3"));
+		            documents.setSalarySlip3(uploadFile(salarySlip3, folderName, "salarySlip3"));
+
 		        if (bankStatement != null && !bankStatement.isEmpty())
-		            documents.setBankStatement(uploadFile(bankStatement, basePath, "bankStatement"));
+		            documents.setBankStatement(uploadFile(bankStatement, folderName, "bankStatement"));
+
 		        if (tenthCertificate != null && !tenthCertificate.isEmpty())
-		            documents.setTenthCertificate(uploadFile(tenthCertificate, basePath, "tenthCertificate"));
+		            documents.setTenthCertificate(uploadFile(tenthCertificate, folderName, "tenthCertificate"));
+
 		        if (twelfthCertificate != null && !twelfthCertificate.isEmpty())
-		            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, basePath, "twelfthCertificate"));
+		            documents.setTwelfthCertificate(uploadFile(twelfthCertificate, folderName, "twelfthCertificate"));
+
 		        if (degreeCertificate != null && !degreeCertificate.isEmpty())
-		            documents.setDegreeCertificate(uploadFile(degreeCertificate, basePath, "degreeCertificate"));
+		            documents.setDegreeCertificate(uploadFile(degreeCertificate, folderName, "degreeCertificate"));
+
 		        if (relevingLetter != null && !relevingLetter.isEmpty())
-		            documents.setRelievingLetter(uploadFile(relevingLetter, basePath, "relevingLetter"));
+		            documents.setRelievingLetter(uploadFile(relevingLetter, folderName, "relevingLetter"));
+
 		        if (latestEducationCertificateOrDegree != null && !latestEducationCertificateOrDegree.isEmpty())
-		            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, basePath, "educationCertificate"));
+		            documents.setLatestEducationCertificateOrDegree(uploadFile(latestEducationCertificateOrDegree, folderName, "educationCertificate"));
+
 		        if (employeeImage != null && !employeeImage.isEmpty())
-		            documents.setEmployeeImage(uploadFile(employeeImage, basePath, "employeeImage"));
+		            documents.setEmployeeImage(uploadFile(employeeImage, folderName, "employeeImage"));
+
 		        if (diplomaCertificate != null && !diplomaCertificate.isEmpty())
-		            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, basePath, "diplomaCertificate"));
+		            documents.setDiplomaCertificate(uploadFile(diplomaCertificate, folderName, "diplomaCertificate"));
 
 		        documentrepository.save(documents);
 
@@ -207,14 +211,13 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		        return response;
 
 		    } catch (Exception e) {
-		        e.printStackTrace(); // Helps for debugging
+		        e.printStackTrace();
 		        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
 		        response.put("message", "Update failed: " + e.getMessage());
 		        response.put("data", Collections.emptyList());
 		        return response;
 		    }
-		
-	}
+		}
 
 //	@Override
 //	public Map<String, Object> getDocuments(String employeeId) {
@@ -320,16 +323,17 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	
 	
 	
-	private String uploadFile(MultipartFile file, File directory, String type) throws IOException {
-		if (file != null && !file.isEmpty()) {
+	private String uploadFile(MultipartFile file, String folderName, String type) throws IOException {
+	    if (file != null && !file.isEmpty()) {
 	        if (file.getSize() > 2 * 1024 * 1024) {
 	            throw new IOException("File size should be less than or equal to 2MB");
 	        }
 
-	        if (!directory.exists()) {
-	            boolean created = directory.mkdirs();
+	        File baseDirectory = new File(uploadDirectory + File.separator + folderName);
+	        if (!baseDirectory.exists()) {
+	            boolean created = baseDirectory.mkdirs();
 	            if (!created) {
-	                throw new IOException("Failed to create directory: " + directory.getAbsolutePath());
+	                throw new IOException("Failed to create directory: " + baseDirectory.getAbsolutePath());
 	            }
 	        }
 
@@ -341,10 +345,11 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        }
 
 	        String newFileName = type + extension;
-	        File destFile = new File(directory, newFileName);
+	        File destFile = new File(baseDirectory, newFileName);
 	        file.transferTo(destFile);
 
-	        return  directory.getName() + "/" + newFileName;
+	        // ✅ Return relative path
+	        return folderName + "/" + newFileName;
 	    }
 
 	    throw new IOException("File is empty or null");
