@@ -6,7 +6,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -26,9 +29,12 @@ import com.SaharaAmussmentPark.Dto.EmployeeDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
+import com.SaharaAmussmentPark.Repository.EmployeeRepository;
 import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Service.OfficialLetterService;
 import com.SaharaAmussmentPark.Service.UserService;
+import com.SaharaAmussmentPark.model.Employee;
+import com.SaharaAmussmentPark.model.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -42,7 +48,8 @@ public class EmployeeController {
 	private final EmployeeService employeeService;
 	private final UserService userservice;
 	public final OfficialLetterService officialLetterservice;
-	 private final String baseFolder = "/var/www/images/hrms";
+	@Value("${spring.servlet.multipart.location}")
+	public String uploadDirectory;
 
 	
 	
@@ -69,46 +76,93 @@ public class EmployeeController {
 			return ResponseEntity.status(httpStatus).body(message);
 
 		}
-		@GetMapping("/{folder}/{filename:.+}")
-		public ResponseEntity<Resource> serveDocument(@PathVariable String folder,
-		                                              @PathVariable String filename) throws IOException {
+//		@GetMapping("/{folder}/{filename:.+}")
+//		public ResponseEntity<Resource> serveDocument(@PathVariable String folder,
+//		                                              @PathVariable String filename) throws IOException {
+//
+//		    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		    if (authentication == null || !authentication.isAuthenticated()) {
+//		        return ResponseEntity.status(401).build();
+//		    }
+//
+//		    // Suppose your JWT details are in authentication.getPrincipal()
+//		    // Cast it to your UserDetails or custom JWT class
+//
+//		    userdetailsResponseDto userDetails = (userdetailsResponseDto) authentication.getPrincipal();
+//
+//		    String username = userDetails.getEmail();
+//		    String employeeIdFromToken = userDetails.getEmployeeId();  // custom getter
+//		    String roleFromToken = userDetails.getRole();              // custom getter
+//
+//		    // Authorization check:
+//		    boolean isAdmin = roleFromToken.equalsIgnoreCase("ADMIN");
+//
+//		    if (!isAdmin && (employeeIdFromToken == null || !folder.startsWith(employeeIdFromToken))) {
+//		        return ResponseEntity.status(403).build();
+//		    }
+//
+//		    Path filePath = Paths.get(uploadDirectory, folder, filename);
+//		    if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
+//		        return ResponseEntity.notFound().build();
+//		    }
+//
+//		    Resource resource = new UrlResource(filePath.toUri());
+//
+//		    String contentType = Files.probeContentType(filePath);
+//		    if (contentType == null) contentType = "application/octet-stream";
+//
+//		    return ResponseEntity.ok()
+//		            .contentType(MediaType.parseMediaType(contentType))
+//		            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+//		            .body(resource);
+//		}
+		
+//		@Autowired
+//		private EmployeeRepository employeeRepository;
+//
+//		@GetMapping("/{folder}/{filename:.+}")
+//		public ResponseEntity<Resource> serveDocument(@PathVariable String folder,
+//		                                              @PathVariable String filename) throws IOException {
+//		    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//		    if (authentication == null || !authentication.isAuthenticated()) {
+//		        return ResponseEntity.status(401).build();
+//		    }
+//
+//		    User userDetails = (User) authentication.getPrincipal();
+//		    String role = userDetails.getRole();
+//		    int uId = userDetails.getUId();
+//
+//		    boolean isAdmin = "ADMIN".equalsIgnoreCase(role);
+//
+//		    // Fetch employeeId using uId
+//		    Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
+//		    if (employeeOpt.isEmpty()) {
+//		        return ResponseEntity.status(404).body(null);
+//		    }
+//
+//		    String employeeId = employeeOpt.get().getEmployeeId();
+//
+//		    // Check folder access
+//		    if (!isAdmin && (employeeId == null || !folder.startsWith(employeeId))) {
+//		        return ResponseEntity.status(403).build();
+//		    }
+//
+//		    Path filePath = Paths.get(uploadDirectory, folder, filename);
+//		    if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
+//		        return ResponseEntity.notFound().build();
+//		    }
+//
+//		    Resource resource = new UrlResource(filePath.toUri());
+//		    String contentType = Files.probeContentType(filePath);
+//		    if (contentType == null) contentType = "application/octet-stream";
+//
+//		    return ResponseEntity.ok()
+//		            .contentType(MediaType.parseMediaType(contentType))
+//		            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+//		            .body(resource);
+//		}
 
-		    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		    if (authentication == null || !authentication.isAuthenticated()) {
-		        return ResponseEntity.status(401).build();
-		    }
-
-		    // Suppose your JWT details are in authentication.getPrincipal()
-		    // Cast it to your UserDetails or custom JWT class
-
-		    userdetailsResponseDto userDetails = (userdetailsResponseDto) authentication.getPrincipal();
-
-		    String username = userDetails.getEmail();
-		    String employeeIdFromToken = userDetails.getEmployeeId();  // custom getter
-		    String roleFromToken = userDetails.getRole();              // custom getter
-
-		    // Authorization check:
-		    boolean isAdmin = roleFromToken.equalsIgnoreCase("ADMIN");
-
-		    if (!isAdmin && (employeeIdFromToken == null || !folder.startsWith(employeeIdFromToken))) {
-		        return ResponseEntity.status(403).build();
-		    }
-
-		    Path filePath = Paths.get(baseFolder, folder, filename);
-		    if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
-		        return ResponseEntity.notFound().build();
-		    }
-
-		    Resource resource = new UrlResource(filePath.toUri());
-
-		    String contentType = Files.probeContentType(filePath);
-		    if (contentType == null) contentType = "application/octet-stream";
-
-		    return ResponseEntity.ok()
-		            .contentType(MediaType.parseMediaType(contentType))
-		            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
-		            .body(resource);
-		}
 
 		
 }

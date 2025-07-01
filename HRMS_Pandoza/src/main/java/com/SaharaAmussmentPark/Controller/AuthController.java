@@ -1,7 +1,21 @@
 package com.SaharaAmussmentPark.Controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,8 +36,11 @@ import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
+import com.SaharaAmussmentPark.Repository.EmployeeRepository;
 import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Service.UserService;
+import com.SaharaAmussmentPark.model.Employee;
+import com.SaharaAmussmentPark.model.User;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +52,11 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 public class AuthController {
 	private final UserService userservice;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	private final EmployeeService employeeService;
+	@Value("${spring.servlet.multipart.location}")
+	public String uploadDirectory;
 
 	@PostMapping("/Login")
 	public ResponseEntity<Message<LoginResponseDto>> loginUser(@RequestBody LoginDto request) {
@@ -110,4 +131,51 @@ public class AuthController {
 	    HttpStatus status = HttpStatus.valueOf(response.getStatus().value());
 	    return ResponseEntity.status(status).body(response);
 	}
+	
+	@GetMapping("/{folder}/{filename:.+}")
+	public ResponseEntity<Resource> serveDocument(@PathVariable String folder,
+	                                              @PathVariable String filename) throws IOException {
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+	    if (authentication == null || !authentication.isAuthenticated()) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	    }
+
+	    User userDetails = (User) authentication.getPrincipal();
+	    String role = userDetails.getRole();
+	    int uId = userDetails.getUId();
+
+	    // ✅ Allow ADMIN to access any folder
+	    if (!"ADMIN".equalsIgnoreCase(role)) {
+	        // 🔐 Restrict EMPLOYEE to only their own folder
+	        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
+	        if (employeeOpt.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        }
+
+	        String employeeId = employeeOpt.get().getEmployeeId();
+	        if (employeeId == null || !folder.startsWith(employeeId)) {
+	            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	        }
+	    }
+
+	    // 📂 Construct file path
+	    Path filePath = Paths.get(uploadDirectory, folder, filename);
+
+	    if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	    }
+
+	    Resource resource = new UrlResource(filePath.toUri());
+	    String contentType = Files.probeContentType(filePath);
+	    if (contentType == null) {
+	        contentType = "application/octet-stream";
+	    }
+
+	    return ResponseEntity.ok()
+	            .contentType(MediaType.parseMediaType(contentType))
+	            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+	            .body(resource);
+	}
+
 }
