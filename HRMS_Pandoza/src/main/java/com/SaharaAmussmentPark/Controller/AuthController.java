@@ -33,11 +33,13 @@ import com.SaharaAmussmentPark.Dto.EmployeeSummaryDto;
 import com.SaharaAmussmentPark.Dto.LoginDto;
 import com.SaharaAmussmentPark.Dto.LoginResponseDto;
 import com.SaharaAmussmentPark.Dto.Message;
+import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
 import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
 import com.SaharaAmussmentPark.Service.EmployeeService;
+import com.SaharaAmussmentPark.Service.OfficialLetterService;
 import com.SaharaAmussmentPark.Service.UserService;
 import com.SaharaAmussmentPark.model.Employee;
 import com.SaharaAmussmentPark.model.User;
@@ -55,6 +57,7 @@ public class AuthController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	private final EmployeeService employeeService;
+	public final OfficialLetterService officialLetterservice;
 	@Value("${spring.servlet.multipart.location}")
 	public String uploadDirectory;
 
@@ -178,4 +181,14 @@ public class AuthController {
 	            .body(resource);
 	}
 
+
+@GetMapping("/getOfficialLetterByEmployeeName")
+public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetter(@RequestParam("EmpName") String employeeName) {
+	log.info("In usercontroller login() with request:{}", employeeName);
+	Message<OfficialLetterDto> message = officialLetterservice.GetOfficialLetterByEmployeeName(employeeName);
+	HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+	return ResponseEntity.status(httpStatus).body(message);
+
 }
+}
+

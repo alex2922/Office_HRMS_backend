@@ -10,6 +10,7 @@ public interface OfficialLetterService {
 	public Message<OfficialLetterDto> UpdateOfficialLetter(OfficialLetterDto request);
 	public Message<OfficialLetterDto> GetOfficialLetterById(int oId);
 	public List<Message<OfficialLetterDto>> GetAllOfficialLetter();
+	public Message<OfficialLetterDto> GetOfficialLetterByEmployeeName(String employeeName);
 
 
 }

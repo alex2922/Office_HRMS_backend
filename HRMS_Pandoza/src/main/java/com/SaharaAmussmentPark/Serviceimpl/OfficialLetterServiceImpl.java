@@ -162,7 +162,37 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 		    }
 		}
 
+	@Override
+	public Message<OfficialLetterDto> GetOfficialLetterByEmployeeName(String employeeName) {
+		Message<OfficialLetterDto> response = new Message<>();
+		try {
+			OfficialLetter officialLetter = new OfficialLetter();
+			officialLetter=officialLetterRepository.getByEmployeeName(employeeName);
+			
+			if(officialLetter == null) {
+				response.setStatus(HttpStatus.BAD_REQUEST);
+				response.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
+				return response;
+				
+			}
+			OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
+			response.setStatus(HttpStatus.OK);
+			response.setResponseMessage(constants.OFFICIAL_LETTER_FOUND);
+			response.setData(dto);
+			return response;
+		} catch (Exception e) {
+			System.err.println("Error fetching OfficialLetter:" +e.getMessage());
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+			return response;
+			
+		}
+	
+	}
+		
+	}
+
 		
 
 
-}
+
