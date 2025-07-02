@@ -182,8 +182,9 @@ public class AuthController {
 	}
 
 
-@GetMapping("/getOfficialLetterByEmployeeName")
-public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetter(@RequestParam("EmpName") String employeeName) {
+   
+	@GetMapping("/getOfficialLetterByEmployeeName")
+    public ResponseEntity<Message<OfficialLetterDto>> GetOfficialLetter(@RequestParam("EmpName") String employeeName) {
 	log.info("In usercontroller login() with request:{}", employeeName);
 	Message<OfficialLetterDto> message = officialLetterservice.GetOfficialLetterByEmployeeName(employeeName);
 	HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
