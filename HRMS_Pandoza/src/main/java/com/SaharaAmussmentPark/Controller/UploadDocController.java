@@ -77,7 +77,7 @@ public class UploadDocController {
 	            return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	        }
 	    }
-	 @PutMapping(value ="/update/{uId}" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	 @PutMapping(value ="/update" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	 public ResponseEntity<Map<String, Object>> updateDocuments(
 			 @RequestPart(value = "adharCard", required = false) MultipartFile adharCard,
 	            @RequestPart(value = "panCard", required = false) MultipartFile panCard,
