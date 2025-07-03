@@ -206,6 +206,7 @@ public class UserServiceImpl implements UserService {
 		        responseDto.setUId(user.getUId());
 		        responseDto.setEmail(user.getEmail());
 		        responseDto.setRole(user.getRole());
+		        responseDto.setPassword(user.getPassword());
 
 		        long totalEmployees = employeeRepository.count(); // get total employee count
 		        responseDto.setTotalEmployeeCount(totalEmployees);

@@ -13,4 +13,6 @@ public class userdetailsResponseDto {
 	private String role;
 	private String employeeId;
 	private long totalEmployeeCount;
+	private String password;
+	
 }

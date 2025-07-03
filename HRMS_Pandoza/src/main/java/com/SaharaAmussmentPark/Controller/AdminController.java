@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SaharaAmussmentPark.Dto.DepartmentDto;
 import com.SaharaAmussmentPark.Dto.DesignationDto;
 import com.SaharaAmussmentPark.Dto.EmployeeDto;
+import com.SaharaAmussmentPark.Dto.IncreamentLetterDto;
 import com.SaharaAmussmentPark.Dto.Message;
 import com.SaharaAmussmentPark.Dto.OfficialLetterDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
@@ -25,8 +26,11 @@ import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Service.DepartmentService;
 import com.SaharaAmussmentPark.Service.DesignationService;
 import com.SaharaAmussmentPark.Service.EmployeeService;
+import com.SaharaAmussmentPark.Service.IncreamentLetterService;
 import com.SaharaAmussmentPark.Service.OfficialLetterService;
 import com.SaharaAmussmentPark.Service.UserService;
+import com.SaharaAmussmentPark.model.IncreamentLetter;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -43,6 +47,7 @@ public class AdminController {
 	private final DesignationService designationservice;
 	private final EmployeeService employeeService;
 	public final OfficialLetterService officialLetterservice;
+	private final IncreamentLetterService increamentletterservice;
 
 	@PostMapping("/RegisterUser")
 	public ResponseEntity<Message<UserDto>> registerUser(@RequestBody UserDto user) {
@@ -244,5 +249,30 @@ public class AdminController {
 
 		return ResponseEntity.status(httpStatus).body(messages);
 	}
+	@PostMapping("/addIncreamentLetter")
+	public ResponseEntity<Message<IncreamentLetterDto>>addIncreamentLetter(@RequestBody IncreamentLetterDto request){
+		log.info("In usercontroller login() with request:{}",request);
+		Message<IncreamentLetterDto> message=increamentletterservice.addIncreamentLetter(request);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+		
+	}
+
+	@PutMapping("/updateIncreamentLetter")
+	public ResponseEntity<Message<IncreamentLetterDto>>updateIncreamentLetter(@RequestBody IncreamentLetterDto request){
+		log.info("In usercontroller login() with request:{}",request);
+		Message<IncreamentLetterDto> message=increamentletterservice.updateIncreamentLetter(request);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+	}
+	@GetMapping("/getIncreamentLetterById")
+	public ResponseEntity<Message<IncreamentLetterDto>>getIncreamentLetter(@RequestParam("Id") int id){
+		log.info("In usercontroller login() with request:{}",id);
+		Message<IncreamentLetterDto> message=increamentletterservice.getIncreamentLetterById(id);
+		HttpStatus httpStatus=HttpStatus.valueOf(message.getStatus().value());
+		return ResponseEntity.status(httpStatus).body(message);
+		
+	}
+
 
 }
