@@ -1,6 +1,8 @@
 package com.SaharaAmussmentPark.Controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,6 +10,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -162,24 +165,44 @@ public class AuthController {
 	        }
 	    }
 
-	    // 📂 Construct file path
-	    Path filePath = Paths.get(uploadDirectory, folder, filename);
+	    // 📂 Secure and normalize path
+	    Path basePath = Paths.get(uploadDirectory).toAbsolutePath().normalize();
+	    Path filePath = basePath.resolve(folder).resolve(filename).normalize();
 
+	    // 🔐 Prevent path traversal
+	    if (!filePath.startsWith(basePath)) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	    }
+
+	    // 📁 Check file existence and readability
 	    if (!Files.exists(filePath) || !Files.isReadable(filePath)) {
 	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	    }
 
-	    Resource resource = new UrlResource(filePath.toUri());
+//	    Resource resource = new UrlResource(filePath.toUri());
+
+	    // 📦 Determine content type
 	    String contentType = Files.probeContentType(filePath);
 	    if (contentType == null) {
-	        contentType = "application/octet-stream";
+	        if (filename.endsWith(".pdf")) {
+	            contentType = "application/pdf";
+	        } else if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
+	            contentType = "image/jpeg";
+	        } else if (filename.endsWith(".png")) {
+	            contentType = "image/png";
+	        } else {
+	            contentType = "application/octet-stream";
+	        }
 	    }
-
+	    InputStreamResource resource = new InputStreamResource(Files.newInputStream(filePath));
+	    // ✅ Return file with headers for inline display
 	    return ResponseEntity.ok()
 	            .contentType(MediaType.parseMediaType(contentType))
-	            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+	            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename*=UTF-8''" + URLEncoder.encode(filename, StandardCharsets.UTF_8))
+
 	            .body(resource);
 	}
+
 
 
    

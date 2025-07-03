@@ -41,11 +41,14 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
            MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
 		 Map<String, Object> response = new LinkedHashMap<>();
+		 log.info("welcome to uploadservice "+uId);
 		    Optional<User> user = userRepository.findById(uId);
+		    log.info("welcome to uploadservice "+user);
 
 		    try {
 		        // Fetch Employee by uId
 		        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
+		        System.out.println("welcome to uploadservice employeeData"+employeeOpt);
 		        if (employeeOpt.isEmpty()) {
 		            response.put("status", HttpStatus.NOT_FOUND);
 		            response.put("message", "Employee not found for uId: " + uId);
@@ -138,6 +141,7 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
            MultipartFile employeeImage, MultipartFile diplomaCertificate,int uId) {
 
 		 Map<String, Object> response = new LinkedHashMap<>();
+		 log.info("In DocumentManegmentServiceimpl updateDocuments()"+uId);
 
 		    try {
 		        Optional<DocumentsManegment> existingDocOpt = documentrepository.findByuId(uId);
@@ -146,7 +150,8 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 		            response.put("message", "Documents not found for uId: " + uId);
 		            return response;
 		        }
-
+                 log.info("In DocumentManegmentServiceimpl updateDocuments()"+existingDocOpt);
+                 System.out.println("In DocumentManegmentServiceimpl updateDocuments()"+existingDocOpt);
 		        DocumentsManegment documents = existingDocOpt.get();
 
 		        Optional<Employee> employeeOpt = employeeRepository.findByuId(uId);
@@ -318,18 +323,20 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	// Helper method to convert stored relative path to full URL
 	private String convertToSecureUrl(String storedPath) {
 	    if (storedPath == null || storedPath.isBlank()) return null;
-	    return "https://diwise.cloud/api/employee/document/" + storedPath;
+	    return  storedPath;
 	}
 	
 	
 	
 	private String uploadFile(MultipartFile file, String folderName, String type) throws IOException {
+		log.info("welcome to uploadservice upload file method ");
 	    if (file != null && !file.isEmpty()) {
 	        if (file.getSize() > 2 * 1024 * 1024) {
 	            throw new IOException("File size should be less than or equal to 2MB");
 	        }
 
 	        File baseDirectory = new File(uploadDirectory + File.separator + folderName);
+	        log.info("welcome to uploadservice "+baseDirectory);
 	        if (!baseDirectory.exists()) {
 	            boolean created = baseDirectory.mkdirs();
 	            if (!created) {
@@ -347,9 +354,10 @@ public class DocumentManegmentServiceimpl implements DocumentManegmentService {
 	        String newFileName = type + extension;
 	        File destFile = new File(baseDirectory, newFileName);
 	        file.transferTo(destFile);
-
+	        log.info("welcome to uploadservice upload file method"+folderName + "/" + newFileName);
 	        // ✅ Return relative path
 	        return folderName + "/" + newFileName;
+	        
 	    }
 
 	    throw new IOException("File is empty or null");

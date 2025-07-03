@@ -69,6 +69,7 @@ public class UploadDocController {
 	                    employeeImage,
 	                    diplomaCertificate,uId
 	            );
+	            log.info("welcome to uploadController "+response);
 	            return new ResponseEntity<>(response, HttpStatus.OK);
 	        } catch (Exception e) {
 	            Map<String, Object> error = new HashMap<>();
@@ -96,6 +97,7 @@ public class UploadDocController {
 	            @RequestPart(value = "diplomaCertificate", required = false) MultipartFile diplomaCertificate,
 	            @RequestParam("uId") int uId) {
 
+		 log.info("In updateDocuments()"+uId);
 	     Map<String, Object> response = documentManegmentServiceimpl.updateDocuments(
 	    		  adharCard,
                   panCard,
@@ -114,6 +116,7 @@ public class UploadDocController {
 	     );
 
 	     HttpStatus status = (HttpStatus) response.get("status");
+	     log.info("Status: {}", status);
 	     return new ResponseEntity<>(response, status);
 	 }
 	 @GetMapping("/getDocuments/{employeeId}")
