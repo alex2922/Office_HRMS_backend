@@ -1,6 +1,9 @@
 package com.SaharaAmussmentPark.Serviceimpl;
 
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,7 +34,7 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 
 	    try {
 	        // 1. Fetch employee
-	        Employee employee = employeeRepository.findByEmployeeId(request.getEmployeeId());
+	        Employee employee = employeeRepository.findByEmployeeName(request.getEmployeeName());
 
 	        if (employee == null) {
 	            return response
@@ -51,6 +54,7 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 
 	      
 	        letter
+	        .setEmployeeId(employee.getEmployeeId())
 	            .setGrossSalary(grossSalary)
 	            .setBasicSalary(basicSalary)
 	            .setHra(hra)
@@ -180,4 +184,40 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 
 
 
-}
+
+
+	@Override
+	public Message<List<IncreamentLetterDto>> getAllIncreamentLetter() {
+		    Message<List<IncreamentLetterDto>> response = new Message<>();
+
+		    try {
+		        List<IncreamentLetter> letterList = increamentLetterRepository.findAll();
+
+		        if (letterList.isEmpty()) {
+		            return response
+		                .setStatus(HttpStatus.NOT_FOUND)
+		                .setResponseMessage("No increament letters found.");
+		        }
+
+		        // Convert entity list to DTO list
+		        List<IncreamentLetterDto> dtoList = letterList.stream()
+		            .map(increamentLetterMapper::increamentLetterToIncreamentLetterDto)
+		            .collect(Collectors.toList());
+
+		        return response
+		            .setStatus(HttpStatus.OK)
+		            .setResponseMessage("Increament letters fetched successfully.")
+		            .setData(dtoList);
+
+		    } catch (Exception e) {
+		        return response
+		            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+		            .setResponseMessage("Failed to fetch increament letters: " + e.getMessage());
+		    }
+		}
+
+	}
+
+
+
+

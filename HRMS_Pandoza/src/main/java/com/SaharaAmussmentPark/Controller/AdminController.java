@@ -273,6 +273,16 @@ public class AdminController {
 		return ResponseEntity.status(httpStatus).body(message);
 		
 	}
+	@GetMapping("/getAllIncreamentLetters")
+	public ResponseEntity<Message<List<IncreamentLetterDto>>> getAllIncreamentLetters() {
+	    log.info("In usercontroller getAllIncreamentLetters()");
+	    
+	    Message<List<IncreamentLetterDto>> message = increamentletterservice.getAllIncreamentLetter();
+	    HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+
+	    return ResponseEntity.status(httpStatus).body(message);
+	}
+
 
 
 }

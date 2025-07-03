@@ -30,6 +30,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query("SELECT new com.SaharaAmussmentPark.Dto.EmployeeInfoDto(e.employeeId, e.employeeName, e.designation) FROM Employee e")
 	List<EmployeeInfoDto> findAllEmployeeInfo();
 
+	Employee findByEmployeeName(String employeeName);
+
 	
 
 
