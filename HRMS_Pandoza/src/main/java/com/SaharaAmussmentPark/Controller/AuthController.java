@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,6 +40,7 @@ import com.SaharaAmussmentPark.Dto.RestTemplateDto;
 import com.SaharaAmussmentPark.Dto.UserDto;
 import com.SaharaAmussmentPark.Dto.userdetailsResponseDto;
 import com.SaharaAmussmentPark.Repository.EmployeeRepository;
+import com.SaharaAmussmentPark.Repository.UserRepository;
 import com.SaharaAmussmentPark.Service.EmployeeService;
 import com.SaharaAmussmentPark.Service.OfficialLetterService;
 import com.SaharaAmussmentPark.Service.UserService;
@@ -61,6 +61,7 @@ public class AuthController {
 	private EmployeeRepository employeeRepository;
 	private final EmployeeService employeeService;
 	public final OfficialLetterService officialLetterservice;
+	private final UserRepository userRepository;
 	@Value("${spring.servlet.multipart.location}")
 	public String uploadDirectory;
 
@@ -147,7 +148,12 @@ public class AuthController {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	    }
 
-	    User userDetails = (User) authentication.getPrincipal();
+	    String username = authentication.getName();
+	    User userDetails = userRepository.getByEmail(username); // You must implement this
+
+	    if (userDetails == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	    }
 	    String role = userDetails.getRole();
 	    int uId = userDetails.getUId();
 
