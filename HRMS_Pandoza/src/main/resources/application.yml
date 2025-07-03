@@ -19,7 +19,7 @@ spring:
   servlet:
     multipart:
       enabled: true
-      location: /var/www/images/Hrms/
+      location: /opt/HrmsDocuments/
       max-file-size: 2MB
       max-request-size: 50MB
         
