@@ -112,7 +112,7 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 	@Override
 	public Message<IncreamentLetterDto> getIncreamentLetterById(int id) {
 		Message<IncreamentLetterDto> response = new Message<>();
-
+           double totalmoneyForPf=15000;
 		try {
 
 			Optional<IncreamentLetter> optional = increamentLetterRepository.findById(id);
@@ -123,6 +123,10 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 			}
 
 			IncreamentLetterDto dto = increamentLetterMapper.increamentLetterToIncreamentLetterDto(optional.get());
+			dto.setNewSalary(dto.getSalary()+dto.getOldSalary());
+			dto.setProfessionalTax(200);
+			dto.setPf(totalmoneyForPf*0.24);
+			dto.setTotalDidcution(dto.getProfessionalTax()+dto.getPf());
 
 			return response.setStatus(HttpStatus.OK).setResponseMessage("Increament letter fetched successfully.")
 					.setData(dto);

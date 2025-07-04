@@ -23,5 +23,9 @@ public class IncreamentLetterDto {
 	private double da;
 	private double otherAllowance;
 	private double oldSalary;
+	private double newSalary;
+	private double professionalTax;
+	private double pf; 
+	private double totalDidcution;
 
 }
