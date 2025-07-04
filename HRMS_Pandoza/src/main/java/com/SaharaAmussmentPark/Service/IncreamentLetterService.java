@@ -10,6 +10,7 @@ public interface IncreamentLetterService {
 	public Message<IncreamentLetterDto> updateIncreamentLetter(IncreamentLetterDto request);
 	public Message<IncreamentLetterDto> getIncreamentLetterById(int id);
 	public Message<List<IncreamentLetterDto>> getAllIncreamentLetter();
+	public Message<List<IncreamentLetterDto>> getIncreamentLettersByEmployeeId(String employeeId);
 	
 
 }

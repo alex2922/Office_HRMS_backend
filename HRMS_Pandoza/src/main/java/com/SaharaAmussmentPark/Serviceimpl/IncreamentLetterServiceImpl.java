@@ -144,7 +144,7 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 				return response.setStatus(HttpStatus.NOT_FOUND).setResponseMessage("No increament letters found.");
 			}
 
-			// Convert entity list to DTO list
+			
 			List<IncreamentLetterDto> dtoList = letterList.stream()
 					.map(increamentLetterMapper::increamentLetterToIncreamentLetterDto).collect(Collectors.toList());
 
@@ -157,4 +157,35 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 		}
 	}
 
-}
+	
+
+	@Override
+	public Message<List<IncreamentLetterDto>> getIncreamentLettersByEmployeeId(String employeeId) {
+	    Message<List<IncreamentLetterDto>> response = new Message<>();
+
+	    try {
+	        List<IncreamentLetter> letters = increamentLetterRepository.findByEmployeeId(employeeId);
+
+	        if (letters.isEmpty()) {
+	            return response.setStatus(HttpStatus.NOT_FOUND)
+	                           .setResponseMessage("No increament letters found for employee: " + employeeId);
+	        }
+
+	        List<IncreamentLetterDto> dtoList = letters.stream()
+	            .map(increamentLetterMapper::increamentLetterToIncreamentLetterDto)
+	            .collect(Collectors.toList());
+
+	        return response.setStatus(HttpStatus.OK)
+	                       .setResponseMessage("Increament letters fetched successfully.")
+	                       .setData(dtoList);
+
+	    } catch (Exception e) {
+	        return response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	                       .setResponseMessage("Failed to fetch increament letters: " + e.getMessage());
+	    }
+	}
+		
+	}
+
+
+

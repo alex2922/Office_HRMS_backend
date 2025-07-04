@@ -275,13 +275,23 @@ public class AdminController {
 	}
 	@GetMapping("/getAllIncreamentLetters")
 	public ResponseEntity<Message<List<IncreamentLetterDto>>> getAllIncreamentLetters() {
-	    log.info("In usercontroller getAllIncreamentLetters()");
+		log.info("In usercontroller login() with request:{}");
 	    
 	    Message<List<IncreamentLetterDto>> message = increamentletterservice.getAllIncreamentLetter();
 	    HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
 
 	    return ResponseEntity.status(httpStatus).body(message);
 	}
+	@GetMapping("/getAllIncreamentLettersByEmployeeId")
+	public ResponseEntity<Message<List<IncreamentLetterDto>>> getAllIncreamentLettersByEmployeeId( @RequestParam("employeeId") String employeeId) {
+		log.info("In usercontroller login() with request:{}",employeeId);
+
+	    Message<List<IncreamentLetterDto>> message = increamentletterservice.getIncreamentLettersByEmployeeId(employeeId);
+	    HttpStatus httpStatus = HttpStatus.valueOf(message.getStatus().value());
+
+	    return ResponseEntity.status(httpStatus).body(message);
+	}
+
 
 
 
