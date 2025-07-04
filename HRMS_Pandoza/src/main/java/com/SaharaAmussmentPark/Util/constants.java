@@ -16,13 +16,13 @@ public interface constants {
 	String DESIGNATION_UPDATED = "Designation Updated";
 	String DESIGNATION_FOUND = "Designation found";
 	String DESIGNATION_ALREADY_EXISTS = "Designation already exist";
-	String OFFICIAL_LETTER_ADDED ="Official Letter Added";
+	String OFFICIAL_LETTER_ADDED = "Official Letter Added";
 	String INVALID_DATA = "Invalid Data";
 	String OFFICIAL_LETTER_NOT_FOUND = "Official Letter not found";
 	String OFFICIAL_LETTER_UPDATED = "Official Letter Updated";
 	String OFFICIAL_LETTER_FOUND = "Official Letter found";
-	
-	//user
+
+	// user
 	String EMAIL_ALREADY_EXISTS = "Email already availabale";
 	String USER_REGISTERED_SUCCESSFULLY = "User Register successfully";
 	String RECORD_NOT_FOUND = "Invalid credentials";
@@ -32,12 +32,12 @@ public interface constants {
 	String USER_UPDATED_SUCCESSFULLY = "User updated succesfully";
 	String PASSWORD_CHANGED_SUCCESSFULLY = "Password changed successfully";
 	String PASSWORD_NOT_MATCHED = "New password and confirm password not matched";
-	
-	//Employee
+
+	// Employee
 	String EMPLOYEE_RECORD_NOT_FOUND = "Employee Record not Found";
 	String USER_DELETED_SUCCESSFULLY = "User Deleted successfully";
-	
-	//Salary
+
+	// Salary
 	String SALARY_ADDED_SUCCESSFULLY = "Salary added suuccessfully";
 	String SALARY_UPDATED = "Salary Updated";
 	String SALARY_SLIP_NOT_FOUND = "Salary Slip not Found";
@@ -49,7 +49,5 @@ public interface constants {
 	String INVALID_OTP = "Invalid Otp or user dosent Exist";
 	String USER_NOT_FOUND = "User not found";
 	String PASSWORD_AND_NEW_PASSWORD_SHOULD_NOT_BE_SAME = "Old password and new password should not be same";
-	
-	
 
 }

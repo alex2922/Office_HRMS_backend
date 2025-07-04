@@ -150,89 +150,89 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Message<UserDto> updateUser(UserDto request) {
-	    Message<UserDto> response = new Message<>();
-	    User user = null;
-	    try {
-	    	user=userRepository.getById(request.getUId());
-	    	if(user == null) {
-	    		response.setStatus(HttpStatus.BAD_REQUEST);
-	    		response.setResponseMessage(constants.USER_NOT_FOUND);
-	    		return response;
-	    	}
-	    
-	        user.setEmail(request.getEmail());
-	        user.setRole(request.getRole());
+		Message<UserDto> response = new Message<>();
+		User user = null;
+		try {
+			user = userRepository.getById(request.getUId());
+			if (user == null) {
+				response.setStatus(HttpStatus.BAD_REQUEST);
+				response.setResponseMessage(constants.USER_NOT_FOUND);
+				return response;
+			}
+
+			user.setEmail(request.getEmail());
+			user.setRole(request.getRole());
 //	        user.setUId(request.getUId());
-	        if (request.getCreatedDate() != null) {
-	            user.setCreatedDate(request.getCreatedDate());
-	        }
+			if (request.getCreatedDate() != null) {
+				user.setCreatedDate(request.getCreatedDate());
+			}
 
-	        // Don't overwrite password with null
-	        if (request.getPassword() != null && !request.getPassword().isBlank()) {
-	            user.setPassword(request.getPassword());
-	        }
-	        
-	   
-	        userRepository.save(user);
-	        UserDto dto = userMapperImpl.userToUserDto(user);
+			// Don't overwrite password with null
+			if (request.getPassword() != null && !request.getPassword().isBlank()) {
+				user.setPassword(request.getPassword());
+			}
 
-	        response.setStatus(HttpStatus.OK);
-	        response.setResponseMessage(constants.USER_UPDATED_SUCCESSFULLY);
-	        response.setData(dto);
-	        return response;
-	    } catch (Exception e) {
-	    	System.err.println("Error updating User:" +e.getMessage());
-	    	response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-	    	response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
-	    	return response;
-	   
-	    }
+			userRepository.save(user);
+			UserDto dto = userMapperImpl.userToUserDto(user);
+
+			response.setStatus(HttpStatus.OK);
+			response.setResponseMessage(constants.USER_UPDATED_SUCCESSFULLY);
+			response.setData(dto);
+			return response;
+		} catch (Exception e) {
+			System.err.println("Error updating User:" + e.getMessage());
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+			return response;
+
+		}
 	}
 
 	@Override
 	public Message<userdetailsResponseDto> getUserById(Integer uId) {
-		 Message<userdetailsResponseDto> message = new Message<>();
-		    System.out.println("Welcome to service" + uId);
+		Message<userdetailsResponseDto> message = new Message<>();
+		System.out.println("Welcome to service" + uId);
 
-		    try {
-		        User user = userRepository.getById(uId);
-		        if (user == null) {
-		            message.setStatus(HttpStatus.NOT_FOUND);
-		            message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
-		            return message;
-		        }
+		try {
+			User user = userRepository.getById(uId);
+			if (user == null) {
+				message.setStatus(HttpStatus.NOT_FOUND);
+				message.setResponseMessage(constants.USER_RECORD_NOT_FOUND);
+				return message;
+			}
 
-		        userdetailsResponseDto responseDto = new userdetailsResponseDto();
-		        responseDto.setUId(user.getUId());
-		        responseDto.setEmail(user.getEmail());
-		        responseDto.setRole(user.getRole());
-		        responseDto.setPassword(user.getPassword());
+			userdetailsResponseDto responseDto = new userdetailsResponseDto();
+			responseDto.setUId(user.getUId());
+			responseDto.setEmail(user.getEmail());
+			responseDto.setRole(user.getRole());
+			responseDto.setPassword(user.getPassword());
 
-		        long totalEmployees = employeeRepository.count(); // get total employee count
-		        responseDto.setTotalEmployeeCount(totalEmployees);
+			long totalEmployees = employeeRepository.count(); // get total employee count
+			responseDto.setTotalEmployeeCount(totalEmployees);
 
-		        if ("EMPLOYEE".equalsIgnoreCase(user.getRole())) {
-		            Employee emp = employeeRepository.findByuId(uId);
-		            if (emp == null) {
-		                message.setStatus(HttpStatus.NOT_FOUND);
-		                message.setResponseMessage("Employee record not found");
-		                return message;
-		            }
-		            responseDto.setEmployeeId(emp.getEmployeeId());
-		        }
+			if ("EMPLOYEE".equalsIgnoreCase(user.getRole())) {
+				Employee emp = employeeRepository.findByuId(uId);
+				if (emp == null) {
+					message.setStatus(HttpStatus.NOT_FOUND);
+					message.setResponseMessage("Employee record not found");
+					return message;
+				}
+				responseDto.setEmployeeId(emp.getEmployeeId());
+			}
 
-		        message.setStatus(HttpStatus.OK);
-		        message.setResponseMessage(constants.RECORD_FOUND);
-		        message.setData(responseDto);
-		        return message;
+			message.setStatus(HttpStatus.OK);
+			message.setResponseMessage(constants.RECORD_FOUND);
+			message.setData(responseDto);
+			return message;
 
-		    } catch (Exception e) {
-		        message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		        message.setResponseMessage(e.getMessage());
-		        log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
-		        return message;
-		    }
+		} catch (Exception e) {
+			message.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			message.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + message.getResponseMessage());
+			return message;
 		}
+	}
+
 	@Override
 	public Message<UserDto> sendOtp(String email) {
 		Message<UserDto> message = new Message<>();

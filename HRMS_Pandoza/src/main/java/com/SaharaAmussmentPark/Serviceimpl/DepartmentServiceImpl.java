@@ -20,7 +20,6 @@ import com.SaharaAmussmentPark.model.Designation;
 
 import lombok.RequiredArgsConstructor;
 
-
 @Service
 @RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
@@ -29,103 +28,98 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private final DepartmentRepository departmentrepository;
 	private final DesignationMapper designationMapper;
 
-	
-
 	@Override
 	public Message<DepartmentDto> AddDepartment(DepartmentDto request) {
-        Message<DepartmentDto> response = new Message<>();
+		Message<DepartmentDto> response = new Message<>();
 		try {
-			if(request == null) {
-			response.setStatus(HttpStatus.BAD_REQUEST);
-			response.setResponseMessage(constants.INVALID_DEPARTMENT_DATA);
+			if (request == null) {
+				response.setStatus(HttpStatus.BAD_REQUEST);
+				response.setResponseMessage(constants.INVALID_DEPARTMENT_DATA);
+				return response;
+			}
+			Department department = departmentMapperimpl.departmentDtoToDepartment(request);
+			department.setDesignation(null);
+			departmentrepository.save(department);
+			DepartmentDto departmentDto = departmentMapperimpl.departmentToDepartmentDto(department);
+
+			response.setStatus(HttpStatus.OK);
+			response.setResponseMessage(constants.DEPARTMENT_ADDED);
+			response.setData(departmentDto);
+			return response;
+
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
 			return response;
 		}
-		Department department = departmentMapperimpl.departmentDtoToDepartment(request);
-		department.setDesignation(null);
-		departmentrepository.save(department);
-		DepartmentDto departmentDto=departmentMapperimpl.departmentToDepartmentDto(department);
-		
-		response.setStatus(HttpStatus.OK);
-		response.setResponseMessage(constants.DEPARTMENT_ADDED);
-		response.setData(departmentDto);
-		return response;
-		
-	} catch (Exception e) {
-		response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
-		return response;
-	  }
-	}	
-		
+	}
 
 	@Override
 	public Message<DepartmentDto> DeleteDepartment(int dId) {
-		Message<DepartmentDto> response= new Message<>();
-			try {
-				Department department = new Department();
-				department=departmentrepository.getById(dId);
-				if(department == null) {
-					response.setStatus(HttpStatus.BAD_REQUEST);
-					response.setResponseMessage(constants.DEPARTMENT_NOT_FOUND);
-					return response;
-				}
-				DepartmentDto dto = departmentMapperimpl.departmentToDepartmentDto(department);
-				departmentrepository.deleteById(dId);
-				
-				response.setStatus(HttpStatus.OK);
-				response.setResponseMessage(constants.DEPARTMENT_DELETED);
-				return response;
-			} catch (Exception e) {
-				response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-				response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+		Message<DepartmentDto> response = new Message<>();
+		try {
+			Department department = new Department();
+			department = departmentrepository.getById(dId);
+			if (department == null) {
+				response.setStatus(HttpStatus.BAD_REQUEST);
+				response.setResponseMessage(constants.DEPARTMENT_NOT_FOUND);
 				return response;
 			}
-		}
-	
+			DepartmentDto dto = departmentMapperimpl.departmentToDepartmentDto(department);
+			departmentrepository.deleteById(dId);
 
+			response.setStatus(HttpStatus.OK);
+			response.setResponseMessage(constants.DEPARTMENT_DELETED);
+			return response;
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+			return response;
+		}
+	}
 
 	@Override
 	public Message<DepartmentDto> UpdateDepartment(DepartmentDto request) {
-		  Message<DepartmentDto> response = new Message<>();
-	        try {
-	            Department department = departmentrepository.findById(request.getDeptId()).orElse(null);
-	            if (department == null) {
-	                response.setStatus(HttpStatus.BAD_REQUEST);
-	                response.setResponseMessage(constants.DEPARTMENT_NOT_FOUND);
-	                return response;
-	            }
+		Message<DepartmentDto> response = new Message<>();
+		try {
+			Department department = departmentrepository.findById(request.getDeptId()).orElse(null);
+			if (department == null) {
+				response.setStatus(HttpStatus.BAD_REQUEST);
+				response.setResponseMessage(constants.DEPARTMENT_NOT_FOUND);
+				return response;
+			}
 
-	            department.setDname(request.getDname());
+			department.setDname(request.getDname());
 
-	            department.getDesignation().clear();
-	            department.getDesignation().addAll(request.getDesignation().stream().map(d -> {Designation designation = new Designation();
-	            designation.setName(d.getName());
-	            designation.setDepartment(department);
-	            return designation;
-	                    }).collect(Collectors.toList())
-	            );
+			department.getDesignation().clear();
+			department.getDesignation().addAll(request.getDesignation().stream().map(d -> {
+				Designation designation = new Designation();
+				designation.setName(d.getName());
+				designation.setDepartment(department);
+				return designation;
+			}).collect(Collectors.toList()));
 
-	            departmentrepository.save(department);
+			departmentrepository.save(department);
 
-	            response.setStatus(HttpStatus.OK);
-	            response.setResponseMessage(constants.DEPARTMENT_UPDATED);
-	            response.setData(departmentMapperimpl.departmentToDepartmentDto(department));
-	            return response;
-	        } catch (Exception e) {
-	            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-	            response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
-	            return response;
-	        }
-	    }
+			response.setStatus(HttpStatus.OK);
+			response.setResponseMessage(constants.DEPARTMENT_UPDATED);
+			response.setData(departmentMapperimpl.departmentToDepartmentDto(department));
+			return response;
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+			return response;
+		}
+	}
 
 	@Override
 	public Message<DepartmentDto> GetDepartmentById(int dId) {
 		Message<DepartmentDto> response = new Message<>();
 		try {
 			Department department = new Department();
-			department=departmentrepository.getById(dId);
-			
-			if(department == null) {
+			department = departmentrepository.getById(dId);
+
+			if (department == null) {
 				response.setStatus(HttpStatus.BAD_REQUEST);
 				response.setResponseMessage(constants.DEPARTMENT_NOT_FOUND);
 				return response;
@@ -136,7 +130,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 			response.setData(dto);
 			return response;
 		} catch (Exception e) {
-			System.err.println("Error fetching Department:" +e.getMessage());
+			System.err.println("Error fetching Department:" + e.getMessage());
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
 			return response;
@@ -151,27 +145,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 			for (Department department : departments) {
 				DepartmentDto dto = departmentMapperimpl.departmentToDepartmentDto(department);
 				List<DesignationDto> designationDtos = department.getDesignation().stream()
-		                .map((designationMapper::designatioToDesignationDto) )
-		                .collect(Collectors.toList());
-		            
-		            dto.setDesignation(designationDtos);
-				
-				message.add(new Message<DepartmentDto>(HttpStatus.OK,"Department found successfully",dto));
+						.map((designationMapper::designatioToDesignationDto)).collect(Collectors.toList());
+
+				dto.setDesignation(designationDtos);
+
+				message.add(new Message<DepartmentDto>(HttpStatus.OK, "Department found successfully", dto));
 			}
 			return message;
-		
-	} catch (Exception e) {
-		message.add(new Message<DepartmentDto>(HttpStatus.INTERNAL_SERVER_ERROR,
-				constants.SOMETHING_WENT_WRONG + e.getMessage(),null));
-		return message;
-	}	
 
-	
+		} catch (Exception e) {
+			message.add(new Message<DepartmentDto>(HttpStatus.INTERNAL_SERVER_ERROR,
+					constants.SOMETHING_WENT_WRONG + e.getMessage(), null));
+			return message;
+		}
+
 	}
 
-  }
-
-
-
-
-
+}

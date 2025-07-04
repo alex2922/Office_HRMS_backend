@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CustomUserServiceImpl implements CustomUserService{
+public class CustomUserServiceImpl implements CustomUserService {
 
 	private final UserRepository repo;
 
@@ -22,9 +22,10 @@ public class CustomUserServiceImpl implements CustomUserService{
 
 			@Override
 			public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-				return (UserDetails) repo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+				return (UserDetails) repo.findByEmail(email)
+						.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 			}
-			
+
 		};
 	}
 

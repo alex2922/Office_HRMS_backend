@@ -1,6 +1,5 @@
 package com.SaharaAmussmentPark.Serviceimpl;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,197 +26,135 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 	private final EmployeeRepository employeeRepository;
 	private final InceamentLetterRepository increamentLetterRepository;
 	private final IncreamentLetterMapper increamentLetterMapper;
-	
+
 	@Override
 	public Message<IncreamentLetterDto> addIncreamentLetter(IncreamentLetterDto request) {
-	    Message<IncreamentLetterDto> response = new Message<>();
+		Message<IncreamentLetterDto> response = new Message<>();
 
-	    try {
-	        // 1. Fetch employee
-	        Employee employee = employeeRepository.findByEmployeeName(request.getEmployeeName());
+		try {
+			// 1. Fetch employee
+			Employee employee = employeeRepository.findByEmployeeName(request.getEmployeeName());
 
-	        if (employee == null) {
-	            return response
-	                .setStatus(HttpStatus.NOT_FOUND)
-	                .setResponseMessage("Employee not found.");
-	        }
+			if (employee == null) {
+				return response.setStatus(HttpStatus.NOT_FOUND).setResponseMessage("Employee not found.");
+			}
 
-	    
-	        double grossSalary = request.getSalary();
-	        double basicSalary = grossSalary * 0.5;
-	        double hra = basicSalary * 0.4;
-	        double da = basicSalary * 0.2;
-	        double otherAllowance = grossSalary - (basicSalary + hra + da);
+			double grossSalary = request.getSalary();
+			double basicSalary = grossSalary * 0.5;
+			double hra = basicSalary * 0.4;
+			double da = basicSalary * 0.2;
+			double otherAllowance = grossSalary - (basicSalary + hra + da);
 
-	     
-	        IncreamentLetter letter = increamentLetterMapper.increamentLetterDtoToIncreamentLetter(request);
+			IncreamentLetter letter = increamentLetterMapper.increamentLetterDtoToIncreamentLetter(request);
 
-	      
-	        letter
-	        .setEmployeeId(employee.getEmployeeId())
-	            .setGrossSalary(grossSalary)
-	            .setBasicSalary(basicSalary)
-	            .setHra(hra)
-	            .setDa(da)
-	            .setOtherAllowance(otherAllowance)
-	            .setDesignation(employee.getDesignation())
-	            .setGender(employee.getGender());
+			letter.setEmployeeId(employee.getEmployeeId()).setGrossSalary(grossSalary).setBasicSalary(basicSalary)
+					.setHra(hra).setDa(da).setOtherAllowance(otherAllowance).setDesignation(employee.getDesignation())
+					.setGender(employee.getGender());
 
-	     
-	        increamentLetterRepository.save(letter);
+			increamentLetterRepository.save(letter);
 
-	      
-	        IncreamentLetterDto responseDto = increamentLetterMapper.increamentLetterToIncreamentLetterDto(letter);
+			IncreamentLetterDto responseDto = increamentLetterMapper.increamentLetterToIncreamentLetterDto(letter);
 
-	 
-	        return response
-	            .setStatus(HttpStatus.CREATED)
-	            .setResponseMessage("Increament letter added successfully.")
-	            .setData(responseDto);
+			return response.setStatus(HttpStatus.CREATED).setResponseMessage("Increament letter added successfully.")
+					.setData(responseDto);
 
-	    } catch (Exception e) {
-	        return response
-	            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	            .setResponseMessage("Failed to add increament letter: " + e.getMessage());
-	    }
+		} catch (Exception e) {
+			return response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+					.setResponseMessage("Failed to add increament letter: " + e.getMessage());
+		}
 	}
-
-
-
-
 
 	@Override
 	public Message<IncreamentLetterDto> updateIncreamentLetter(IncreamentLetterDto request) {
-	    Message<IncreamentLetterDto> response = new Message<>();
+		Message<IncreamentLetterDto> response = new Message<>();
 
-	    try {
-	       
-	        Optional<IncreamentLetter> optional = increamentLetterRepository.findById(request.getId());
+		try {
 
-	        if (optional.isEmpty()) {
-	            return response
-	                .setStatus(HttpStatus.NOT_FOUND)
-	                .setResponseMessage("Increament letter not found.");
-	        }
+			Optional<IncreamentLetter> optional = increamentLetterRepository.findById(request.getId());
 
-	        IncreamentLetter existing = optional.get();
+			if (optional.isEmpty()) {
+				return response.setStatus(HttpStatus.NOT_FOUND).setResponseMessage("Increament letter not found.");
+			}
 
-	       
-	        Employee employee = employeeRepository.findByEmployeeId(request.getEmployeeId());
+			IncreamentLetter existing = optional.get();
 
-	        if (employee == null) {
-	            return response
-	                .setStatus(HttpStatus.NOT_FOUND)
-	                .setResponseMessage("Employee not found.");
-	        }
+			Employee employee = employeeRepository.findByEmployeeId(request.getEmployeeId());
 
-	       
-	        double grossSalary = request.getSalary();
-	        double basicSalary = grossSalary * 0.5;
-	        double hra = basicSalary * 0.4;
-	        double da = basicSalary * 0.2;
-	        double otherAllowance = grossSalary - (basicSalary + hra + da);
+			if (employee == null) {
+				return response.setStatus(HttpStatus.NOT_FOUND).setResponseMessage("Employee not found.");
+			}
 
-	      
-	        IncreamentLetter updated = increamentLetterMapper.increamentLetterDtoToIncreamentLetter(request);
+			double grossSalary = request.getSalary();
+			double basicSalary = grossSalary * 0.5;
+			double hra = basicSalary * 0.4;
+			double da = basicSalary * 0.2;
+			double otherAllowance = grossSalary - (basicSalary + hra + da);
 
-	        
-	        updated
-	            .setId(existing.getId()) 
-	            .setGrossSalary(grossSalary)
-	            .setBasicSalary(basicSalary)
-	            .setHra(hra)
-	            .setDa(da)
-	            .setOtherAllowance(otherAllowance)
-	            .setDesignation(employee.getDesignation())
-	            .setGender(employee.getGender());
+			IncreamentLetter updated = increamentLetterMapper.increamentLetterDtoToIncreamentLetter(request);
 
-	        
-	        increamentLetterRepository.save(updated);
+			updated.setId(existing.getId()).setGrossSalary(grossSalary).setBasicSalary(basicSalary).setHra(hra)
+					.setDa(da).setOtherAllowance(otherAllowance).setDesignation(employee.getDesignation())
+					.setGender(employee.getGender());
 
-	   
-	        IncreamentLetterDto responseDto = increamentLetterMapper.increamentLetterToIncreamentLetterDto(updated);
+			increamentLetterRepository.save(updated);
 
-	        return response
-	            .setStatus(HttpStatus.OK)
-	            .setResponseMessage("Increament letter updated successfully.")
-	            .setData(responseDto);
+			IncreamentLetterDto responseDto = increamentLetterMapper.increamentLetterToIncreamentLetterDto(updated);
 
-	    } catch (Exception e) {
-	        return response
-	            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	            .setResponseMessage("Failed to update increament letter: " + e.getMessage());
-	    }
+			return response.setStatus(HttpStatus.OK).setResponseMessage("Increament letter updated successfully.")
+					.setData(responseDto);
+
+		} catch (Exception e) {
+			return response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+					.setResponseMessage("Failed to update increament letter: " + e.getMessage());
+		}
 	}
-
-
 
 	@Override
 	public Message<IncreamentLetterDto> getIncreamentLetterById(int id) {
-	    Message<IncreamentLetterDto> response = new Message<>();
+		Message<IncreamentLetterDto> response = new Message<>();
 
-	    try {
-	  
-	        Optional<IncreamentLetter> optional = increamentLetterRepository.findById(id);
+		try {
 
-	        if (optional.isEmpty()) {
-	            return response
-	                .setStatus(HttpStatus.NOT_FOUND)
-	                .setResponseMessage("Increament letter not found with ID: " + id);
-	        }
+			Optional<IncreamentLetter> optional = increamentLetterRepository.findById(id);
 
-	       
-	        IncreamentLetterDto dto = increamentLetterMapper.increamentLetterToIncreamentLetterDto(optional.get());
+			if (optional.isEmpty()) {
+				return response.setStatus(HttpStatus.NOT_FOUND)
+						.setResponseMessage("Increament letter not found with ID: " + id);
+			}
 
-	       
-	        return response
-	            .setStatus(HttpStatus.OK)
-	            .setResponseMessage("Increament letter fetched successfully.")
-	            .setData(dto);
+			IncreamentLetterDto dto = increamentLetterMapper.increamentLetterToIncreamentLetterDto(optional.get());
 
-	    } catch (Exception e) {
-	        return response
-	            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	            .setResponseMessage("Failed to fetch increament letter: " + e.getMessage());
-	    }
+			return response.setStatus(HttpStatus.OK).setResponseMessage("Increament letter fetched successfully.")
+					.setData(dto);
+
+		} catch (Exception e) {
+			return response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+					.setResponseMessage("Failed to fetch increament letter: " + e.getMessage());
+		}
 	}
-
-
-
-
 
 	@Override
 	public Message<List<IncreamentLetterDto>> getAllIncreamentLetter() {
-		    Message<List<IncreamentLetterDto>> response = new Message<>();
+		Message<List<IncreamentLetterDto>> response = new Message<>();
 
-		    try {
-		        List<IncreamentLetter> letterList = increamentLetterRepository.findAll();
+		try {
+			List<IncreamentLetter> letterList = increamentLetterRepository.findAll();
 
-		        if (letterList.isEmpty()) {
-		            return response
-		                .setStatus(HttpStatus.NOT_FOUND)
-		                .setResponseMessage("No increament letters found.");
-		        }
+			if (letterList.isEmpty()) {
+				return response.setStatus(HttpStatus.NOT_FOUND).setResponseMessage("No increament letters found.");
+			}
 
-		        // Convert entity list to DTO list
-		        List<IncreamentLetterDto> dtoList = letterList.stream()
-		            .map(increamentLetterMapper::increamentLetterToIncreamentLetterDto)
-		            .collect(Collectors.toList());
+			// Convert entity list to DTO list
+			List<IncreamentLetterDto> dtoList = letterList.stream()
+					.map(increamentLetterMapper::increamentLetterToIncreamentLetterDto).collect(Collectors.toList());
 
-		        return response
-		            .setStatus(HttpStatus.OK)
-		            .setResponseMessage("Increament letters fetched successfully.")
-		            .setData(dtoList);
+			return response.setStatus(HttpStatus.OK).setResponseMessage("Increament letters fetched successfully.")
+					.setData(dtoList);
 
-		    } catch (Exception e) {
-		        return response
-		            .setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-		            .setResponseMessage("Failed to fetch increament letters: " + e.getMessage());
-		    }
+		} catch (Exception e) {
+			return response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+					.setResponseMessage("Failed to fetch increament letters: " + e.getMessage());
 		}
-
 	}
 
-
-
-
+}

@@ -26,7 +26,7 @@ public class OfficialLetterMapperImpl implements OfficialLetterMapper {
 		dto.setStatus(officialLetter.getStatus());
 		dto.setGender(officialLetter.getGender());
 		return dto;
-		
+
 	}
 
 	@Override
@@ -45,8 +45,7 @@ public class OfficialLetterMapperImpl implements OfficialLetterMapper {
 		officialLetter.setStatus(dto.getStatus());
 		officialLetter.setGender(dto.getGender());
 		return officialLetter;
-		
-		
+
 	}
 
 }

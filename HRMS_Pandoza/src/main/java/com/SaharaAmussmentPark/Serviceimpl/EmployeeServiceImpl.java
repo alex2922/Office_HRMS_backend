@@ -39,68 +39,64 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private final HttpServletRequest httpServletRequest;
 	@Value("${spring.servlet.multipart.location}")
 	public String uploadDirectory;
-	
-
 
 	@Override
 	public Message<EmployeeDto> registerUser(@Valid EmployeeDto request) {
-	    Message<EmployeeDto> response = new Message<>();
+		Message<EmployeeDto> response = new Message<>();
 
-	    try {
-	        Optional<Employee> existingEmployee = employeeRepository.findByEmployeeIdOrEmailOrAadharNumber(
-	                request.getEmployeeId(), request.getEmail(), request.getAadharNumber());
+		try {
+			Optional<Employee> existingEmployee = employeeRepository.findByEmployeeIdOrEmailOrAadharNumber(
+					request.getEmployeeId(), request.getEmail(), request.getAadharNumber());
 
-	        if (existingEmployee.isPresent()) {
-	            response.setStatus(HttpStatus.CONFLICT);
-	            response.setResponseMessage("Employee with same Employee ID, Email, or Aadhar already exists!");
-	            return response;
-	        }
+			if (existingEmployee.isPresent()) {
+				response.setStatus(HttpStatus.CONFLICT);
+				response.setResponseMessage("Employee with same Employee ID, Email, or Aadhar already exists!");
+				return response;
+			}
 
-	        // Convert DTO to Entity and save
-	        Employee employee = employeeMapperImpl.employeeDtoToEmployee(request);
-	        Employee savedEmployee = employeeRepository.save(employee);
+			// Convert DTO to Entity and save
+			Employee employee = employeeMapperImpl.employeeDtoToEmployee(request);
+			Employee savedEmployee = employeeRepository.save(employee);
 
-	        // Now call external Leave API
-	        RestTemplate restTemplate = new RestTemplate();
-	        String url = "https://salaryandleaveservice.pandozasolutions.com/admin/addLeaveRecord";
+			// Now call external Leave API
+			RestTemplate restTemplate = new RestTemplate();
+			String url = "https://salaryandleaveservice.pandozasolutions.com/admin/addLeaveRecord";
 
-	        LeaveRecordRequest leaveRequest = new LeaveRecordRequest(
-	                savedEmployee.getEmployeeId(),
-	                "0" // default paidLeaves
-	        );
+			LeaveRecordRequest leaveRequest = new LeaveRecordRequest(savedEmployee.getEmployeeId(), "0" // default
+																										// paidLeaves
+			);
 
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
 
-	        // Forward token from original request
-	        String authHeader = httpServletRequest.getHeader("Authorization");
-	        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-	            headers.set("Authorization", authHeader);
-	        }
+			// Forward token from original request
+			String authHeader = httpServletRequest.getHeader("Authorization");
+			if (authHeader != null && authHeader.startsWith("Bearer ")) {
+				headers.set("Authorization", authHeader);
+			}
 
-	        HttpEntity<LeaveRecordRequest> entity = new HttpEntity<>(leaveRequest, headers);
+			HttpEntity<LeaveRecordRequest> entity = new HttpEntity<>(leaveRequest, headers);
 
-	        try {
-	            ResponseEntity<String> leaveResponse = restTemplate.postForEntity(url, entity, String.class);
-	            if (!leaveResponse.getStatusCode().is2xxSuccessful()) {
-	                response.setResponseMessage("Employee registered, but failed to notify Leave Service.");
-	            }
-	        } catch (Exception ex) {
-	            System.err.println("Leave Service Error: " + ex.getMessage());
-	        }
+			try {
+				ResponseEntity<String> leaveResponse = restTemplate.postForEntity(url, entity, String.class);
+				if (!leaveResponse.getStatusCode().is2xxSuccessful()) {
+					response.setResponseMessage("Employee registered, but failed to notify Leave Service.");
+				}
+			} catch (Exception ex) {
+				System.err.println("Leave Service Error: " + ex.getMessage());
+			}
 
-	        response.setStatus(HttpStatus.CREATED);
-	        response.setResponseMessage("Employee Registered Successfully!");
-	        response.setData(employeeMapperImpl.employeeToEmployeeDto(savedEmployee));
-	        return response;
+			response.setStatus(HttpStatus.CREATED);
+			response.setResponseMessage("Employee Registered Successfully!");
+			response.setData(employeeMapperImpl.employeeToEmployeeDto(savedEmployee));
+			return response;
 
-	    } catch (Exception e) {
-	        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-	        response.setResponseMessage("Error while registering employee: " + e.getMessage());
-	        return response;
-	    }
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage("Error while registering employee: " + e.getMessage());
+			return response;
+		}
 	}
-
 
 	@Override
 	public Message<EmployeeDto> updateEmployee(@Valid EmployeeDto request) {
@@ -211,7 +207,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<Message<EmployeeDto>> getAllEmployee() {
 		List<Message<EmployeeDto>> message = new ArrayList<>();
 		try {
-			
+
 			List<Employee> employees = employeeRepository.findAll();
 			if (employees == null || employees.isEmpty()) {
 				Message<EmployeeDto> message1 = new Message<>();
@@ -242,7 +238,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Message<EmployeeDto> ApproveEdit(int eid) {
 		Message<EmployeeDto> message = new Message();
 		try {
-			
+
 			Optional<Employee> existingEmployee = employeeRepository.findById(eid);
 
 			if (existingEmployee.isEmpty()) {
@@ -290,23 +286,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 	}
 
-
 	@Override
 	public Message<EmployeeSummaryDto> getEmployeeSummary() {
-		 Message<EmployeeSummaryDto> response = new Message<>();
-		    try {
-		    	  List<EmployeeInfoDto> employeeList = employeeRepository.findAllEmployeeInfo();
-		          int totalCount = employeeList.size();
+		Message<EmployeeSummaryDto> response = new Message<>();
+		try {
+			List<EmployeeInfoDto> employeeList = employeeRepository.findAllEmployeeInfo();
+			int totalCount = employeeList.size();
 
-		          EmployeeSummaryDto summaryDto = new EmployeeSummaryDto(totalCount, employeeList);
-		        response.setStatus(HttpStatus.OK);
-		        response.setResponseMessage(constants.RECORD_FOUND);
-		        response.setData(summaryDto);
-		    } catch (Exception e) {
-		        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		        response.setResponseMessage(e.getMessage());
-		        log.error(constants.SOMETHING_WENT_WRONG + "  " + response.getResponseMessage());
-		    }
-		    return response;
+			EmployeeSummaryDto summaryDto = new EmployeeSummaryDto(totalCount, employeeList);
+			response.setStatus(HttpStatus.OK);
+			response.setResponseMessage(constants.RECORD_FOUND);
+			response.setData(summaryDto);
+		} catch (Exception e) {
+			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			response.setResponseMessage(e.getMessage());
+			log.error(constants.SOMETHING_WENT_WRONG + "  " + response.getResponseMessage());
 		}
+		return response;
+	}
 }

@@ -33,20 +33,7 @@ public class SecurityConfigration {
 
 	private final CustomUserService userDetailsService;
 
-//	@Bean
-//	public SecurityFilterChain securityfilterChain(HttpSecurity http) throws Exception {
-//		 http.csrf(AbstractHttpConfigurer::disable)
-//         .authorizeHttpRequests(registry -> registry.requestMatchers("/user/**","/swagger-ui/index.html#/").permitAll()
-//                 .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-//					.requestMatchers("/seller/**").hasAnyAuthority("SELLER")
-////			.requestMatchers("/api/v1/superadmin/**").hasRole("SUPERADMIN")
-//                 .anyRequest().authenticated())
-//         .csrf(csrf -> csrf.disable())
-//         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//         .authenticationProvider(authenticationProvider())
-//         .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//	return http.build();
-//}
+
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

@@ -11,6 +11,5 @@ public class RestTemplateDto {
 	private int uId;
 	private String email;
 	private String role;
-//	private String password;
 
 }

@@ -16,9 +16,6 @@ import com.SaharaAmussmentPark.model.OfficialLetter;
 
 @Service
 
-
-
-
 public class OfficialLetterServiceImpl implements OfficialLetterService {
 	private final OfficialLetterMapper officialLetterMapperimpl;
 	private final OfficialLetterRepository officialLetterRepository;
@@ -34,15 +31,16 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 	public Message<OfficialLetterDto> AddOfficialLetter(OfficialLetterDto request) {
 		Message<OfficialLetterDto> response = new Message<>();
 		try {
-			if(request == null) {
+			if (request == null) {
 				response.setStatus(HttpStatus.BAD_REQUEST);
 				response.setResponseMessage(constants.INVALID_DATA);
 				return response;
 			}
 			OfficialLetter officialLetter = officialLetterMapperimpl.officialLetterDtoToOfficialLetter(request);
 			officialLetterRepository.save(officialLetter);
-			OfficialLetterDto officialLetterDto=officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
-			
+			OfficialLetterDto officialLetterDto = officialLetterMapperimpl
+					.officialLetterToOfficialLetterDto(officialLetter);
+
 			response.setStatus(HttpStatus.OK);
 			response.setResponseMessage(constants.OFFICIAL_LETTER_ADDED);
 			response.setData(officialLetterDto);
@@ -52,7 +50,7 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
 			return response;
 		}
-		
+
 	}
 
 	@Override
@@ -60,8 +58,8 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 		Message<OfficialLetterDto> response = new Message<>();
 		OfficialLetter officialLetter = null;
 		try {
-			officialLetter=officialLetterRepository.getById(request.getOId());
-			if(officialLetter == null) {
+			officialLetter = officialLetterRepository.getById(request.getOId());
+			if (officialLetter == null) {
 				response.setStatus(HttpStatus.BAD_REQUEST);
 				response.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
 				return response;
@@ -77,23 +75,22 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			officialLetter.setSalary(request.getSalary());
 			officialLetter.setStatus(request.getStatus());
 			officialLetter.setGender(request.getGender());
-			
-			
+
 			officialLetterRepository.save(officialLetter);
 			OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
-			
+
 			response.setStatus(HttpStatus.OK);
 			response.setResponseMessage(constants.OFFICIAL_LETTER_UPDATED);
 			response.setData(dto);
 			return response;
 		} catch (Exception e) {
-			System.err.println("Erroe updating OfficialLetter:" +e.getMessage());
+			System.err.println("Erroe updating OfficialLetter:" + e.getMessage());
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
 			return response;
-			
+
 		}
-	
+
 	}
 
 	@Override
@@ -101,13 +98,13 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 		Message<OfficialLetterDto> response = new Message<>();
 		try {
 			OfficialLetter officialLetter = new OfficialLetter();
-			officialLetter=officialLetterRepository.getById(oId);
-			
-			if(officialLetter == null) {
+			officialLetter = officialLetterRepository.getById(oId);
+
+			if (officialLetter == null) {
 				response.setStatus(HttpStatus.BAD_REQUEST);
 				response.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
 				return response;
-				
+
 			}
 			OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
 			response.setStatus(HttpStatus.OK);
@@ -115,65 +112,63 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			response.setData(dto);
 			return response;
 		} catch (Exception e) {
-			System.err.println("Error fetching OfficialLetter:" +e.getMessage());
+			System.err.println("Error fetching OfficialLetter:" + e.getMessage());
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
 			return response;
-			
-		}
-	
-	}
-	
 
+		}
+
+	}
 
 	@Override
-	public List<Message<OfficialLetterDto>> GetAllOfficialLetter(){
-		 List<Message<OfficialLetterDto>> responseList = new ArrayList<>();
-		    try {
-		        Iterable<OfficialLetter> officialLetters = officialLetterRepository.findAll();
+	public List<Message<OfficialLetterDto>> GetAllOfficialLetter() {
+		List<Message<OfficialLetterDto>> responseList = new ArrayList<>();
+		try {
+			Iterable<OfficialLetter> officialLetters = officialLetterRepository.findAll();
 
-		        for (OfficialLetter letter : officialLetters) {
-		            OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(letter);
-		            Message<OfficialLetterDto> message = new Message<>();
-		            message.setStatus(HttpStatus.OK);
-		            message.setResponseMessage(constants.OFFICIAL_LETTER_FOUND);
-		            message.setData(dto);
-		            responseList.add(message);
-		        }
+			for (OfficialLetter letter : officialLetters) {
+				OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(letter);
+				Message<OfficialLetterDto> message = new Message<>();
+				message.setStatus(HttpStatus.OK);
+				message.setResponseMessage(constants.OFFICIAL_LETTER_FOUND);
+				message.setData(dto);
+				responseList.add(message);
+			}
 
-		        // If no letters found, add a message indicating so
-		        if (responseList.isEmpty()) {
-		            Message<OfficialLetterDto> emptyMessage = new Message<>();
-		            emptyMessage.setStatus(HttpStatus.NOT_FOUND);
-		            emptyMessage.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
-		            responseList.add(emptyMessage);
-		        }
+			// If no letters found, add a message indicating so
+			if (responseList.isEmpty()) {
+				Message<OfficialLetterDto> emptyMessage = new Message<>();
+				emptyMessage.setStatus(HttpStatus.NOT_FOUND);
+				emptyMessage.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
+				responseList.add(emptyMessage);
+			}
 
-		        return responseList;
-		    } catch (Exception e) {
-		        System.err.println("Error fetching Official Letter: " + e.getMessage());
+			return responseList;
+		} catch (Exception e) {
+			System.err.println("Error fetching Official Letter: " + e.getMessage());
 
-		        Message<OfficialLetterDto> errorMessage = new Message<>();
-		        errorMessage.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-		        errorMessage.setResponseMessage(constants.SOMETHING_WENT_WRONG);
-		        responseList.add(errorMessage);
+			Message<OfficialLetterDto> errorMessage = new Message<>();
+			errorMessage.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+			errorMessage.setResponseMessage(constants.SOMETHING_WENT_WRONG);
+			responseList.add(errorMessage);
 
-		        return responseList;
-		    }
+			return responseList;
 		}
+	}
 
 	@Override
 	public Message<OfficialLetterDto> GetOfficialLetterByEmployeeName(String employeeName) {
 		Message<OfficialLetterDto> response = new Message<>();
 		try {
 			OfficialLetter officialLetter = new OfficialLetter();
-			officialLetter=officialLetterRepository.getByEmployeeName(employeeName);
-			
-			if(officialLetter == null) {
+			officialLetter = officialLetterRepository.getByEmployeeName(employeeName);
+
+			if (officialLetter == null) {
 				response.setStatus(HttpStatus.BAD_REQUEST);
 				response.setResponseMessage(constants.OFFICIAL_LETTER_NOT_FOUND);
 				return response;
-				
+
 			}
 			OfficialLetterDto dto = officialLetterMapperimpl.officialLetterToOfficialLetterDto(officialLetter);
 			response.setStatus(HttpStatus.OK);
@@ -181,18 +176,13 @@ public class OfficialLetterServiceImpl implements OfficialLetterService {
 			response.setData(dto);
 			return response;
 		} catch (Exception e) {
-			System.err.println("Error fetching OfficialLetter:" +e.getMessage());
+			System.err.println("Error fetching OfficialLetter:" + e.getMessage());
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 			response.setResponseMessage(constants.SOMETHING_WENT_WRONG);
 			return response;
-			
+
 		}
-	
-	}
-		
+
 	}
 
-		
-
-
-
+}

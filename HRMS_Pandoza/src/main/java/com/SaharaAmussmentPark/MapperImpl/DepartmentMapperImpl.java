@@ -13,55 +13,44 @@ import com.SaharaAmussmentPark.model.Designation;
 
 @Component
 
-public class DepartmentMapperImpl implements DepartmentMapper{
+public class DepartmentMapperImpl implements DepartmentMapper {
 	@Override
 
-			public DepartmentDto departmentToDepartmentDto(Department department) {
-		    DepartmentDto dto = new DepartmentDto();
-		    dto.setDeptId(department.getDeptId());
-		    dto.setDname(department.getDname());
+	public DepartmentDto departmentToDepartmentDto(Department department) {
+		DepartmentDto dto = new DepartmentDto();
+		dto.setDeptId(department.getDeptId());
+		dto.setDname(department.getDname());
 
-		    if (department.getDesignation() != null && !department.getDesignation().isEmpty()) {
-		        List<DesignationDto> designationDtos = department.getDesignation().stream()
-		            .map(designation -> {
-		                DesignationDto designationDto = new DesignationDto();
-		                designationDto.setDid(designation.getDid());
-		                designationDto.setName(designation.getName());
-		                return designationDto;
-		            })
-		            .collect(Collectors.toList());
+		if (department.getDesignation() != null && !department.getDesignation().isEmpty()) {
+			List<DesignationDto> designationDtos = department.getDesignation().stream().map(designation -> {
+				DesignationDto designationDto = new DesignationDto();
+				designationDto.setDid(designation.getDid());
+				designationDto.setName(designation.getName());
+				return designationDto;
+			}).collect(Collectors.toList());
 
-		        dto.setDesignation(designationDtos);
-		    }
-
-		    return dto;
+			dto.setDesignation(designationDtos);
 		}
 
-			
-	
-		
-		
-	
-			@Override
-			public Department departmentDtoToDepartment(DepartmentDto dto) {
-			    Department department = new Department();
-			    department.setDname(dto.getDname());
+		return dto;
+	}
 
-			    if (dto.getDesignation() != null && !dto.getDesignation().isEmpty()) {
-			        List<Designation> designations = dto.getDesignation().stream()
-			            .map(designationDto -> {
-			                Designation designation = new Designation();
-			                designation.setName(designationDto.getName());
-			                designation.setDepartment(department); 
-			                return designation;
-			            })
-			            .collect(Collectors.toList());
+	@Override
+	public Department departmentDtoToDepartment(DepartmentDto dto) {
+		Department department = new Department();
+		department.setDname(dto.getDname());
 
-			        department.setDesignation(designations); 
-			    }
+		if (dto.getDesignation() != null && !dto.getDesignation().isEmpty()) {
+			List<Designation> designations = dto.getDesignation().stream().map(designationDto -> {
+				Designation designation = new Designation();
+				designation.setName(designationDto.getName());
+				designation.setDepartment(department);
+				return designation;
+			}).collect(Collectors.toList());
 
-			    return department;
-			}
-}	
+			department.setDesignation(designations);
+		}
 
-
+		return department;
+	}
+}

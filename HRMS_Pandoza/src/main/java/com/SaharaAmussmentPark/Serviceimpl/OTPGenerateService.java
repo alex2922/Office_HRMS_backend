@@ -9,8 +9,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
-
-
 @Service
 public class OTPGenerateService {
 	private static final Integer EXPIRE_MINS = 10;
