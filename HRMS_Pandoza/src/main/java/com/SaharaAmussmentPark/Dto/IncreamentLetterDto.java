@@ -22,5 +22,6 @@ public class IncreamentLetterDto {
 	private double basicSalary;
 	private double da;
 	private double otherAllowance;
+	private double oldSalary;
 
 }

@@ -49,7 +49,7 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 
 			letter.setEmployeeId(employee.getEmployeeId()).setGrossSalary(grossSalary).setBasicSalary(basicSalary)
 					.setHra(hra).setDa(da).setOtherAllowance(otherAllowance).setDesignation(employee.getDesignation())
-					.setGender(employee.getGender());
+					.setGender(employee.getGender()).setOldSalary(employee.getEmployeeSalary());
 
 			increamentLetterRepository.save(letter);
 
@@ -94,7 +94,7 @@ public class IncreamentLetterServiceImpl implements IncreamentLetterService {
 
 			updated.setId(existing.getId()).setGrossSalary(grossSalary).setBasicSalary(basicSalary).setHra(hra)
 					.setDa(da).setOtherAllowance(otherAllowance).setDesignation(employee.getDesignation())
-					.setGender(employee.getGender());
+					.setGender(employee.getGender()).setOldSalary(employee.getEmployeeSalary());
 
 			increamentLetterRepository.save(updated);
 
