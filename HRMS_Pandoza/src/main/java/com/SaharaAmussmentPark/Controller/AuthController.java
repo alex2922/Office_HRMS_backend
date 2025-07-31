@@ -220,5 +220,11 @@ public class AuthController {
 	return ResponseEntity.status(httpStatus).body(message);
 
 }
+	@GetMapping("/GetEmployee/{employeeId}")
+	public ResponseEntity<Message<EmployeeDto>> getAllDesignation(@PathVariable String employeeId) {
+		log.info("In AdminController get Employee By EmployeeID");
+		Message<EmployeeDto> message = employeeService.getByemployeeId(employeeId);
+		return ResponseEntity.status(HttpStatus.OK).body(message);
+	}
 }
 
